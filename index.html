@@ -302,6 +302,21 @@
   .roadmap-note{margin-top:14px;font-size:10px;color:var(--text-dim2);line-height:1.55}
   @media(max-width:900px){.roadmap-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.roadmap-intro{grid-template-columns:1fr}}
   @media(max-width:560px){.roadmap-grid{grid-template-columns:1fr}}
+
+  .tech-detail{padding:16px 20px;border-bottom:1px solid var(--line);background:#0d1219;display:grid;grid-template-columns:minmax(0,1.7fr) minmax(240px,.8fr);gap:18px}
+  .tech-detail-main h1{margin:0 0 6px;font-family:var(--disp);font-size:24px;line-height:1.1;letter-spacing:.01em}
+  .tech-detail-cat{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px}
+  .tech-detail-main p{margin:0;color:var(--text-dim2);font-size:12.5px;line-height:1.65;max-width:820px}
+  .tech-steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:14px}
+  .tech-step{background:var(--surface);border:1px solid var(--line);border-radius:5px;padding:10px}
+  .tech-step b{display:block;color:var(--text);font-family:var(--disp);font-size:11px;text-transform:uppercase;margin-bottom:4px}
+  .tech-step span{color:var(--text-dim2);font-size:10.5px;line-height:1.45}
+  .tech-detail-side{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:13px;align-self:start}
+  .tech-detail-side h3{margin:0 0 8px;font-family:var(--disp);font-size:12px;text-transform:uppercase}
+  .tech-video-btn{display:block;width:100%;box-sizing:border-box;text-align:center;text-decoration:none;margin-top:10px;padding:10px 12px;border:1px solid #F59E0B;border-radius:4px;color:#F59E0B;font-family:var(--disp);font-size:11px;font-weight:900;text-transform:uppercase;cursor:pointer;background:#1c1408}
+  .tech-video-btn:hover{background:#2a1c08}
+  .tech-safety{font-size:10.5px;color:var(--text-dim2);line-height:1.5}
+  @media(max-width:760px){.tech-detail{grid-template-columns:1fr}.tech-steps{grid-template-columns:1fr}}
 </style>
 
 <div id="ga-root">
@@ -496,6 +511,19 @@
       <div class="tree-crumbs" id="tree-crumbs"></div>
       <div class="tree-add" id="tree-add">+ ADD TO MY GAME</div>
       <div class="tree-close" id="tree-close">&times;</div>
+    </div>
+    <div class="tech-detail" id="tech-detail">
+      <div class="tech-detail-main">
+        <div class="tech-detail-cat" id="td-cat"></div>
+        <h1 id="td-title"></h1>
+        <p id="td-explanation"></p>
+        <div class="tech-steps" id="td-steps"></div>
+      </div>
+      <div class="tech-detail-side">
+        <h3>Study this move</h3>
+        <div class="tech-safety" id="td-safety"></div>
+        <a class="tech-video-btn" id="td-video" href="#" target="_blank" rel="noopener">▶ Open video tutorial</a>
+      </div>
     </div>
     <div class="tree-notes">
       <div class="grp" style="flex:2">
@@ -1174,7 +1202,7 @@ function renderLibrary(){
 const overlay=document.getElementById('tree-overlay'),treeSvg=document.getElementById('tree-svg'),crumbsEl=document.getElementById('tree-crumbs');
 let historyStack=[],treeRootId=null;
 document.getElementById('tree-close').onclick=()=>overlay.classList.remove('open');
-document.getElementById('tree-back').onclick=()=>{if(historyStack.length){const prev=historyStack.pop();renderTree(prev,historyStack.slice());}};
+document.getElementById('tree-back').onclick=()=>{if(historyStack.length){const prev=historyStack.pop();renderTree(prev,historyStack.slice());}else{overlay.classList.remove('open');}};
 document.getElementById('tree-add').onclick=()=>{ if(treeRootId){ addToGame(treeRootId); toast(T[treeRootId].name+' added to your game'); } };
 const tnNote=document.getElementById('tn-note'),tnVideo=document.getElementById('tn-video'),tnName=document.getElementById('tn-name'),tnSaved=document.getElementById('tn-saved');
 let watchLabelNode=null;
@@ -1195,14 +1223,44 @@ function scheduleNoteSave(){
 }
 tnNote.addEventListener('input',scheduleNoteSave);
 tnVideo.addEventListener('input',scheduleNoteSave);
-async function updateNotesStrip(id){ tnName.textContent=T[id].name; await ensureNotes(); const d=notesData[id]||{}; if(document.activeElement!==tnNote)tnNote.value=d.note||''; if(document.activeElement!==tnVideo)tnVideo.value=d.video||''; refreshWatchLabel(); }
+async function updateNotesStrip(id){ tnName.textContent=T[id].name; await ensureNotes(); const d=notesData[id]||{}; if(document.activeElement!==tnNote)tnNote.value=d.note||''; if(document.activeElement!==tnVideo)tnVideo.value=d.video||''; refreshWatchLabel(); renderTechniqueDetail(id); }
+function techniqueGuide(id){
+  const t=T[id], name=t.name, cat=t.cat;
+  const fromMatch=name.match(/ from (.+)$/i);
+  const base=name.replace(/ from .+$/i,'');
+  const position=fromMatch?fromMatch[1]:'';
+  const guides={
+    submission:{intro:`${name} is a submission that uses controlled leverage to isolate a joint or restrict the neck. The priority is to secure the position first, remove your opponent's defensive space, and apply pressure gradually.`,steps:[['Isolate','Control the relevant limb, shoulder line or neck before attempting the finish.'],['Remove space','Keep your hips, chest and grips tight so the opponent cannot rotate or pull free.'],['Finish slowly','Apply the finishing mechanics in stages and stop immediately when your partner taps.']],safety:'Submission practice carries injury risk. Drill slowly, communicate clearly and release at the first tap or verbal signal.'},
+    sweep:{intro:`${name} reverses the position from bottom to top by disrupting balance, controlling a post and directing your opponent into the space they cannot recover.`,steps:[['Break posture','Create an angle and make the opponent carry weight away from a stable base.'],['Remove a post','Control an arm, leg or hip so they cannot catch themselves.'],['Follow to top','Stay connected and establish top control after the reversal.']],safety:'Use controlled momentum. Give your partner space to fall safely and avoid twisting a trapped knee.'},
+    pass:{intro:`${name} is a guard pass designed to clear the opponent's legs and establish a stable top position. Effective passing combines posture, hip control and patient pressure.`,steps:[['Control the guard','Win inside position or pin the legs before advancing.'],['Clear the hips','Move around, under or through the legs while protecting your balance.'],['Stabilise','Secure side control, mount or another dominant position before releasing grips.']],safety:'Avoid forcing the knees or ankles into unsafe angles. Maintain balance and use progressive pressure.'},
+    takedown:{intro:`${name} brings the opponent from standing to the mat while you maintain control and land in a favourable top position.`,steps:[['Create an entry','Use grips, movement or a reaction to reach the hips or legs safely.'],['Break balance','Move the opponent beyond their base before applying the finish.'],['Control the landing','Follow them to the mat without driving uncontrolled weight onto the head or neck.']],safety:'Practise on suitable mats with correct breakfalls. Avoid uncontrolled spikes, neck pressure and twisting a planted knee.'},
+    defense:{intro:`${name} is an escape or defensive movement that restores alignment, removes the immediate threat and creates enough space to recover guard or reach top position.`,steps:[['Protect first','Address the choke, joint lock or positional threat before trying to escape.'],['Build structure','Use frames, posture and alignment instead of pushing with isolated strength.'],['Recover position','Move to guard, stand up or establish top control once the danger is cleared.']],safety:'Do not wait until a submission is fully locked. Tap early in training and reset rather than forcing an escape.'},
+    backtake:{intro:`${name} is a transition to back control. It works by exposing the opponent's back, controlling their rotation and securing hooks or a body triangle.`,steps:[['Create exposure','Use an arm drag, angle or reaction to make the opponent turn away.'],['Control rotation','Attach your chest to their back and secure the near hip or shoulder.'],['Establish control','Insert hooks or a body triangle and control the upper body.']],safety:'Avoid pulling the opponent backwards onto their neck. Keep transitions controlled and respect spinal alignment.'},
+    guard:{intro:`${name} is a guard position used to manage distance, protect the bottom player and create sweeps, submissions or back takes.`,steps:[['Build connection','Use legs and grips to control distance and posture.'],['Protect alignment','Keep elbows, knees and hips organised so the guard is difficult to pass.'],['Create attacks','Use off-balancing and angles to enter a sweep, submission or back take.']],safety:'Keep knee and ankle positions comfortable. Do not force hooks when the joint is trapped.'},
+    position:{intro:`${name} is a control position. The goal is to limit the opponent's movement, maintain balance and progress toward a stronger position or submission.`,steps:[['Control the core','Manage the hips and shoulders so the opponent cannot turn freely.'],['Maintain base','Distribute weight and keep enough posts to resist bridges and escapes.'],['Advance safely','Improve position or isolate a limb without sacrificing control.']],safety:'Use pressure without compressing the neck or face. Adjust immediately if your partner cannot breathe normally.'},
+    counter:{intro:`${name} is a counter that uses the opponent's attack or reaction to reverse the exchange. Timing and defensive safety come before the counterattack.`,steps:[['Stop the threat','Build the correct defensive structure before attacking.'],['Use the reaction',"Identify the opening created by the opponent's commitment."],['Secure the counter','Transition with control and stabilise before applying a finish.']],safety:'Counters should not rely on sudden force. Protect the joint or neck under attack and tap whenever the defence fails.'}
+  };
+  const g=guides[cat]||guides.position;
+  if(position) g.intro += ` This variation begins from ${position}.`;
+  return g;
+}
+function renderTechniqueDetail(id){
+  const t=T[id],g=techniqueGuide(id),color=CATS[t.cat].color;
+  document.getElementById('td-title').textContent=t.name;
+  const cat=document.getElementById('td-cat');cat.textContent=CATS[t.cat].label;cat.style.color=color;
+  document.getElementById('td-explanation').textContent=g.intro;
+  document.getElementById('td-steps').innerHTML=g.steps.map((s,i)=>'<div class="tech-step"><b>'+(i+1)+'. '+escapeHtml(s[0])+'</b><span>'+escapeHtml(s[1])+'</span></div>').join('');
+  document.getElementById('td-safety').textContent=g.safety;
+  const v=document.getElementById('td-video');v.href=pinnedVideo(id)||ytUrl(t.name+' BJJ tutorial');v.textContent=pinnedVideo(id)?'▶ Watch pinned video':'▶ Find video tutorial';
+}
 function openTree(id,history){historyStack=history||[];renderTree(id,historyStack);overlay.classList.add('open');}
 function renderTree(id,history){
   historyStack=history||[];treeRootId=id;
   const data=getTree(id),name=T[id].name,cat=T[id].cat,color=CATS[cat].color;
+  renderTechniqueDetail(id);
   crumbsEl.innerHTML=(historyStack.map(h=>T[h].name).concat([name])).join('  &rsaquo;  ');
-  document.getElementById('tree-back').style.opacity=historyStack.length?1:0.3;
-  document.getElementById('tree-back').style.pointerEvents=historyStack.length?'auto':'none';
+  document.getElementById('tree-back').style.opacity=1;
+  document.getElementById('tree-back').style.pointerEvents='auto';
   const branches=data.branches;let leafCount=0;branches.forEach(b=>leafCount+=b.children.length);
   const rowH=64,totalH=Math.max(360,leafCount*rowH+60),W=900,rootX=70,rootY=totalH/2,midX=340,leafX=680;
   while(treeSvg.firstChild)treeSvg.removeChild(treeSvg.firstChild);
