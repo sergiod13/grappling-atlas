@@ -92,6 +92,11 @@
   #globe-wrap{ position:relative; width:100%; flex:1; min-height:0; cursor:grab; }
   #globe-wrap.grabbing{ cursor:grabbing; }
   #globe-svg{ width:100%; height:100%; display:block; }
+  .globe-controls{position:absolute;left:50%;bottom:34px;transform:translateX(-50%);display:flex;gap:10px;z-index:5}
+  .globe-rotate{width:42px;height:34px;border:1px solid var(--line2);border-radius:5px;background:rgba(18,23,31,.92);color:var(--text);font-family:var(--disp);font-size:18px;font-weight:900;cursor:pointer;box-shadow:0 8px 22px rgba(0,0,0,.25)}
+  .globe-rotate:hover{border-color:var(--guard);color:var(--guard);background:var(--surface2)}
+  .lang-toggle{margin-left:8px;border:1px solid var(--line2);border-radius:5px;background:var(--surface);color:var(--text-dim);font-family:var(--disp);font-size:10px;font-weight:900;letter-spacing:.04em;padding:7px 10px;cursor:pointer;white-space:nowrap}
+  .lang-toggle:hover{color:var(--text);border-color:var(--guard)}
   .node-label{ font-family:var(--mono); font-size:10px; fill:var(--text); pointer-events:none; }
   .hint{ position:absolute; bottom:12px; left:20px; z-index:2; font-size:10px; color:var(--text-dim2); }
   #atlas-search-wrap{ position:relative; margin-left:auto; }
@@ -331,6 +336,7 @@
       <button class="ga-tab" data-view="train">Train</button>
       <button class="ga-tab" data-view="game">Game</button>
     </div>
+    <button class="lang-toggle" id="lang-toggle" type="button">PT-PT</button>
   </div>
 
   <!-- ATLAS -->
@@ -343,7 +349,11 @@
     </div>
     <div id="globe-wrap">
       <svg id="globe-svg" xmlns="http://www.w3.org/2000/svg"></svg>
-      <div class="hint">drag to rotate &middot; scroll to zoom &middot; hover a node to read it &middot; click to open its tree</div>
+      <div class="globe-controls" aria-label="Rotate globe">
+        <button class="globe-rotate" id="rotate-left" type="button" aria-label="Rotate globe left">&#8592;</button>
+        <button class="globe-rotate" id="rotate-right" type="button" aria-label="Rotate globe right">&#8594;</button>
+      </div>
+      <div class="hint" id="atlas-hint">drag to rotate &middot; scroll to zoom &middot; hover a node to read it &middot; click to open its tree</div>
     </div>
   </div>
 
@@ -544,6 +554,37 @@
 <script>
 (function(){
 const NS='http://www.w3.org/2000/svg';
+let appLang='en';
+const UI_PT={
+  'Atlas':'Atlas','Library':'Biblioteca','Roadmap':'Roteiro','Train':'Treino','Game':'Jogo',
+  'Move Library':'Biblioteca de Técnicas','Your game map':'Mapa do teu jogo',
+  'BACK':'VOLTAR','ADD TO MY GAME':'ADICIONAR AO MEU JOGO',
+  'Safety':'Segurança','Find video tutorial':'Procurar tutorial em vídeo','Watch pinned video':'Ver vídeo fixado',
+  'Takedowns':'Quedas','Guards':'Guardas','Sweeps':'Raspagens','Passes':'Passagens','Positions':'Posições',
+  'Submissions':'Finalizações','Defenses & Escapes':'Defesas e Fugas','Counters':'Contra-ataques','Back Takes':'Tomadas de Costas'
+};
+function L(en,pt){return appLang==='pt'?pt:en;}
+function trCategory(cat){return appLang==='pt'?(UI_PT[CATS[cat].label]||CATS[cat].label):CATS[cat].label;}
+function trName(name){
+  if(appLang!=='pt')return name;
+  const replacements=[
+    [/Side Control/gi,'Controlo Lateral'],[/Back Control/gi,'Controlo de Costas'],[/Knee on Belly/gi,'Joelho na Barriga'],[/North South/gi,'Norte-Sul'],[/Half Guard/gi,'Meia-Guarda'],[/Closed Guard/gi,'Guarda Fechada'],[/Open Guard/gi,'Guarda Aberta'],[/Butterfly Guard/gi,'Guarda Borboleta'],[/Deep Half Guard/gi,'Meia-Guarda Profunda'],[/Single Leg X Guard/gi,'Guarda X de Uma Perna'],[/De La Riva Guard/gi,'Guarda De La Riva'],[/Reverse De La Riva Guard/gi,'Guarda De La Riva Invertida'],[/Turtle Position/gi,'Posição de Tartaruga'],
+    [/Back Take/gi,'Tomada de Costas'],[/Ankle Lock/gi,'Chave de Tornozelo'],[/Straight Ankle Lock/gi,'Chave de Tornozelo Direta'],[/Kneebar/gi,'Chave de Joelho'],[/Heel Hook/gi,'Gancho de Calcanhar'],[/Wrist Lock/gi,'Chave de Pulso'],[/Toe Hold/gi,'Chave de Pé'],[/Armbar/gi,'Chave de Braço'],[/Triangle Choke/gi,'Triângulo'],[/Rear-Naked Choke/gi,'Mata-Leão'],[/ Choke/gi,' Estrangulamento'],
+    [/ from /gi,' a partir de '],[/ Guard/gi,' Guarda'],[/ Sweep/gi,' Raspagem'],[/ Pass/gi,' Passagem'],[/ Escape/gi,' Fuga'],[/Mount/gi,'Montada'],[/Top/gi,'Cima'],[/Bottom/gi,'Baixo'],[/Standing/gi,'Em Pé']
+  ];
+  let out=name;replacements.forEach(([a,b])=>out=out.replace(a,b));return out;
+}
+function trTreeLabel(text){
+  if(appLang!=='pt')return text;
+  const m={
+    'Technique lands as intended':'A técnica funciona como previsto',
+    'Opponent adapts or defends':'O adversário adapta-se ou defende',
+    'Position resets or scrambles':'A posição reinicia ou entra em scramble',
+    'core mechanics and setup':'mecânica principal e preparação',
+    'common continuation':'continuação comum','alternate route':'rota alternativa',
+    'Common':'Comum','Occasional':'Ocasional'
+  };return m[text]||trName(text);
+}
 
 /* ============ DATA ============ */
 const CATS={
@@ -1116,7 +1157,7 @@ const legendEl=document.getElementById('atlas-legend');
 const hidden=new Set();
 CAT_ORDER.forEach(cat=>{
   const chip=document.createElement('div');chip.className='chip';
-  chip.innerHTML='<span class="dot" style="background:'+CATS[cat].color+'"></span>'+CATS[cat].label+' ('+CATALOG[cat].length+')';
+  chip.innerHTML='<span class="dot" style="background:'+CATS[cat].color+'"></span>'+trCategory(cat)+' ('+CATALOG[cat].length+')';
   chip.onclick=()=>{ if(hidden.has(cat)){hidden.delete(cat);chip.classList.remove('off');}else{hidden.add(cat);chip.classList.add('off');} };
   legendEl.insertBefore(chip, document.getElementById('atlas-search-wrap'));
 });
@@ -1140,7 +1181,7 @@ ids.forEach(id=>{
   c.addEventListener('mouseenter',()=>{hoveredId=id;});
   c.addEventListener('mouseleave',()=>{if(hoveredId===id)hoveredId=null;});
   svg.appendChild(c);nodeEls[id]=c;
-  const t=document.createElementNS(NS,'text');t.setAttribute('class','node-label');t.setAttribute('text-anchor','middle');t.textContent=T[id].name;svg.appendChild(t);labelEls[id]=t;
+  const t=document.createElementNS(NS,'text');t.setAttribute('class','node-label');t.setAttribute('text-anchor','middle');t.textContent=trName(T[id].name);svg.appendChild(t);labelEls[id]=t;
 });
 function project(lon,lat){const x0=Math.cos(lat)*Math.sin(lon),y0=Math.sin(lat),z0=Math.cos(lat)*Math.cos(lon);let x=x0*Math.cos(theta)-z0*Math.sin(theta),z=x0*Math.sin(theta)+z0*Math.cos(theta),y=y0;let y2=y*Math.cos(phi)-z*Math.sin(phi),z2=y*Math.sin(phi)+z*Math.cos(phi);return{x,y:y2,z:z2};}
 function frame(){
@@ -1160,6 +1201,9 @@ function tdist(t){const dx=t[0].clientX-t[1].clientX,dy=t[0].clientY-t[1].client
 wrap.addEventListener('touchstart',e=>{if(e.touches.length===1){dragging=true;autorotate=false;lastX=e.touches[0].clientX;lastY=e.touches[0].clientY;}else if(e.touches.length===2){dragging=false;pinchStart=tdist(e.touches);pinchZoom=zoom;}},{passive:true});
 wrap.addEventListener('touchmove',e=>{if(e.touches.length===1&&dragging){const t=e.touches[0];theta+=(t.clientX-lastX)*0.005;phi=Math.max(-1.1,Math.min(1.1,phi+(t.clientY-lastY)*0.005));lastX=t.clientX;lastY=t.clientY;e.preventDefault();}else if(e.touches.length===2){const d=tdist(e.touches);if(pinchStart)zoom=Math.max(0.5,Math.min(1.8,pinchZoom*(d/pinchStart)));e.preventDefault();}},{passive:false});
 wrap.addEventListener('touchend',()=>{dragging=false;});
+function rotateGlobe(delta){autorotate=false;theta+=delta;frame();}
+document.getElementById('rotate-left').addEventListener('click',()=>rotateGlobe(-0.24));
+document.getElementById('rotate-right').addEventListener('click',()=>rotateGlobe(0.24));
 function loop(){if(autorotate&&currentView==='atlas')theta+=0.0014;if(currentView==='atlas')frame();requestAnimationFrame(loop);}
 loop();
 // atlas search
@@ -1169,7 +1213,7 @@ aSearch.addEventListener('input',()=>{
   if(!q){aRes.classList.remove('open');return;}
   const m=ids.filter(id=>T[id].name.toLowerCase().includes(q)).slice(0,10);
   if(!m.length){aRes.classList.remove('open');return;}
-  m.forEach(id=>{const it=document.createElement('div');it.className='sr-item';it.innerHTML='<span class="sr-dot" style="background:'+CATS[T[id].cat].color+'"></span>'+T[id].name;it.onclick=()=>{aRes.classList.remove('open');aSearch.value='';openTree(id,[]);};aRes.appendChild(it);});
+  m.forEach(id=>{const it=document.createElement('div');it.className='sr-item';it.innerHTML='<span class="sr-dot" style="background:'+CATS[T[id].cat].color+'"></span>'+trName(T[id].name);it.onclick=()=>{aRes.classList.remove('open');aSearch.value='';openTree(id,[]);};aRes.appendChild(it);});
   aRes.classList.add('open');
 });
 document.addEventListener('click',e=>{if(!document.getElementById('atlas-search-wrap').contains(e.target))aRes.classList.remove('open');});
@@ -1208,7 +1252,7 @@ const tnNote=document.getElementById('tn-note'),tnVideo=document.getElementById(
 let watchLabelNode=null;
 async function ensureNotes(){ if(!notesLoaded){ notesData=(await storeGet(K_NOTES))||{}; notesLoaded=true; } return notesData; }
 function pinnedVideo(id){ return notesData && notesData[id] && notesData[id].video ? notesData[id].video : null; }
-function refreshWatchLabel(){ if(!watchLabelNode||!treeRootId)return; watchLabelNode.textContent = pinnedVideo(treeRootId)?'\u25B6  WATCH: PINNED VIDEO':'\u25B6  WATCH: HOW TO '+T[treeRootId].name.toUpperCase(); }
+function refreshWatchLabel(){ if(!watchLabelNode||!treeRootId)return; watchLabelNode.textContent = pinnedVideo(treeRootId)?L('▶  WATCH: PINNED VIDEO','▶  VER: VÍDEO FIXADO'):L('▶  WATCH: HOW TO ','▶  VER: COMO FAZER ')+trName(T[treeRootId].name).toUpperCase(); }
 let tnSaveTimer;
 function scheduleNoteSave(){
   clearTimeout(tnSaveTimer);
@@ -1223,42 +1267,41 @@ function scheduleNoteSave(){
 }
 tnNote.addEventListener('input',scheduleNoteSave);
 tnVideo.addEventListener('input',scheduleNoteSave);
-async function updateNotesStrip(id){ tnName.textContent=T[id].name; await ensureNotes(); const d=notesData[id]||{}; if(document.activeElement!==tnNote)tnNote.value=d.note||''; if(document.activeElement!==tnVideo)tnVideo.value=d.video||''; refreshWatchLabel(); renderTechniqueDetail(id); }
+async function updateNotesStrip(id){ tnName.textContent=trName(T[id].name); await ensureNotes(); const d=notesData[id]||{}; if(document.activeElement!==tnNote)tnNote.value=d.note||''; if(document.activeElement!==tnVideo)tnVideo.value=d.video||''; refreshWatchLabel(); renderTechniqueDetail(id); }
 function techniqueGuide(id){
-  const t=T[id], name=t.name, cat=t.cat;
+  const t=T[id], name=t.name, displayName=trName(name), cat=t.cat;
   const fromMatch=name.match(/ from (.+)$/i);
-  const base=name.replace(/ from .+$/i,'');
   const position=fromMatch?fromMatch[1]:'';
   const guides={
-    submission:{intro:`${name} is a submission that uses controlled leverage to isolate a joint or restrict the neck. The priority is to secure the position first, remove your opponent's defensive space, and apply pressure gradually.`,steps:[['Isolate','Control the relevant limb, shoulder line or neck before attempting the finish.'],['Remove space','Keep your hips, chest and grips tight so the opponent cannot rotate or pull free.'],['Finish slowly','Apply the finishing mechanics in stages and stop immediately when your partner taps.']],safety:'Submission practice carries injury risk. Drill slowly, communicate clearly and release at the first tap or verbal signal.'},
-    sweep:{intro:`${name} reverses the position from bottom to top by disrupting balance, controlling a post and directing your opponent into the space they cannot recover.`,steps:[['Break posture','Create an angle and make the opponent carry weight away from a stable base.'],['Remove a post','Control an arm, leg or hip so they cannot catch themselves.'],['Follow to top','Stay connected and establish top control after the reversal.']],safety:'Use controlled momentum. Give your partner space to fall safely and avoid twisting a trapped knee.'},
-    pass:{intro:`${name} is a guard pass designed to clear the opponent's legs and establish a stable top position. Effective passing combines posture, hip control and patient pressure.`,steps:[['Control the guard','Win inside position or pin the legs before advancing.'],['Clear the hips','Move around, under or through the legs while protecting your balance.'],['Stabilise','Secure side control, mount or another dominant position before releasing grips.']],safety:'Avoid forcing the knees or ankles into unsafe angles. Maintain balance and use progressive pressure.'},
-    takedown:{intro:`${name} brings the opponent from standing to the mat while you maintain control and land in a favourable top position.`,steps:[['Create an entry','Use grips, movement or a reaction to reach the hips or legs safely.'],['Break balance','Move the opponent beyond their base before applying the finish.'],['Control the landing','Follow them to the mat without driving uncontrolled weight onto the head or neck.']],safety:'Practise on suitable mats with correct breakfalls. Avoid uncontrolled spikes, neck pressure and twisting a planted knee.'},
-    defense:{intro:`${name} is an escape or defensive movement that restores alignment, removes the immediate threat and creates enough space to recover guard or reach top position.`,steps:[['Protect first','Address the choke, joint lock or positional threat before trying to escape.'],['Build structure','Use frames, posture and alignment instead of pushing with isolated strength.'],['Recover position','Move to guard, stand up or establish top control once the danger is cleared.']],safety:'Do not wait until a submission is fully locked. Tap early in training and reset rather than forcing an escape.'},
-    backtake:{intro:`${name} is a transition to back control. It works by exposing the opponent's back, controlling their rotation and securing hooks or a body triangle.`,steps:[['Create exposure','Use an arm drag, angle or reaction to make the opponent turn away.'],['Control rotation','Attach your chest to their back and secure the near hip or shoulder.'],['Establish control','Insert hooks or a body triangle and control the upper body.']],safety:'Avoid pulling the opponent backwards onto their neck. Keep transitions controlled and respect spinal alignment.'},
-    guard:{intro:`${name} is a guard position used to manage distance, protect the bottom player and create sweeps, submissions or back takes.`,steps:[['Build connection','Use legs and grips to control distance and posture.'],['Protect alignment','Keep elbows, knees and hips organised so the guard is difficult to pass.'],['Create attacks','Use off-balancing and angles to enter a sweep, submission or back take.']],safety:'Keep knee and ankle positions comfortable. Do not force hooks when the joint is trapped.'},
-    position:{intro:`${name} is a control position. The goal is to limit the opponent's movement, maintain balance and progress toward a stronger position or submission.`,steps:[['Control the core','Manage the hips and shoulders so the opponent cannot turn freely.'],['Maintain base','Distribute weight and keep enough posts to resist bridges and escapes.'],['Advance safely','Improve position or isolate a limb without sacrificing control.']],safety:'Use pressure without compressing the neck or face. Adjust immediately if your partner cannot breathe normally.'},
-    counter:{intro:`${name} is a counter that uses the opponent's attack or reaction to reverse the exchange. Timing and defensive safety come before the counterattack.`,steps:[['Stop the threat','Build the correct defensive structure before attacking.'],['Use the reaction',"Identify the opening created by the opponent's commitment."],['Secure the counter','Transition with control and stabilise before applying a finish.']],safety:'Counters should not rely on sudden force. Protect the joint or neck under attack and tap whenever the defence fails.'}
+    submission:{intro:L(`${displayName} is a submission that uses controlled leverage to isolate a joint or restrict the neck. Secure the position first, remove defensive space and apply pressure gradually.`,`${displayName} é uma finalização que usa alavanca controlada para isolar uma articulação ou restringir o pescoço. Garante primeiro a posição, retira o espaço defensivo e aplica a pressão de forma gradual.`),steps:[[L('Isolate','Isolar'),L('Control the relevant limb, shoulder line or neck before attempting the finish.','Controla o membro, a linha dos ombros ou o pescoço antes de tentares finalizar.')],[L('Remove space','Retirar espaço'),L('Mantém as ancas, o peito e as pegas firmes para impedir a rotação ou a fuga.')],[L('Finish slowly','Finalizar devagar'),L('Apply the mechanics in stages and stop immediately when your partner taps.','Aplica a mecânica por fases e pára imediatamente quando o parceiro bate.')]],safety:L('Submission practice carries injury risk. Drill slowly and release at the first tap or verbal signal.','A prática de finalizações envolve risco de lesão. Treina devagar e larga ao primeiro toque ou sinal verbal.')},
+    sweep:{intro:L(`${displayName} reverses the position from bottom to top by breaking balance and removing a post.`,`${displayName} inverte a posição de baixo para cima ao quebrar o equilíbrio e retirar um apoio.`),steps:[[L('Break posture','Quebrar a postura'),L('Create an angle and move the opponent away from a stable base.','Cria um ângulo e afasta o adversário de uma base estável.')],[L('Remove a post','Retirar um apoio'),L('Control an arm, leg or hip so the opponent cannot stop the fall.','Controla um braço, uma perna ou a anca para impedir que o adversário trave a queda.')],[L('Follow to top','Acompanhar para cima'),L('Stay connected and establish top control.','Mantém o contacto e estabelece controlo por cima.')]],safety:L('Use controlled momentum and protect trapped knees.','Usa o impulso de forma controlada e protege os joelhos presos.')},
+    pass:{intro:L(`${displayName} clears the opponent's legs and establishes a stable top position.`,`${displayName} ultrapassa as pernas do adversário e estabelece uma posição estável por cima.`),steps:[[L('Control the guard','Controlar a guarda'),L('Win inside position or pin the legs before advancing.','Ganha a posição interior ou imobiliza as pernas antes de avançar.')],[L('Clear the hips','Ultrapassar as ancas'),L('Move around, under or through the legs while keeping balance.','Passa por fora, por baixo ou entre as pernas sem perder o equilíbrio.')],[L('Stabilise','Estabilizar'),L('Secure side control, mount or another dominant position.','Garante o controlo lateral, a montada ou outra posição dominante.')]],safety:L('Avoid forcing knees or ankles into unsafe angles.','Evita forçar os joelhos ou tornozelos em ângulos inseguros.')},
+    takedown:{intro:L(`${displayName} takes the opponent from standing to the mat while maintaining control.`,`${displayName} leva o adversário da posição em pé para o chão, mantendo o controlo.`),steps:[[L('Create an entry','Criar uma entrada'),L('Use grips, movement or a reaction to reach the hips or legs.','Usa pegas, movimento ou uma reação para chegar às ancas ou pernas.')],[L('Break balance','Quebrar o equilíbrio'),L('Move the opponent beyond their base before finishing.','Leva o adversário para além da sua base antes de concluir.')],[L('Control the landing','Controlar a queda'),L('Follow safely to the mat and maintain top control.','Acompanha a queda em segurança e mantém o controlo por cima.')]],safety:L('Practise on suitable mats with correct breakfalls.','Treina em tatami adequado e com quedas corretas.')},
+    defense:{intro:L(`${displayName} restores alignment, removes the immediate threat and creates space to recover guard or reach top position.`,`${displayName} recupera o alinhamento, elimina a ameaça imediata e cria espaço para recuperar a guarda ou chegar por cima.`),steps:[[L('Protect first','Proteger primeiro'),L('Address the immediate threat before trying to escape.','Resolve a ameaça imediata antes de tentares escapar.')],[L('Build structure','Criar estrutura'),L('Use frames, posture and alignment instead of isolated strength.','Usa frames, postura e alinhamento em vez de força isolada.')],[L('Recover position','Recuperar a posição'),L('Return to guard, stand up or establish top control.','Regressa à guarda, levanta-te ou estabelece controlo por cima.')]],safety:L('Tap early when the defence fails.','Bate cedo quando a defesa falha.')},
+    backtake:{intro:L(`${displayName} exposes the opponent's back and establishes back control.`,`${displayName} expõe as costas do adversário e estabelece controlo de costas.`),steps:[[L('Create exposure','Criar exposição'),L('Use an angle or reaction to make the opponent turn away.','Usa um ângulo ou reação para fazer o adversário virar-se.')],[L('Control rotation','Controlar a rotação'),L('Attach your chest to the back and control the hip or shoulder.','Encosta o peito às costas e controla a anca ou o ombro.')],[L('Establish control','Estabelecer controlo'),L('Insert hooks or a body triangle and control the upper body.','Coloca os ganchos ou o triângulo corporal e controla o tronco.')]],safety:L('Avoid pulling the opponent onto the neck.','Evita puxar o adversário sobre o pescoço.')},
+    guard:{intro:L(`${displayName} manages distance and creates sweeps, submissions or back takes.`,`${displayName} gere a distância e cria raspagens, finalizações ou tomadas de costas.`),steps:[[L('Build connection','Criar ligação'),L('Use legs and grips to control distance and posture.','Usa as pernas e as pegas para controlar a distância e a postura.')],[L('Protect alignment','Proteger o alinhamento'),L('Keep elbows, knees and hips organised.','Mantém os cotovelos, joelhos e ancas organizados.')],[L('Create attacks','Criar ataques'),L('Use imbalance and angles to attack.','Usa o desequilíbrio e os ângulos para atacar.')]],safety:L('Do not force hooks when a joint is trapped.','Não forces ganchos quando uma articulação está presa.')},
+    position:{intro:L(`${displayName} is a control position used to limit movement and progress safely.`,`${displayName} é uma posição de controlo que limita o movimento e permite progredir em segurança.`),steps:[[L('Control the core','Controlar o centro'),L('Manage the hips and shoulders.','Controla as ancas e os ombros.')],[L('Maintain base','Manter a base'),L('Distribute weight and keep useful posts.','Distribui o peso e mantém apoios úteis.')],[L('Advance safely','Avançar em segurança'),L('Improve position without losing control.','Melhora a posição sem perder o controlo.')]],safety:L('Use pressure without compressing the neck or face.','Usa pressão sem comprimir o pescoço ou a cara.')},
+    counter:{intro:L(`${displayName} uses the opponent's attack or reaction to reverse the exchange.`,`${displayName} usa o ataque ou a reação do adversário para inverter a troca.`),steps:[[L('Stop the threat','Parar a ameaça'),L('Build the correct defence before counterattacking.','Cria a defesa correta antes de contra-atacar.')],[L('Use the reaction','Usar a reação'),L('Identify the opening created by the opponent.','Identifica a abertura criada pelo adversário.')],[L('Secure the counter','Garantir o contra-ataque'),L('Stabilise before applying a finish.','Estabiliza antes de finalizar.')]],safety:L('Do not rely on sudden force.','Não dependas de força súbita.')}
   };
   const g=guides[cat]||guides.position;
-  if(position) g.intro += ` This variation begins from ${position}.`;
+  if(position) g.intro += L(` This variation begins from ${position}.`,` Esta variação começa em ${trName(position)}.`);
   return g;
 }
 function renderTechniqueDetail(id){
   const t=T[id],g=techniqueGuide(id),color=CATS[t.cat].color;
-  document.getElementById('td-title').textContent=t.name;
-  const cat=document.getElementById('td-cat');cat.textContent=CATS[t.cat].label;cat.style.color=color;
+  document.getElementById('td-title').textContent=trName(t.name);
+  const cat=document.getElementById('td-cat');cat.textContent=trCategory(t.cat);cat.style.color=color;
   document.getElementById('td-explanation').textContent=g.intro;
   document.getElementById('td-steps').innerHTML=g.steps.map((s,i)=>'<div class="tech-step"><b>'+(i+1)+'. '+escapeHtml(s[0])+'</b><span>'+escapeHtml(s[1])+'</span></div>').join('');
   document.getElementById('td-safety').textContent=g.safety;
-  const v=document.getElementById('td-video');v.href=pinnedVideo(id)||ytUrl(t.name+' BJJ tutorial');v.textContent=pinnedVideo(id)?'▶ Watch pinned video':'▶ Find video tutorial';
+  const v=document.getElementById('td-video');v.href=pinnedVideo(id)||ytUrl(t.name+' BJJ tutorial');v.textContent=pinnedVideo(id)?L('▶ Watch pinned video','▶ Ver vídeo fixado'):L('▶ Find video tutorial','▶ Procurar tutorial em vídeo');
 }
 function openTree(id,history){historyStack=history||[];renderTree(id,historyStack);overlay.classList.add('open');}
 function renderTree(id,history){
   historyStack=history||[];treeRootId=id;
   const data=getTree(id),name=T[id].name,cat=T[id].cat,color=CATS[cat].color;
   renderTechniqueDetail(id);
-  crumbsEl.innerHTML=(historyStack.map(h=>T[h].name).concat([name])).join('  &rsaquo;  ');
+  crumbsEl.innerHTML=(historyStack.map(h=>trName(T[h].name)).concat([trName(name)])).join('  &rsaquo;  ');
   document.getElementById('tree-back').style.opacity=1;
   document.getElementById('tree-back').style.pointerEvents='auto';
   const branches=data.branches;let leafCount=0;branches.forEach(b=>leafCount+=b.children.length);
@@ -1313,12 +1356,12 @@ function renderTree(id,history){
 
   const rootG=el('g',{});
   rootG.appendChild(el('rect',{x:rootX-rootW/2,y:rootY-rootH/2,width:rootW,height:rootH,rx:5,fill:'#12171F',stroke:color,'stroke-width':2}));
-  wrappedText(rootG,name.toUpperCase(),rootX,rootY,rootW-34,15,{'font-size':12,'font-weight':900,fill:'#E7EAEE'},2);
+  wrappedText(rootG,trName(name).toUpperCase(),rootX,rootY,rootW-34,15,{'font-size':12,'font-weight':900,fill:'#E7EAEE'},2);
   treeSvg.appendChild(rootG);
 
   const watchW=rootW,watchH=38,watchY=rootY+rootH/2+16,watchG=el('g',{class:'leaf-box'});
   watchG.appendChild(el('rect',{x:rootX-watchW/2,y:watchY,width:watchW,height:watchH,rx:4,fill:'#1c1408',stroke:'#F59E0B','stroke-width':1.4}));
-  const watchLabel=(pinnedVideo(id)?'▶ WATCH: PINNED VIDEO':'▶ WATCH: HOW TO '+name.toUpperCase());
+  const watchLabel=(pinnedVideo(id)?L('▶ WATCH: PINNED VIDEO','▶ VER: VÍDEO FIXADO'):L('▶ WATCH: HOW TO ','▶ VER: COMO FAZER ')+trName(name).toUpperCase());
   const watchText=wrappedText(watchG,watchLabel,rootX,watchY+watchH/2+1,watchW-28,12,{'font-size':10.5,fill:'#F59E0B'},2);
   watchLabelNode=watchText;
   watchG.addEventListener('click',()=>{const p=pinnedVideo(id);window.open(p||ytUrl(name),'_blank');});
@@ -1328,29 +1371,23 @@ function renderTree(id,history){
   branches.forEach((b,bi)=>{
     const midY=branchMidY[bi];
     const rootRight=rootX+rootW/2;
-    const circleLeft=midX-18;
-    const labelX=(rootRight+circleLeft)/2;
+    const labelX=midX-105;
 
-    /* Draw connectors first so labels and nodes always sit clearly above them. */
-    treeSvg.appendChild(el('path',{d:'M '+rootRight+' '+rootY+' C '+(rootRight+95)+' '+rootY+', '+(midX-105)+' '+midY+', '+circleLeft+' '+midY,fill:'none',stroke:'#3b4a5c','stroke-width':1.25}));
-    treeSvg.appendChild(el('circle',{cx:midX,cy:midY,r:18,fill:'#161C25',stroke:'#3b4a5c','stroke-width':1.25}));
-
-    /* Opaque label backing prevents connector lines from crossing through text. */
-    const labelBgW=240,labelBgH=50;
-    treeSvg.appendChild(el('rect',{x:labelX-labelBgW/2,y:midY-labelBgH/2,width:labelBgW,height:labelBgH,rx:3,fill:'#0A0D12','fill-opacity':0.96}));
-    wrappedText(treeSvg,b.label,labelX,midY-7,labelBgW-16,13,{'font-size':10.8,fill:'#E7EAEE'},2);
-    const tagG=el('text',{x:labelX,y:midY+18,'text-anchor':'middle',fill:'#6b7684','font-size':9});tagG.textContent=b.tag||'';treeSvg.appendChild(tagG);
+    /* Continuous connectors: no hidden segments and no decorative circles. */
+    treeSvg.appendChild(el('path',{d:'M '+rootRight+' '+rootY+' C '+(rootRight+105)+' '+rootY+', '+(midX-120)+' '+midY+', '+midX+' '+midY,fill:'none',stroke:'#46576b','stroke-width':1.5,'stroke-linecap':'round'}));
+    wrappedText(treeSvg,trTreeLabel(b.label),labelX,midY-18,230,13,{'font-size':10.8,fill:'#E7EAEE'},2);
+    const tagG=el('text',{x:labelX,y:midY+17,'text-anchor':'middle',fill:'#6b7684','font-size':9});tagG.textContent=trTreeLabel(b.tag||'');treeSvg.appendChild(tagG);
 
     b.children.forEach(child=>{
       const y=topPad+leafIndex*rowH+rowH/2;leafIndex++;
       const leafLeft=leafX-leafW/2;
-      treeSvg.appendChild(el('path',{d:'M '+(midX+18)+' '+midY+' C '+(midX+120)+' '+midY+', '+(leafLeft-105)+' '+y+', '+leafLeft+' '+y,fill:'none',stroke:'#3b4a5c','stroke-width':1.25}));
+      treeSvg.appendChild(el('path',{d:'M '+midX+' '+midY+' C '+(midX+125)+' '+midY+', '+(leafLeft-110)+' '+y+', '+leafLeft+' '+y,fill:'none',stroke:'#3b4a5c','stroke-width':1.25}));
 
       const isVideo=child.type==='video',leafId=isVideo?null:NAME_TO_ID[child.name];
       if(!isVideo&&!leafId)return;
       const leafColor=isVideo?'#F59E0B':CATS[T[leafId].cat].color,g=el('g',{class:'leaf-box'});
       g.appendChild(el('rect',{x:leafLeft,y:y-leafH/2,width:leafW,height:leafH,rx:5,fill:isVideo?'#1c1408':'#12171F',stroke:leafColor,'stroke-width':1.6}));
-      const label=isVideo?('▶  '+child.label):child.name;
+      const label=isVideo?('▶  '+trTreeLabel(child.label)):trName(child.name);
       wrappedText(g,label,leafX,y-(child.note?9:0),leafW-28,14,{'font-size':11.5,fill:'#E7EAEE'},2);
       if(child.note){const noteTxt=el('text',{x:leafLeft+16,y:y+23,'font-size':9.5,fill:'#8A93A0'});noteTxt.textContent=child.note;g.appendChild(noteTxt);}
       g.addEventListener('click',()=>{if(child.type==='tech'){renderTree(leafId,historyStack.concat([id]));}else{window.open(ytUrl(name+' '+child.label),'_blank');}});
@@ -1599,6 +1636,24 @@ async function renderGame(){
 
 // init a couple of things lazily
 window.addEventListener('resize',()=>{if(currentView==='game')drawGame();});
+
+function applyLanguage(){
+  document.getElementById('lang-toggle').textContent=appLang==='en'?'PT-PT':'EN';
+  const tabs={atlas:'Atlas',library:L('Library','Biblioteca'),roadmap:L('Roadmap','Roteiro'),train:L('Train','Treino'),game:L('Game','Jogo')};
+  document.querySelectorAll('.ga-tab').forEach(b=>{b.textContent=tabs[b.dataset.view]||b.textContent;});
+  document.getElementById('atlas-search').placeholder=L('find a technique...','procurar uma técnica...');
+  document.getElementById('lib-search').placeholder=L('search moves...','procurar técnicas...');
+  document.getElementById('atlas-hint').innerHTML=L('drag to rotate · scroll to zoom · hover a node to read it · click to open its tree','arrasta para rodar · usa o scroll para ampliar · passa sobre um nó para o ler · clica para abrir a árvore');
+  document.getElementById('tree-back').innerHTML=L('← BACK','← VOLTAR');
+  document.getElementById('tree-add').textContent=L('+ ADD TO MY GAME','+ ADICIONAR AO MEU JOGO');
+  CAT_ORDER.forEach((cat,i)=>{const chip=legendEl.querySelectorAll('.chip')[i];if(chip)chip.innerHTML='<span class="dot" style="background:'+CATS[cat].color+'"></span>'+trCategory(cat)+' ('+CATALOG[cat].length+')';});
+  ids.forEach(id=>{if(labelEls[id])labelEls[id].textContent=trName(T[id].name);});
+  if(treeRootId&&overlay.classList.contains('open'))renderTree(treeRootId,historyStack.slice());
+  if(currentView==='library')renderLibrary();
+  if(currentView==='roadmap')renderRoadmap();
+}
+document.getElementById('lang-toggle').addEventListener('click',()=>{appLang=appLang==='en'?'pt':'en';applyLanguage();});
+applyLanguage();
 })();
 </script>
 
