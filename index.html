@@ -273,6 +273,35 @@
 
   .toast{ position:absolute; bottom:16px; left:50%; transform:translateX(-50%); z-index:60; background:var(--surface3); border:1px solid var(--line2); color:var(--text); font-size:11.5px; padding:9px 15px; border-radius:6px; opacity:0; transition:opacity .2s; pointer-events:none; }
   .toast.show{ opacity:1; }
+
+  /* ROADMAP */
+  .roadmap-intro{display:grid;grid-template-columns:1.25fr .75fr;gap:14px;margin-bottom:16px}
+  .roadmap-card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px}
+  .roadmap-card h3{margin:0 0 8px;font-size:13px;letter-spacing:.02em}
+  .roadmap-card p{margin:0;color:var(--text-dim);font-size:11.5px;line-height:1.65}
+  .hierarchy{display:flex;flex-direction:column;gap:5px;margin-top:10px}
+  .hier-row{display:flex;align-items:center;gap:9px;font-size:10.5px;color:var(--text-dim)}
+  .hier-rank{width:42px;font-family:var(--mono);font-size:9px;text-transform:uppercase;color:var(--text-dim2)}
+  .hier-bar{height:7px;border-radius:10px;background:var(--surface3);flex:1;overflow:hidden}
+  .hier-fill{height:100%;background:linear-gradient(90deg,var(--position),var(--guard))}
+  .roadmap-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+  .pos-card{background:var(--surface);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+  .pos-head{padding:13px 14px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}
+  .pos-head h3{margin:0;font-size:12.5px}
+  .pos-score{font-family:var(--mono);font-size:9.5px;color:var(--text-dim)}
+  .pos-body{padding:12px 14px}
+  .road-row{margin-bottom:11px}.road-row:last-child{margin-bottom:0}
+  .road-label{font-family:var(--mono);font-size:8.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--text-dim2);margin-bottom:5px}
+  .road-tags{display:flex;flex-wrap:wrap;gap:5px}
+  .road-tag{font-size:9.5px;padding:4px 7px;border:1px solid var(--line);border-radius:999px;color:var(--text-dim);cursor:pointer;transition:.15s}
+  .road-tag:hover{color:var(--text);border-color:var(--line2)}
+  .road-tag.in-game{border-color:#10B98166;color:#10B981;background:#10B9810d}
+  .road-empty{font-size:9.5px;color:var(--text-dim2);font-style:italic}
+  .road-progress{height:5px;background:var(--surface3);border-radius:8px;overflow:hidden;margin-top:9px}
+  .road-progress>span{display:block;height:100%;background:#10B981}
+  .roadmap-note{margin-top:14px;font-size:10px;color:var(--text-dim2);line-height:1.55}
+  @media(max-width:900px){.roadmap-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.roadmap-intro{grid-template-columns:1fr}}
+  @media(max-width:560px){.roadmap-grid{grid-template-columns:1fr}}
 </style>
 
 <div id="ga-root">
@@ -283,6 +312,7 @@
     <div class="ga-nav" id="ga-nav">
       <button class="ga-tab active" data-view="atlas">Atlas</button>
       <button class="ga-tab" data-view="library">Library</button>
+      <button class="ga-tab" data-view="roadmap">Roadmap</button>
       <button class="ga-tab" data-view="train">Train</button>
       <button class="ga-tab" data-view="game">Game</button>
     </div>
@@ -313,6 +343,35 @@
         <div id="lib-filters"></div>
       </div>
       <div class="lib-grid" id="lib-grid"></div>
+    </div>
+  </div>
+
+
+  <!-- ROADMAP -->
+  <div class="ga-view" id="view-roadmap">
+    <div class="ga-scroll">
+      <div class="ga-section-head">
+        <div class="ga-h">BJJ Roadmap <small>organise your game by position</small></div>
+      </div>
+      <div class="roadmap-intro">
+        <div class="roadmap-card">
+          <h3>Position first, technique second</h3>
+          <p>Use six core ground positions as the filing system for your game. For each one, build reliable control, transitions, escapes or sweeps, and submissions. The cards below pull matching techniques from your Atlas and show which ones are already in “Your Game”.</p>
+        </div>
+        <div class="roadmap-card">
+          <h3>Positional direction</h3>
+          <div class="hierarchy">
+            <div class="hier-row"><span class="hier-rank">Best</span><span>Back control</span><span class="hier-bar"><span class="hier-fill" style="width:100%"></span></span></div>
+            <div class="hier-row"><span class="hier-rank"></span><span>Mount</span><span class="hier-bar"><span class="hier-fill" style="width:86%"></span></span></div>
+            <div class="hier-row"><span class="hier-rank"></span><span>Knee on belly</span><span class="hier-bar"><span class="hier-fill" style="width:72%"></span></span></div>
+            <div class="hier-row"><span class="hier-rank"></span><span>Side control</span><span class="hier-bar"><span class="hier-fill" style="width:60%"></span></span></div>
+            <div class="hier-row"><span class="hier-rank">Neutral</span><span>Guard</span><span class="hier-bar"><span class="hier-fill" style="width:48%"></span></span></div>
+            <div class="hier-row"><span class="hier-rank">Worst</span><span>Back controlled</span><span class="hier-bar"><span class="hier-fill" style="width:18%"></span></span></div>
+          </div>
+        </div>
+      </div>
+      <div class="roadmap-grid" id="roadmap-grid"></div>
+      <div class="roadmap-note">Framework adapted from the six-position learning model in Stephan Kesting’s <em>A Roadmap for Brazilian Jiu-Jitsu</em>. Technique selections come from your local Grappling Atlas catalogue.</div>
     </div>
   </div>
 
@@ -962,7 +1021,7 @@ const toastEl=document.getElementById('toast');let toastTimer;
 function toast(msg){toastEl.textContent=msg;toastEl.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>toastEl.classList.remove('show'),1600);}
 
 /* ============ NAV ============ */
-const views={atlas:'view-atlas',library:'view-library',train:'view-train',game:'view-game'};
+const views={atlas:'view-atlas',library:'view-library',roadmap:'view-roadmap',train:'view-train',game:'view-game'};
 let currentView='atlas';
 document.getElementById('ga-nav').addEventListener('click',e=>{
   const btn=e.target.closest('.ga-tab'); if(!btn) return;
@@ -971,9 +1030,56 @@ document.getElementById('ga-nav').addEventListener('click',e=>{
   Object.keys(views).forEach(k=>document.getElementById(views[k]).classList.toggle('active',k===v));
   currentView=v;
   if(v==='library') renderLibrary();
+  if(v==='roadmap') renderRoadmap();
   if(v==='train') renderTrain();
   if(v==='game') renderGame();
 });
+
+
+/* ============ ROADMAP ============ */
+const ROADMAP_POSITIONS=[
+  {name:'Guard',keys:['Guard','Ashi Garami','411/Saddle','Leg Control','Leg Knot','Lockdown'],top:'Pass or disengage',bottom:'Sweep, submit, or take the back'},
+  {name:'Side Control',keys:['Side Control','Scarf Hold','Kesa Gatame','North South'],top:'Pin, submit, or advance',bottom:'Frame, escape, or re-guard'},
+  {name:'Knee on Belly',keys:['Knee on Belly'],top:'Control, submit, or transition',bottom:'Remove pressure and recover guard'},
+  {name:'Mount',keys:['Mount'],top:'Stabilise, submit, or expose the back',bottom:'Bridge, elbow escape, or recover guard'},
+  {name:'Back Control',keys:['Back Control','Back Mount','Rear Mount'],top:'Maintain hooks and finish',bottom:'Clear grips, remove hooks, turn safe'},
+  {name:'Turtle',keys:['Turtle','Front Headlock','Wrestling Ride','Truck Position'],top:'Break down, take the back, or submit',bottom:'Protect the neck, re-guard, or reverse'}
+];
+function roadmapMatches(pos,id){
+  const n=T[id].name.toLowerCase();
+  return pos.keys.some(k=>n.includes(k.toLowerCase())) || (pos.name==='Guard' && T[id].cat==='guard');
+}
+function roadmapBucket(pos,cat,limit){
+  return ids.filter(id=>T[id].cat===cat && roadmapMatches(pos,id)).slice(0,limit);
+}
+function roadmapTag(id,inGame){
+  return '<span class="road-tag '+(inGame?'in-game':'')+'" data-road-id="'+id+'">'+escapeHtml(T[id].name)+'</span>';
+}
+function renderRoadmap(){
+  const box=document.getElementById('roadmap-grid'); if(!box)return;
+  const gameSet=new Set(gameNodes.map(n=>n.id));
+  // Build cards from the local catalogue and current game selection.
+  box.innerHTML='';
+  ROADMAP_POSITIONS.forEach(pos=>{
+    const controls=roadmapBucket(pos,'position',4).concat(pos.name==='Guard'?roadmapBucket(pos,'guard',4):[]).slice(0,5);
+    const transitions=[...roadmapBucket(pos,'pass',3),...roadmapBucket(pos,'backtake',3)].slice(0,5);
+    const attacks=roadmapBucket(pos,'submission',5);
+    const escapes=[...roadmapBucket(pos,'defense',4),...roadmapBucket(pos,'sweep',4)].slice(0,5);
+    const all=[...new Set([...controls,...transitions,...attacks,...escapes])];
+    const covered=all.filter(id=>gameSet.has(id)).length;
+    const target=Math.min(8,all.length)||1;
+    const pct=Math.min(100,Math.round(covered/target*100));
+    const card=document.createElement('div');card.className='pos-card';
+    const row=(label,arr,empty)=>'<div class="road-row"><div class="road-label">'+label+'</div><div class="road-tags">'+(arr.length?arr.map(id=>roadmapTag(id,gameSet.has(id))).join(''):'<span class="road-empty">'+empty+'</span>')+'</div></div>';
+    card.innerHTML='<div class="pos-head"><h3>'+pos.name+'</h3><span class="pos-score">'+covered+' in your game</span></div><div class="pos-body">'+
+      row('Top objective',[ ],pos.top)+row('Bottom objective',[ ],pos.bottom)+
+      row('Controls',controls,'Add a control position')+row('Transitions',transitions,'Add a transition')+
+      row('Submissions',attacks,'Add two attacks')+row('Escapes / sweeps',escapes,'Add two escapes or sweeps')+
+      '<div class="road-progress"><span style="width:'+pct+'%"></span></div></div>';
+    box.appendChild(card);
+  });
+  box.querySelectorAll('[data-road-id]').forEach(el=>el.onclick=()=>openTree(el.dataset.roadId));
+}
 
 /* ============ GLOBE (Atlas) ============ */
 const svg=document.getElementById('globe-svg');
