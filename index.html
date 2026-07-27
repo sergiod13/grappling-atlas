@@ -1260,14 +1260,40 @@ const hasStore = (typeof window!=='undefined' && window.storage && typeof window
 const hasLS = (function(){try{localStorage.setItem('__ga_t','1');localStorage.removeItem('__ga_t');return true;}catch(e){return false;}})();
 const mem={};
 async function storeGet(key){
-  if(hasStore){ try{ const r=await window.storage.get(key); return r?JSON.parse(r.value):null; }catch(e){ return null; } }
-  if(hasLS){ try{ const v=localStorage.getItem(key); return v?JSON.parse(v):null; }catch(e){ return null; } }
+  // localStorage is the primary persistent store on GitHub Pages and normal browsers.
+  if(hasLS){
+    try{
+      const v=localStorage.getItem(key);
+      if(v!==null) return JSON.parse(v);
+    }catch(e){ console.warn('localStorage read failed',e); }
+  }
+  // Keep window.storage only as a secondary fallback for embedded environments.
+  if(hasStore){
+    try{
+      const r=await window.storage.get(key);
+      if(r&&r.value){
+        const parsed=JSON.parse(r.value);
+        if(hasLS){ try{ localStorage.setItem(key,JSON.stringify(parsed)); }catch(e){} }
+        return parsed;
+      }
+    }catch(e){ console.warn('window.storage read failed',e); }
+  }
   return key in mem ? mem[key] : null;
 }
 async function storeSet(key,val){
-  if(hasStore){ try{ await window.storage.set(key,JSON.stringify(val)); return; }catch(e){} }
-  if(hasLS){ try{ localStorage.setItem(key,JSON.stringify(val)); return; }catch(e){} }
-  mem[key]=val;
+  const payload=JSON.stringify(val);
+  let saved=false;
+  // Always write to localStorage first so data survives refreshes on GitHub Pages.
+  if(hasLS){
+    try{
+      localStorage.setItem(key,payload);
+      saved=localStorage.getItem(key)===payload;
+    }catch(e){ console.warn('localStorage write failed',e); }
+  }
+  // Also mirror to window.storage when available, but never let it replace local persistence.
+  if(hasStore){ try{ await window.storage.set(key,payload); saved=true; }catch(e){ console.warn('window.storage write failed',e); } }
+  if(!saved){ mem[key]=val; saved=true; }
+  return saved;
 }
 const K_SESSIONS='ga_sessions_v1';
 const K_GAMES='ga_games_v1';
@@ -1736,7 +1762,20 @@ document.getElementById('p-event-belt').addEventListener('change',syncEventRankP
 document.getElementById('p-event-rank-minus').onclick=()=>{eventRankDraft=Math.max(0,eventRankDraft-1);syncEventRankPicker();};
 document.getElementById('p-event-rank-plus').onclick=()=>{eventRankDraft=Math.min(beltMeta(document.getElementById('p-event-belt').value).max,eventRankDraft+1);syncEventRankPicker();};
 syncEventRankPicker();
-document.getElementById('p-save').onclick=async()=>{profile.name=document.getElementById('p-name').value.trim();profile.academy=document.getElementById('p-academy').value.trim();profile.started=document.getElementById('p-started').value;profile.belt=document.getElementById('p-belt').value;profile.grau=clampRank(profile.belt,profileRankDraft);profile.rankDate=document.getElementById('p-rank-date').value;profileLoaded=true;await storeSet(K_PROFILE,profile);applyProfile();renderProfile();toast('Profile saved');};
+document.getElementById('p-save').onclick=async()=>{
+ profile.name=document.getElementById('p-name').value.trim();
+ profile.academy=document.getElementById('p-academy').value.trim();
+ profile.started=document.getElementById('p-started').value;
+ profile.belt=document.getElementById('p-belt').value;
+ profile.grau=clampRank(profile.belt,profileRankDraft);
+ profile.rankDate=document.getElementById('p-rank-date').value;
+ profile.rankHistory=Array.isArray(profile.rankHistory)?profile.rankHistory:[];
+ profileLoaded=true;
+ const saved=await storeSet(K_PROFILE,profile);
+ applyProfile();
+ await renderProfile();
+ toast(saved?'Profile saved':'Could not save profile');
+};
 document.getElementById('p-event-add').onclick=async()=>{const date=document.getElementById('p-event-date').value;if(!date){toast('Pick a date first');return;}profile.rankHistory=profile.rankHistory||[];profile.rankHistory.push({id:'r'+Date.now(),type:document.getElementById('p-event-type').value,date,belt:document.getElementById('p-event-belt').value,grau:clampRank(document.getElementById('p-event-belt').value,eventRankDraft)});profileLoaded=true;await storeSet(K_PROFILE,profile);renderProfile();toast('Rank milestone added');};
 
 function competitionSummary(c){if(!c)return '';const matches=(c.matches||[]).map(m=>(m.result==='win'?'Won':'Lost')+' by '+(m.method==='points'?'points '+m.detail:m.detail)+(m.opponent?' vs '+m.opponent:'')).join('<br>');return '<div class="session-comp"><strong>'+escapeHtml(c.name||'Competition')+'</strong><br>'+escapeHtml([c.weightClass,c.absolute?'Absolute':'',c.placement?c.placement+' place':''].filter(Boolean).join(' · '))+(matches?'<br>'+matches:'')+'</div>';}
@@ -1955,6 +1994,12 @@ function applyLanguage(){
   if(currentView==='profile')renderProfile();
 }
 document.getElementById('lang-toggle').addEventListener('click',()=>{appLang=appLang==='en'?'pt':'en';applyLanguage();});
+(async function bootstrapProfile(){
+  const savedProfile=await storeGet(K_PROFILE);
+  if(savedProfile&&typeof savedProfile==='object') profile=savedProfile;
+  profileLoaded=true;
+  applyProfile();
+})();
 applyLanguage();
 })();
 </script>
