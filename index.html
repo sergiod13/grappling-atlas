@@ -418,6 +418,19 @@
     #view-professor .teacher-selected{border-color:#bbb!important;}
   }
 
+
+  /* Validated tree: responsive vertical layout on small screens */
+  #tree-svg-wrap{overflow:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;}
+  #tree-svg text{pointer-events:none;}
+  @media(max-width:640px){
+    #tree-overlay{position:fixed;inset:0;border-radius:0;}
+    .tree-top{position:sticky;top:0;z-index:3;background:rgba(10,13,18,.98);padding:10px;}
+    .tree-crumbs{white-space:normal;overflow:visible;text-overflow:clip;line-height:1.4;}
+    .tree-notes{position:relative;z-index:2;}
+    #tree-svg-wrap{overflow-x:hidden;overflow-y:auto;}
+    #tree-svg{display:block;width:100%!important;min-width:0!important;height:auto;}
+  }
+
 </style>
 
 <div id="ga-root">
@@ -1358,87 +1371,206 @@ const T={},NAME_TO_ID={};
 CAT_ORDER.forEach(cat=>CATALOG[cat].forEach(name=>{const id=slugify(name);T[id]={name,cat};NAME_TO_ID[name]=id;}));
 const ids=Object.keys(T);const TOTAL=ids.length;
 
-const LINK_NAMES=[
- ['Double Leg Takedown','Knee Slice Pass'],['Double Leg Takedown','Sprawl'],['Single Leg Takedown','Whizzer'],['Single Leg Takedown','Double Leg Takedown'],['Ankle Pick','Single Leg Takedown'],['High Crotch','Double Leg Takedown'],['Foot Sweep (De Ashi Barai)','Guard Pull'],['Hip Throw (O Goshi)','Knee Slice Pass'],['Shoulder Throw (Seoi Nage)','Knee Slice Pass'],["Fireman's Carry",'Knee Slice Pass'],['Snap Down','Guillotine Choke'],['Arm Drag to Takedown','Single Leg Takedown'],['Duck Under','Single Leg Takedown'],['Outside Trip (Osoto Gari)','Knee Slice Pass'],['Inside Trip (Ouchi Gari)','Knee Slice Pass'],['Guard Pull','Closed Guard'],
- ['Closed Guard','Armbar'],['Closed Guard','Triangle Choke'],['Closed Guard','Kimura'],['Closed Guard','Guard Recovery'],['Closed Guard','Omoplata'],['Open Guard','Butterfly Guard'],['Open Guard','Spider Guard'],['Half Guard','Kimura'],['Half Guard','Whizzer'],['Half Guard','Knee Slice Pass'],['Deep Half Guard','X Guard'],['Butterfly Guard','De La Riva Guard'],['Butterfly Guard','Knee Slice Pass'],['De La Riva Guard','Guard Recovery'],['De La Riva Guard','Reverse De La Riva'],['Reverse De La Riva','X Guard'],['Spider Guard','Triangle Choke'],['Spider Guard','Omoplata'],['Lasso Guard','Spider Guard'],['X Guard','Single Leg X Guard'],['X Guard','Heel Hook'],['Single Leg X Guard','Straight Ankle Lock'],['Single Leg X Guard','Heel Hook'],['50/50 Guard','Heel Hook'],['Worm Guard','Knee Slice Pass'],['Rubber Guard','Gogoplata'],['Rubber Guard','Triangle Choke'],
- ['Knee Slice Pass','Rear Naked Choke'],['Knee Slice Pass','Armbar'],['Toreando Pass','Leg Drag Pass'],['Leg Drag Pass','Rear Naked Choke'],['Over-Under Pass','Knee Slice Pass'],['Double Under Pass','Stack Pass'],['Stack Pass','Kneebar'],['X-Pass','Knee Slice Pass'],['Long Step Pass','Knee Slice Pass'],['Smash Pass','North-South Choke'],['Folding Pass','Kneebar'],['Headquarters Pass','Toe Hold'],['Body Lock Pass','Rear Naked Choke'],
- ['Rear Naked Choke','Hip Escape (Shrimp)'],['Armbar','Frame & Stand Up'],['Triangle Choke','Bridge & Roll (Upa)'],['Kimura','Hip Escape (Shrimp)'],['Kimura','Kimura Counter (Hitchhiker)'],['Americana','Hip Escape (Shrimp)'],['Guillotine Choke','Turtle Recovery'],["D'Arce Choke",'Turtle Recovery'],['Anaconda Choke','Turtle Recovery'],['Ezekiel Choke','Mount Escape (Trap & Roll)'],['Bow and Arrow Choke','Back Escape (Hip Heist)'],['Cross Collar Choke','Bridge & Roll (Upa)'],['Omoplata','Armbar'],['Gogoplata','Rubber Guard'],['Heel Hook','X Guard'],['Kneebar','Straight Ankle Lock'],['Toe Hold','Straight Ankle Lock'],['Straight Ankle Lock','Single Leg X Guard'],['Calf Slicer','Straight Ankle Lock'],['North-South Choke','Armbar'],['Peruvian Necktie','Guillotine Choke'],
- ['Hip Escape (Shrimp)','Guard Recovery'],['Hip Escape (Shrimp)','Closed Guard'],['Bridge & Roll (Upa)','Guard Recovery'],['Frame & Stand Up','Sprawl'],['Mount Escape (Trap & Roll)','Guard Recovery'],['Side Control Escape','Guard Recovery'],['Back Escape (Hip Heist)','Turtle Recovery'],['Triangle Defense','Frame & Stand Up'],['Armbar Defense','Frame & Stand Up'],['Choke Defense (Hand Fighting)','Hip Escape (Shrimp)'],['Turtle Recovery','Guard Recovery'],
- ['Sprawl','Guard Pull'],['Sprawl','Knee Slice Pass'],['Whizzer','Single Leg Takedown'],['Guard Recovery','Closed Guard'],['Guard Recovery','Butterfly Guard'],['Kimura Counter (Hitchhiker)','Omoplata'],['Leg Drag Counter','Guard Recovery'],['Back Take Defense','Turtle Recovery'],['Guard Pull Counter (Sprawl)','Sprawl'],['Knee Cut Counter (Frame & Underhook)','Guard Recovery'],['Triangle Counter (Stack Pass)','Frame & Stand Up'],['X Guard Counter','Knee Slice Pass'],
- ['Closed Guard','Scissor Sweep'],['Closed Guard','Hip Bump Sweep'],['Closed Guard','Flower Sweep (Pendulum)'],['Butterfly Guard','Butterfly Sweep'],['Butterfly Guard','Hook Sweep'],['Open Guard','Tripod Sweep'],['Open Guard','Sickle Sweep'],['Open Guard','Overhead Sweep'],['De La Riva Guard','De La Riva Sweep'],['Deep Half Guard','Waiter Sweep'],['Half Guard','Old School Sweep'],['X Guard','X Guard Sweep'],['Spider Guard','Overhead Sweep'],
- ['Scissor Sweep','Knee Slice Pass'],['Hip Bump Sweep','Kimura'],['Flower Sweep (Pendulum)','Armbar'],['Butterfly Sweep','Knee Slice Pass'],['Hook Sweep','Leg Drag Pass'],['Tripod Sweep','Toreando Pass'],['Sickle Sweep','Toreando Pass'],['De La Riva Sweep','Leg Drag Pass'],['Waiter Sweep','Knee Slice Pass'],['Old School Sweep','Knee Slice Pass'],['X Guard Sweep','Single Leg X Guard'],['Overhead Sweep','Toreando Pass'],
- ['Knee Slice Pass','Side Control'],['Knee Slice Pass','Mount'],['Toreando Pass','Side Control'],['Leg Drag Pass','Back Control'],['Over-Under Pass','Side Control'],['Double Under Pass','Side Control'],['Stack Pass','North-South'],['Smash Pass','North-South'],['X-Pass','Side Control'],['Long Step Pass','Side Control'],['Folding Pass','Side Control'],['Headquarters Pass','Knee on Belly'],['Body Lock Pass','Mount'],
- ['Mount','Armbar'],['Mount','Ezekiel Choke'],['Mount','Cross Collar Choke'],['Back Control','Rear Naked Choke'],['Back Control','Bow and Arrow Choke'],['Side Control','Americana'],['Side Control','Kimura'],['Side Control','Armbar'],['Knee on Belly','Armbar'],['North-South','North-South Choke'],['Turtle Top','Rear Naked Choke'],["Turtle Top","D'Arce Choke"],['Turtle Top','Anaconda Choke'],
- ['Side Control','Mount'],['Side Control','Knee on Belly'],['Side Control','North-South'],['Side Control','Back Control'],['Knee on Belly','Mount'],['Mount','Back Control'],['Turtle Top','Back Control'],
- ['Mount','Mount Escape (Trap & Roll)'],['Back Control','Back Escape (Hip Heist)'],['Side Control','Side Control Escape']
-];
-const LINKS=LINK_NAMES.map(p=>[NAME_TO_ID[p[0]],NAME_TO_ID[p[1]]]).filter(p=>p[0]&&p[1]);
+const GRAPH_NORMALIZED_NAME_TO_ID={};
+function graphNorm(value){return String(value||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[’'"°]/g,'').replace(/[^a-z0-9]+/g,' ').trim();}
+ids.forEach(id=>{const key=graphNorm(T[id].name);if(!GRAPH_NORMALIZED_NAME_TO_ID[key])GRAPH_NORMALIZED_NAME_TO_ID[key]=id;});
+function graphIdByName(name){return NAME_TO_ID[name]||GRAPH_NORMALIZED_NAME_TO_ID[graphNorm(name)]||null;}
 
-const TREES={
- 'Mount':{branches:[{label:'Opponent stays flat, arms in tight',tag:'Common',children:[{type:'tech',name:'Ezekiel Choke',note:'sneak the sleeve choke'},{type:'tech',name:'Cross Collar Choke',note:'if the collar is open'}]},{label:'Opponent extends or pushes an arm',tag:'Common',children:[{type:'tech',name:'Armbar',note:'isolate and swing the leg over'}]},{label:'Opponent turns to their knees',tag:'Occasional',children:[{type:'tech',name:'Back Control',note:'take the back as they turn'}]},{label:'Opponent bridges and rolls',tag:'Occasional',children:[{type:'tech',name:'Mount Escape (Trap & Roll)',note:'their escape route'}]}]},
- 'Back Control':{branches:[{label:'Seatbelt and hooks locked',tag:'Common',children:[{type:'tech',name:'Rear Naked Choke',note:'primary finish'},{type:'tech',name:'Bow and Arrow Choke',note:'collar option in the gi'}]},{label:'Opponent hand-fights the choke',tag:'Common',children:[{type:'video',label:'back control hand-fighting to RNC'}]},{label:'Opponent slides down and escapes',tag:'Occasional',children:[{type:'tech',name:'Back Escape (Hip Heist)',note:'their escape route'}]}]},
- 'Side Control':{branches:[{label:'Opponent flat, near arm exposed',tag:'Common',children:[{type:'tech',name:'Americana',note:'near-arm keylock'},{type:'tech',name:'Kimura',note:'if the arm is on the mat'}]},{label:'Far arm crosses or space opens',tag:'Occasional',children:[{type:'tech',name:'Armbar',note:'far-side armbar'}]},{label:'Advance the position',tag:'Common',children:[{type:'tech',name:'Mount',note:'climb to mount'},{type:'tech',name:'Knee on Belly',note:'transition to KOB'},{type:'tech',name:'North-South',note:'switch to north-south'}]},{label:'Opponent frames and recovers',tag:'Occasional',children:[{type:'tech',name:'Side Control Escape',note:'their escape route'}]}]},
- 'Knee on Belly':{branches:[{label:'Opponent stays flat',tag:'Common',children:[{type:'tech',name:'Armbar',note:'spin to the far arm'}]},{label:'Opponent pushes the knee away',tag:'Common',children:[{type:'tech',name:'Mount',note:'switch straight to mount'}]},{label:'Opponent bridges and turns',tag:'Occasional',children:[{type:'tech',name:'Side Control',note:'re-settle heavy'}]}]},
- 'North-South':{branches:[{label:'Chin and neck exposed',tag:'Common',children:[{type:'tech',name:'North-South Choke',note:'primary finish'}]},{label:'Near arm available',tag:'Occasional',children:[{type:'tech',name:'Kimura',note:'north-south kimura'}]},{label:'Opponent turns in to recover',tag:'Occasional',children:[{type:'tech',name:'Side Control',note:'follow and re-pin'}]}]},
- 'Turtle Top':{branches:[{label:'Seatbelt secured',tag:'Common',children:[{type:'tech',name:'Back Control',note:'roll them to take the back'}]},{label:'Head and neck exposed',tag:'Common',children:[{type:'tech',name:"D'Arce Choke",note:'thread the arm through'},{type:'tech',name:'Anaconda Choke',note:'roll into the finish'}]},{label:'Opponent stands or recovers guard',tag:'Occasional',children:[{type:'tech',name:'Guard Recovery',note:'their recovery route'}]}]},
- 'Scissor Sweep':{branches:[{label:'Sweep lands, you come up on top',tag:'Common',children:[{type:'tech',name:'Knee Slice Pass',note:'settle straight into the pass'},{type:'video',label:'Scissor sweep mechanics'}]},{label:'Opponent posts to block',tag:'Occasional',children:[{type:'tech',name:'Hip Bump Sweep',note:'switch to the hip bump'}]}]},
- 'Hip Bump Sweep':{branches:[{label:'You bump them over',tag:'Common',children:[{type:'tech',name:'Knee Slice Pass',note:'follow to top'}]},{label:'They base out with the arm',tag:'Common',children:[{type:'tech',name:'Kimura',note:'attack the posted arm'}]}]},
- 'Flower Sweep (Pendulum)':{branches:[{label:'Pendulum lands, you take top',tag:'Common',children:[{type:'tech',name:'Armbar',note:'chain to the arm on the way up'},{type:'video',label:'Flower / pendulum sweep timing'}]}]},
- 'Butterfly Sweep':{branches:[{label:'Hook elevates, you land on top',tag:'Common',children:[{type:'tech',name:'Knee Slice Pass',note:'pass as you come up'},{type:'video',label:'Butterfly sweep hook and lift'}]},{label:'Opponent widens base',tag:'Occasional',children:[{type:'tech',name:'Hook Sweep',note:'switch to the far side'}]}]},
- 'Hook Sweep':{branches:[{label:'Elevation to top',tag:'Common',children:[{type:'tech',name:'Leg Drag Pass',note:'chain into the leg drag'}]}]},
- 'Tripod Sweep':{branches:[{label:'Off-balance to top',tag:'Common',children:[{type:'tech',name:'Toreando Pass',note:'pass the open legs'},{type:'video',label:'Tripod / sickle sweep combo'}]}]},
- 'Sickle Sweep':{branches:[{label:'Legs chopped, you come up',tag:'Common',children:[{type:'tech',name:'Toreando Pass',note:'settle and pass'}]}]},
- 'De La Riva Sweep':{branches:[{label:'Off-balance, back exposed',tag:'Common',children:[{type:'video',label:'DLR sweep to back take'},{type:'tech',name:'Leg Drag Pass',note:'if they turn in'}]}]},
- 'Waiter Sweep':{branches:[{label:'Deep half elevation lands',tag:'Common',children:[{type:'tech',name:'Knee Slice Pass',note:'come up and pass'},{type:'video',label:'Waiter sweep from deep half'}]}]},
- 'Old School Sweep':{branches:[{label:'Underhook + ankle, you reverse',tag:'Common',children:[{type:'tech',name:'Knee Slice Pass',note:'take top and pass'}]},{label:'Opponent whizzers hard',tag:'Occasional',children:[{type:'tech',name:'Whizzer',note:'their counter'}]}]},
- 'X Guard Sweep':{branches:[{label:'Base broken, you stand up',tag:'Common',children:[{type:'tech',name:'Single Leg X Guard',note:'reset the entanglement if they hop'},{type:'video',label:'X guard technical stand-up sweep'}]}]},
- 'Overhead Sweep':{branches:[{label:'Opponent flips overhead',tag:'Common',children:[{type:'tech',name:'Toreando Pass',note:'come up and pass'}]}]},
- 'Closed Guard':{branches:[{label:'Opponent postures up, base high',tag:'Common',children:[{type:'tech',name:'Triangle Choke',note:'break the grip, angle off-line'},{type:'tech',name:'Armbar',note:'if they push down on the hips'}]},{label:'Opponent stands to pass',tag:'Occasional',children:[{type:'tech',name:'Guard Recovery',note:'reguard before the pass lands'},{type:'video',label:'Guard retention vs a standing pass'}]},{label:'Guard gets opened',tag:'Common',children:[{type:'tech',name:'Half Guard',note:'accept half, keep the underhook'},{type:'tech',name:'Omoplata',note:'off a failed pass attempt'}]}]},
- 'Half Guard':{branches:[{label:'Opponent flattens hips, hunts the pass',tag:'Common',children:[{type:'tech',name:'Kimura',note:'lockdown, underhook, attack far arm'}]},{label:'Opponent whizzers your underhook',tag:'Occasional',children:[{type:'tech',name:'Whizzer',note:'their counter to your grip fight'}]}]},
- 'Butterfly Guard':{branches:[{label:'Opponent posts a hand to balance',tag:'Common',children:[{type:'video',label:'Butterfly sweep off the post'}]},{label:'Opponent flattens your hooks',tag:'Occasional',children:[{type:'tech',name:'Guard Recovery',note:'recover before the pass'}]}]},
- 'De La Riva Guard':{branches:[{label:'Opponent squares up to smash pass',tag:'Common',children:[{type:'video',label:'DLR sweep to back take'},{type:'tech',name:'Reverse De La Riva',note:'switch hooks under pressure'}]}]},
- 'Spider Guard':{branches:[{label:'Opponent postures through the sleeves',tag:'Common',children:[{type:'tech',name:'Triangle Choke',note:'off the same grips'},{type:'tech',name:'Omoplata',note:'if the arm gets isolated'}]}]},
- 'X Guard':{branches:[{label:'Base gets broken',tag:'Common',children:[{type:'video',label:'X guard sweep to back take'}]},{label:'Opponent posts the far leg',tag:'Occasional',children:[{type:'tech',name:'Heel Hook',note:'if the foot is exposed'}]}]},
- 'Double Leg Takedown':{branches:[{label:'Level change lands clean',tag:'Common',children:[{type:'video',label:'Finishing the double leg'},{type:'tech',name:'Knee Slice Pass',note:'settle into top pressure'}]},{label:'Opponent sprawls',tag:'Common',children:[{type:'tech',name:'Sprawl',note:'their base counter'}]},{label:'Opponent pulls guard instead',tag:'Occasional',children:[{type:'tech',name:'Guard Pull',note:'match plays out on the mat'}]}]},
- 'Single Leg Takedown':{branches:[{label:'Opponent whizzers the tied-up arm',tag:'Common',children:[{type:'tech',name:'Whizzer',note:'counter to defend'}]},{label:'Leg comes up clean',tag:'Occasional',children:[{type:'video',label:'Single leg dump finish'}]}]},
- 'Ankle Pick':{branches:[{label:'Grip and pull lands',tag:'Common',children:[{type:'video',label:'Ankle pick finish mechanics'},{type:'tech',name:'Single Leg Takedown',note:'chain if they post out'}]}]},
- 'Guard Pull':{branches:[{label:'You land in closed guard',tag:'Common',children:[{type:'tech',name:'Closed Guard',note:'primary follow-up'}]},{label:'Opponent stays standing over you',tag:'Occasional',children:[{type:'video',label:'Guard pull to leg entanglement'}]}]},
- 'Knee Slice Pass':{branches:[{label:'Pass completes to side control',tag:'Common',children:[{type:'tech',name:'Side Control',note:'settle and pin'},{type:'tech',name:'Mount',note:'if they turn away'}]},{label:'Opponent frames and recovers',tag:'Occasional',children:[{type:'tech',name:'Half Guard',note:'their guard recovery result'}]}]},
- 'Toreando Pass':{branches:[{label:'Legs clear, chain to leg drag',tag:'Common',children:[{type:'tech',name:'Leg Drag Pass',note:'natural chain'}]},{label:'Opponent recovers butterfly',tag:'Occasional',children:[{type:'tech',name:'Butterfly Guard',note:'their counter-guard'}]}]},
- 'Leg Drag Pass':{branches:[{label:'Pass completes, back exposed',tag:'Common',children:[{type:'tech',name:'Back Control',note:'take the back directly'}]},{label:'Opponent turns in',tag:'Occasional',children:[{type:'video',label:'Leg drag to mount transition'}]}]},
- 'Over-Under Pass':{branches:[{label:'Far-side hook clears the leg',tag:'Common',children:[{type:'tech',name:'Knee Slice Pass',note:'finish with the knee slice'}]}]},
- 'Guillotine Choke':{branches:[{label:'Choke sinks, opponent taps',tag:'Common',children:[{type:'video',label:'Guillotine finishing grip details'}]},{label:'Opponent pops the head out',tag:'Occasional',children:[{type:'tech',name:'Turtle Recovery',note:'their escape route'}]}]},
- 'Omoplata':{branches:[{label:'Shoulder locks, opponent taps',tag:'Common',children:[{type:'video',label:'Omoplata finish and control'}]},{label:'Opponent rolls through',tag:'Occasional',children:[{type:'tech',name:'Armbar',note:'transition off the roll'}]}]},
- 'Heel Hook':{branches:[{label:'Ankle torques, opponent taps',tag:'Common',children:[{type:'video',label:'Heel hook control and finish'}]},{label:'Opponent spins to defend',tag:'Occasional',children:[{type:'tech',name:'X Guard',note:'reset the entanglement'}]}]},
- 'Rear Naked Choke':{branches:[{label:'Choke sinks, opponent taps',tag:'Common',children:[{type:'video',label:'RNC finishing mechanics'}]},{label:'Opponent defends the far hand',tag:'Occasional',children:[{type:'video',label:'RNC hand-fighting details'}]},{label:'Opponent escapes the hooks',tag:'Occasional',children:[{type:'tech',name:'Hip Escape (Shrimp)',note:'their recovery route'}]}]},
- 'Armbar':{branches:[{label:'Arm straightens, tap',tag:'Common',children:[{type:'video',label:'Armbar finishing details'}]},{label:'Opponent stacks and defends',tag:'Occasional',children:[{type:'tech',name:'Triangle Choke',note:'transition off the stack'},{type:'tech',name:'Frame & Stand Up',note:'their escape route'}]}]},
- 'Triangle Choke':{branches:[{label:'Choke locks, opponent taps',tag:'Common',children:[{type:'video',label:'Triangle angle & finish'}]},{label:'Opponent postures and stacks',tag:'Occasional',children:[{type:'tech',name:'Armbar',note:'transition off the same angle'},{type:'tech',name:'Bridge & Roll (Upa)',note:'their stack escape'}]}]},
- 'Kimura':{branches:[{label:'Shoulder locks, tap',tag:'Common',children:[{type:'video',label:'Kimura finish mechanics'}]},{label:'Opponent rolls through',tag:'Occasional',children:[{type:'tech',name:'Hip Escape (Shrimp)',note:'their escape route'}]}]},
- 'Americana':{branches:[{label:'Shoulder locks, tap',tag:'Common',children:[{type:'video',label:'Americana from side control'}]},{label:'Opponent rolls to their side',tag:'Occasional',children:[{type:'tech',name:'Hip Escape (Shrimp)',note:'their escape route'}]}]},
- 'Ezekiel Choke':{branches:[{label:'Choke sinks from mount',tag:'Common',children:[{type:'video',label:'Ezekiel choke grip and finish'}]},{label:'Opponent frames and bridges',tag:'Occasional',children:[{type:'tech',name:'Mount Escape (Trap & Roll)',note:'their escape route'}]}]},
- 'Straight Ankle Lock':{branches:[{label:'Ankle locks, opponent taps',tag:'Common',children:[{type:'video',label:'Straight ankle lock finish'}]},{label:'Opponent stacks to strip the leg',tag:'Occasional',children:[{type:'tech',name:'Single Leg X Guard',note:'reset the leg entanglement'}]}]},
- 'Kneebar':{branches:[{label:'Knee locks, opponent taps',tag:'Common',children:[{type:'video',label:'Kneebar finishing mechanics'}]},{label:'Opponent rolls out of the leg',tag:'Occasional',children:[{type:'tech',name:'Straight Ankle Lock',note:'chain to the ankle'}]}]},
- 'Hip Escape (Shrimp)':{branches:[{label:'Space created, guard recovered',tag:'Common',children:[{type:'tech',name:'Guard Recovery',note:'primary result'},{type:'tech',name:'Closed Guard',note:'if you recover fully'}]}]},
- 'Bridge & Roll (Upa)':{branches:[{label:'Roll lands on top',tag:'Occasional',children:[{type:'tech',name:'Guard Recovery',note:'immediate follow-up'}]},{label:'Opponent bases out',tag:'Common',children:[{type:'video',label:'Upa timing and hip drive'}]}]},
- 'Frame & Stand Up':{branches:[{label:'You stand up cleanly',tag:'Common',children:[{type:'tech',name:'Sprawl',note:'reset to a neutral base'}]},{label:'Opponent chains a takedown',tag:'Occasional',children:[{type:'video',label:'Standing back up under pressure'}]}]},
- 'Mount Escape (Trap & Roll)':{branches:[{label:'Roll completes, you land on top',tag:'Common',children:[{type:'tech',name:'Guard Recovery',note:'immediate follow-up'}]},{label:'Opponent bases out and posts',tag:'Occasional',children:[{type:'video',label:'Trap and roll timing details'}]}]},
- 'Sprawl':{branches:[{label:'Hips heavy, shot is stopped',tag:'Common',children:[{type:'tech',name:'Guard Pull',note:'reset the position'},{type:'video',label:'Sprawl to front headlock'}]}]},
- 'Whizzer':{branches:[{label:'Underhook cleared',tag:'Common',children:[{type:'tech',name:'Single Leg Takedown',note:'return to the leg attack'}]}]},
- 'Guard Recovery':{branches:[{label:'Full guard recovered',tag:'Common',children:[{type:'tech',name:'Closed Guard',note:'reset to closed guard'},{type:'tech',name:'Butterfly Guard',note:'reset to butterfly'}]}]}
+const SUBMISSION_BASE_NAMES=CATALOG.submission.filter(name=>!/:/.test(name)&&!/\sfrom\s/i.test(name)&&!/^Flying\s/i.test(name)).sort((a,b)=>graphNorm(b).length-graphNorm(a).length);
+function submissionFamilyName(name){
+  const stem=String(name||'').split(/\s+from\s+/i)[0],n=graphNorm(stem);
+  const matches=SUBMISSION_BASE_NAMES.filter(base=>{const b=graphNorm(base);return n===b||n.endsWith(' '+b);});
+  return matches.length?matches.sort((a,b)=>graphNorm(b).length-graphNorm(a).length)[0]:null;
+}
+function cleanSourceText(raw){return String(raw||'').replace(/^the\s+/i,'').replace(/\s+/g,' ').trim();}
+function canonicalSourceNode(raw){
+  const s=graphNorm(raw);
+  if(!s)return null;
+  if(/omoplata setup/.test(s))return 'Omoplata';
+  if(/leg drag/.test(s))return 'Leg Drag Pass';
+  if(/guard pull/.test(s))return 'Guard Pull';
+  if(/backside 50 50|50 50/.test(s))return '50/50 Guard';
+  if(/standard ashi garami single leg x|single leg x|single x/.test(s))return 'Single Leg X Guard';
+  if(/reverse de la riva|reverse dlr/.test(s))return 'Reverse De La Riva';
+  if(/de la riva/.test(s))return 'De La Riva Guard';
+  if(/deep half/.test(s))return 'Deep Half Guard';
+  if(/half butterfly/.test(s))return null;
+  if(/lockdown/.test(s))return 'Half Guard';
+  if(/top half guard|half guard/.test(s))return 'Half Guard';
+  if(/butterfly/.test(s))return 'Butterfly Guard';
+  if(/spider lasso/.test(s))return null;
+  if(/lasso/.test(s))return 'Lasso Guard';
+  if(/spider/.test(s))return 'Spider Guard';
+  if(/closed guard|high guard/.test(s))return 'Closed Guard';
+  if(/open guard/.test(s))return 'Open Guard';
+  if(/rubber guard/.test(s))return 'Rubber Guard';
+  if(/worm guard/.test(s))return 'Worm Guard';
+  if(/^x guard$|\bx guard\b/.test(s))return 'X Guard';
+  if(/knee on belly/.test(s))return 'Knee on Belly';
+  if(/north south/.test(s))return 'North-South';
+  if(/back mount|back control/.test(s))return 'Back Control';
+  if(/reverse side control|side control/.test(s))return 'Side Control';
+  if(/mount/.test(s))return 'Mount';
+  if(/turtle/.test(s))return 'Turtle Top';
+  return null;
+}
+const INFERRED_SOURCE={
+  'Scissor Sweep':'Closed Guard','Hip Bump Sweep':'Closed Guard','Flower Sweep (Pendulum)':'Closed Guard',
+  'Butterfly Sweep':'Butterfly Guard','Hook Sweep':'Butterfly Guard','Tripod Sweep':'Open Guard','Sickle Sweep':'Open Guard',
+  'De La Riva Sweep':'De La Riva Guard','Waiter Sweep':'Deep Half Guard','Old School Sweep':'Half Guard','X Guard Sweep':'X Guard','Overhead Sweep':'Open Guard',
+  'Mount Escape (Trap & Roll)':'Mount','Side Control Escape':'Side Control','Back Escape (Hip Heist)':'Back Control','Turtle Recovery':'Turtle Top',
+  'Guard Pull':'Standing'
 };
-const GENERIC_POOLS={
- takedown:['Knee Slice Pass','Sprawl','Guard Pull','Rear Naked Choke'],
- guard:['Scissor Sweep','Butterfly Sweep','Armbar','Triangle Choke','Kimura','Guard Recovery'],
- sweep:['Knee Slice Pass','Leg Drag Pass','Toreando Pass','Armbar','Kimura'],
- pass:['Side Control','Mount','Rear Naked Choke','Armbar','Kimura'],
- backtake:['Back Control','Rear Naked Choke','Armbar','Mount'],
- position:['Rear Naked Choke','Armbar','Americana','Kimura','North-South Choke'],
- submission:['Hip Escape (Shrimp)','Bridge & Roll (Upa)','Turtle Recovery'],
- defense:['Guard Recovery','Turtle Recovery','Closed Guard'],
- counter:['Knee Slice Pass','Guard Pull','Single Leg Takedown']
+function sourceInfoForName(name,cat){
+  let raw='';
+  const colon=String(name).match(/^(.+?):\s*/);
+  if(colon){
+    const prefix=colon[1];
+    if(cat==='sweep')raw=prefix.replace(/\s+Sweep$/i,'');
+    else if(cat==='pass')raw=prefix.replace(/\s+Pass$/i,'');
+    else if(cat==='backtake')raw=prefix.replace(/\s+Back Take$/i,'');
+    else if(cat==='defense'){
+      const possible=prefix.replace(/\s+Escape$/i,'');
+      if(canonicalSourceNode(possible))raw=possible;
+      else{const fromParen=String(name).match(/\(From\s+([^)]+)\)/i);if(fromParen)raw=fromParen[1];}
+    }
+  }
+  if(!raw){const from=String(name).match(/\s+from\s+(.+)$/i);if(from)raw=from[1];}
+  if(!raw&&INFERRED_SOURCE[name])raw=INFERRED_SOURCE[name];
+  if(!raw&&cat==='takedown')raw='Standing';
+  if(!raw&&cat==='pass')raw='Guard passing phase';
+  raw=cleanSourceText(raw);
+  const nodeName=canonicalSourceNode(raw);
+  return {raw,nodeName,key:nodeName?'node:'+nodeName:(raw?'raw:'+graphNorm(raw):'')};
+}
+function sourceInfoForId(id){return sourceInfoForName(T[id].name,T[id].cat);}
+
+const DEFENSE_THREAT_MAP={
+  'Hip Escape (Shrimp)':'Pins and guard passing','Bridge & Roll (Upa)':'Mount','Frame & Stand Up':'Ground control','Mount Escape (Trap & Roll)':'Mount',
+  'Side Control Escape':'Side Control','Back Escape (Hip Heist)':'Back Control','Triangle Defense':'Triangle Choke','Armbar Defense':'Armbar',
+  'Choke Defense (Hand Fighting)':'Choke attacks','Turtle Recovery':'Turtle Top'
 };
-function genericTree(name,cat,idx){const pool=GENERIC_POOLS[cat].filter(n=>n!==name);const a=pool[idx%pool.length];const b=pool[(idx+1)%pool.length];return{branches:[{label:'Technique lands as intended',tag:'Common',children:[{type:'video',label:'core mechanics and setup'}]},{label:'Opponent adapts or defends',tag:'Occasional',children:[{type:'tech',name:a,note:'common continuation'}]},{label:'Position resets or scrambles',tag:'Occasional',children:[{type:'tech',name:b,note:'alternate route'}]}]};}
-function getTree(id){const name=T[id].name,cat=T[id].cat;return TREES[name]||genericTree(name,cat,ids.indexOf(id));}
+const COUNTER_THREAT_MAP={
+  'Sprawl':'Double Leg Takedown','Whizzer':'Single Leg Takedown','Guard Recovery':'Guard pass','Kimura Counter (Hitchhiker)':'Kimura',
+  'Leg Drag Counter':'Leg Drag Pass','Back Take Defense':'Back Control','Guard Pull Counter (Sprawl)':'Guard Pull',
+  'Knee Cut Counter (Frame & Underhook)':'Knee Slice Pass','Triangle Counter (Stack Pass)':'Triangle Choke','X Guard Counter':'X Guard'
+};
+function threatInfoForId(id){
+  const name=T[id].name,cat=T[id].cat;let raw='';
+  if(cat==='defense'){
+    const colon=name.match(/^(.+?)\s+Escape:/i);if(colon)raw=colon[1];
+    if(!raw)raw=DEFENSE_THREAT_MAP[name]||'';
+  }else if(cat==='counter')raw=COUNTER_THREAT_MAP[name]||name.replace(/\s+(Counter|Defense).*$/i,'');
+  const family=raw?submissionFamilyName(raw):null;
+  const candidate=family||raw;
+  const nodeId=graphIdByName(candidate),nodeName=nodeId?T[nodeId].name:canonicalSourceNode(candidate);
+  return {raw:candidate,nodeName,nodeId:nodeId||graphIdByName(nodeName),key:graphNorm(candidate)};
+}
+function submissionDefenseGroup(name){
+  const n=graphNorm(name);
+  if(/straight ankle lock|ankle lock/.test(n))return 'ankle lock';
+  if(/triangle choke|triangle/.test(n))return 'triangle';
+  if(/armbar/.test(n))return 'armbar';
+  if(/heel hook/.test(n))return 'heel hook';
+  if(/kimura/.test(n))return 'kimura';
+  if(/americana/.test(n))return 'americana';
+  if(/omoplata/.test(n))return 'omoplata';
+  return n;
+}
+function defenseGroupForId(id){const t=threatInfoForId(id);return submissionDefenseGroup(t.raw||'');}
+function relatedDefensesForFamily(family){const g=submissionDefenseGroup(family);return ids.filter(id=>T[id].cat==='defense'&&defenseGroupForId(id)===g);}
+function sameSourceIds(id,cats){const s=sourceInfoForId(id);if(!s.key)return[];const allowed=cats?new Set(cats):null;return ids.filter(other=>other!==id&&sourceInfoForId(other).key===s.key&&(!allowed||allowed.has(T[other].cat)));}
+
+const SAFE_LINK_SET=new Set();
+function addSafeLink(a,b){const ia=typeof a==='string'&&T[a]?a:graphIdByName(a),ib=typeof b==='string'&&T[b]?b:graphIdByName(b);if(!ia||!ib||ia===ib)return;SAFE_LINK_SET.add([ia,ib].sort().join('|'));}
+ids.forEach(id=>{
+  const item=T[id],source=sourceInfoForId(id);
+  if(source.nodeName)addSafeLink(source.nodeName,id);
+  if(item.cat==='submission'){
+    const family=submissionFamilyName(item.name);if(family&&graphNorm(family)!==graphNorm(item.name))addSafeLink(family,id);
+  }
+  if(item.cat==='defense'||item.cat==='counter'){
+    const threat=threatInfoForId(id);if(threat.nodeId)addSafeLink(threat.nodeId,id);else if(threat.nodeName)addSafeLink(threat.nodeName,id);
+  }
+  if(item.cat==='backtake')addSafeLink(id,'Back Control');
+});
+const LINKS=Array.from(SAFE_LINK_SET).map(key=>key.split('|'));
+
+
+Object.assign(PHRASE_PT,{
+  'Technique study':'Estudo da técnica','Core mechanics, entries and finishing details':'Mecânica, entradas e detalhes de finalização',
+  'Source position':'Posição de origem','Technique family':'Família da técnica','Variations from this position':'Variações a partir desta posição',
+  'Submissions from this position':'Finalizações a partir desta posição','Sweeps and back takes from this guard':'Raspagens e pegadas das costas a partir desta guarda',
+  'Passing threats against this guard':'Ameaças de passagem contra esta guarda','Escapes from this position':'Saídas a partir desta posição',
+  'Related passes against the same guard':'Passagens relacionadas contra a mesma guarda','Related sweeps from the same guard':'Raspagens relacionadas a partir da mesma guarda',
+  'Related back takes':'Pegadas das costas relacionadas','Defenses and escapes':'Defesas e saídas','Expected outcome':'Resultado esperado',
+  'Establish top control after the sweep':'Estabelecer controle por cima após a raspagem','Clear the legs and stabilise top control':'Ultrapassar as pernas e estabilizar o controle por cima',
+  'Secure back control before attacking':'Estabilizar o controle das costas antes de atacar','Recover guard, stand up or reverse the position':'Repor a guarda, levantar ou inverter a posição',
+  'Create a safe release and recover position':'Sair com segurança e recuperar a posição','Related options in the same family':'Opções relacionadas da mesma família',
+  'Rule and safety check':'Verificação de regras e segurança','Confirm legality for belt, age, Gi/No-Gi and event rules':'Confirme se a técnica é permitida para a faixa, idade, Gi/No-Gi e regras do evento',
+  'Explicit source in the catalogue':'Origem indicada no catálogo','Same technical family':'Mesma família técnica','Position-based':'Baseado na posição','Family-based':'Baseado na família',
+  'Study':'Estudo','Finish on top and stabilise control':'Finalizar por cima e estabilizar o controle','Establish a chosen guard with posture and grips':'Estabelecer a guarda escolhida com postura e pegadas',
+  'Stop the attack and establish a stable position':'Interromper o ataque e estabelecer uma posição estável','No speculative continuation added':'Nenhuma continuação especulativa foi adicionada',
+  'Attacks from this position':'Ataques a partir desta posição','Transitions and back takes':'Transições e pegadas das costas','Related takedowns in the same family':'Quedas relacionadas da mesma família',
+  'Source or threat':'Origem ou ameaça','Catalogued relationship':'Relação indicada no catálogo','Common study route':'Rota comum de estudo','Pass completion':'Conclusão da passagem',
+  'Sweep completion':'Conclusão da raspagem','Back-take completion':'Conclusão da pegada das costas','Position recovery':'Recuperação da posição','Defensive objective':'Objetivo defensivo'
+});
+function techChildrenFromIds(list,note){return Array.from(new Set(list)).filter(id=>T[id]).sort((a,b)=>T[a].name.localeCompare(T[b].name)).map(id=>({type:'tech',name:T[id].name,note:note||''}));}
+function conceptChild(label,note,moveLike){return {type:'concept',label,note:note||'',moveLike:!!moveLike};}
+function videoChild(label){return {type:'video',label:label||'Core mechanics, entries and finishing details'};}
+function addTreeBranch(branches,label,tag,children){const seen=new Set(),clean=(children||[]).filter(Boolean).filter(child=>{const key=child.type+'|'+(child.name||child.label||'');if(seen.has(key))return false;seen.add(key);return true;});if(clean.length)branches.push({label,tag,children:clean});}
+function sourceChildrenFor(id){const s=sourceInfoForId(id);if(!s.raw)return[];const sourceId=s.nodeName?graphIdByName(s.nodeName):null;if(sourceId&&sourceId!==id)return[{type:'tech',name:T[sourceId].name,note:'Explicit source in the catalogue'}];return[conceptChild(s.raw,'Explicit source in the catalogue',true)];}
+function submissionFamilyIds(family){return ids.filter(id=>T[id].cat==='submission'&&submissionFamilyName(T[id].name)===family);}
+function takedownStudyGroup(name){const n=graphNorm(name);if(/double leg|single leg|high crotch|ankle pick|knee tap|fireman/.test(n))return 'leg attacks';if(/gari|harai|goshi|guruma|otoshi|nage|mata|foot sweep|trip/.test(n))return 'throws and trips';if(/snap down|go behind|duck under|arm drag/.test(n))return 'angles and front headlock';if(/body lock/.test(n))return 'body lock';if(/guard pull/.test(n))return 'guard entry';return 'standing grappling';}
+function buildValidatedTree(id){
+  const item=T[id],name=item.name,cat=item.cat,branches=[];
+  if(cat==='guard'||cat==='position'){
+    const explicit=ids.filter(other=>other!==id&&sourceInfoForId(other).nodeName===name);
+    addTreeBranch(branches,cat==='guard'?'Submissions from this position':'Attacks from this position','Position-based',techChildrenFromIds(explicit.filter(x=>T[x].cat==='submission'),'Catalogued relationship'));
+    addTreeBranch(branches,cat==='guard'?'Sweeps and back takes from this guard':'Transitions and back takes','Position-based',techChildrenFromIds(explicit.filter(x=>T[x].cat==='sweep'||T[x].cat==='backtake'),'Catalogued relationship'));
+    if(cat==='guard')addTreeBranch(branches,'Passing threats against this guard','Position-based',techChildrenFromIds(explicit.filter(x=>T[x].cat==='pass'),'Catalogued relationship'));
+    addTreeBranch(branches,'Escapes from this position','Position-based',techChildrenFromIds(explicit.filter(x=>T[x].cat==='defense'||T[x].cat==='counter'),'Catalogued relationship'));
+  }else if(cat==='submission'){
+    const family=submissionFamilyName(name)||name,familyId=graphIdByName(family),isBase=familyId===id;
+    if(!isBase)addTreeBranch(branches,'Source position','Position-based',sourceChildrenFor(id));
+    if(!isBase&&familyId)addTreeBranch(branches,'Technique family','Family-based',[{type:'tech',name:T[familyId].name,note:'Same technical family'}]);
+    const variants=submissionFamilyIds(family).filter(x=>x!==id);
+    addTreeBranch(branches,isBase?'Variations from this position':'Related options in the same family','Family-based',techChildrenFromIds(variants,'Same technical family'));
+    addTreeBranch(branches,'Defenses and escapes','Family-based',techChildrenFromIds(relatedDefensesForFamily(family),'Catalogued relationship'));
+    addTreeBranch(branches,'Rule and safety check','Study',[conceptChild('Confirm legality for belt, age, Gi/No-Gi and event rules','No speculative continuation added')]);
+  }else if(cat==='sweep'){
+    addTreeBranch(branches,'Source position','Position-based',sourceChildrenFor(id));
+    addTreeBranch(branches,'Related sweeps from the same guard','Position-based',techChildrenFromIds(sameSourceIds(id,['sweep']),'Catalogued relationship'));
+    addTreeBranch(branches,'Sweep completion','Common study route',[conceptChild('Establish top control after the sweep','No speculative continuation added')]);
+  }else if(cat==='pass'){
+    addTreeBranch(branches,'Source position','Position-based',sourceChildrenFor(id));
+    addTreeBranch(branches,'Related passes against the same guard','Position-based',techChildrenFromIds(sameSourceIds(id,['pass']),'Catalogued relationship'));
+    addTreeBranch(branches,'Pass completion','Common study route',[conceptChild('Clear the legs and stabilise top control','No speculative continuation added')]);
+  }else if(cat==='backtake'){
+    addTreeBranch(branches,'Source position','Position-based',sourceChildrenFor(id));
+    const backId=graphIdByName('Back Control');
+    addTreeBranch(branches,'Back-take completion','Common study route',backId?[{type:'tech',name:T[backId].name,note:'Secure back control before attacking'}]:[conceptChild('Secure back control before attacking')]);
+    addTreeBranch(branches,'Related back takes','Position-based',techChildrenFromIds(sameSourceIds(id,['backtake']),'Catalogued relationship'));
+  }else if(cat==='defense'){
+    const threat=threatInfoForId(id),threatChild=threat.nodeId?[{type:'tech',name:T[threat.nodeId].name,note:'Source or threat'}]:threat.raw?[conceptChild(threat.raw,'Source or threat',true)]:[];
+    addTreeBranch(branches,'Source or threat','Family-based',threatChild.concat(sourceChildrenFor(id)));
+    const related=ids.filter(other=>other!==id&&T[other].cat==='defense'&&defenseGroupForId(other)===defenseGroupForId(id));
+    addTreeBranch(branches,'Defenses and escapes','Family-based',techChildrenFromIds(related,'Same technical family'));
+    addTreeBranch(branches,'Position recovery','Common study route',[conceptChild('Recover guard, stand up or reverse the position','No speculative continuation added')]);
+  }else if(cat==='counter'){
+    const threat=threatInfoForId(id),threatChild=threat.nodeId?[{type:'tech',name:T[threat.nodeId].name,note:'Source or threat'}]:threat.raw?[conceptChild(threat.raw,'Source or threat',true)]:[];
+    addTreeBranch(branches,'Source or threat','Family-based',threatChild);
+    addTreeBranch(branches,'Defensive objective','Common study route',[conceptChild('Stop the attack and establish a stable position','No speculative continuation added')]);
+  }else if(cat==='takedown'){
+    const group=takedownStudyGroup(name),related=ids.filter(other=>other!==id&&T[other].cat==='takedown'&&takedownStudyGroup(T[other].name)===group);
+    addTreeBranch(branches,'Related takedowns in the same family','Family-based',techChildrenFromIds(related,'Same technical family'));
+    addTreeBranch(branches,'Expected outcome','Common study route',[conceptChild(/guard pull/i.test(name)?'Establish a chosen guard with posture and grips':'Finish on top and stabilise control','No speculative continuation added')]);
+  }
+  addTreeBranch(branches,'Technique study','Study',[videoChild('Core mechanics, entries and finishing details')]);
+  return {branches};
+}
+function getTree(id){return buildValidatedTree(id);}
+
 function ytUrl(q){return 'https://www.youtube.com/results?search_query='+encodeURIComponent(q+' bjj tutorial');}
 
 /* ============ STORAGE (window.storage with fallback) ============ */
@@ -1642,54 +1774,107 @@ function scheduleNoteSave(){
 tnNote.addEventListener('input',scheduleNoteSave);
 tnVideo.addEventListener('input',scheduleNoteSave);
 async function updateNotesStrip(id){ tnName.textContent=moveLabel(id); await ensureNotes(); const d=notesData[id]||{}; if(document.activeElement!==tnNote)tnNote.value=d.note||''; if(document.activeElement!==tnVideo)tnVideo.value=d.video||''; refreshWatchLabel(); }
-function openTree(id,history,context='game'){treeContext=context==='lesson'?'lesson':'game';historyStack=history||[];renderTree(id,historyStack);overlay.classList.add('open');updateTreeActionLabel();}
+function openTree(id,history,context='game'){
+  treeContext=context==='lesson'?'lesson':'game';historyStack=history||[];overlay.classList.add('open');
+  requestAnimationFrame(()=>renderTree(id,historyStack));
+}
 function renderTree(id,history){
   historyStack=history||[];treeRootId=id;updateTreeActionLabel();
   const data=getTree(id),name=T[id].name,displayName=moveLabel(id),cat=T[id].cat,color=CATS[cat].color;
   crumbsEl.innerHTML=(historyStack.map(h=>moveLabel(h)).concat([displayName])).join('  &rsaquo;  ');
   document.getElementById('tree-back').style.opacity=historyStack.length?1:0.3;
   document.getElementById('tree-back').style.pointerEvents=historyStack.length?'auto':'none';
-  const branches=data.branches;let leafCount=0;branches.forEach(b=>leafCount+=b.children.length);
-  const rowH=64,totalH=Math.max(360,leafCount*rowH+60),W=980,rootX=150,rootY=totalH/2,midX=420,leafX=740;
+  const branches=data.branches||[],wrap=document.getElementById('tree-svg-wrap');
+  const mobile=window.matchMedia('(max-width:640px)').matches;
+  const available=Math.max(320,(wrap&&wrap.clientWidth)||window.innerWidth||980);
   while(treeSvg.firstChild)treeSvg.removeChild(treeSvg.firstChild);
-  treeSvg.setAttribute('width',W);treeSvg.setAttribute('height',totalH);treeSvg.setAttribute('viewBox','0 0 '+W+' '+totalH);
   function el(tag,attrs){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);return e;}
-  let leafIndex=0;const branchMidY=[];
-  branches.forEach(b=>{const ys=[];b.children.forEach(()=>{ys.push(40+leafIndex*rowH+rowH/2);leafIndex++;});branchMidY.push(ys.reduce((a,c)=>a+c,0)/ys.length);});
-  const rootW=240,rootH=58,rootG=el('g',{});
-  rootG.appendChild(el('rect',{x:rootX-rootW/2,y:rootY-rootH/2,width:rootW,height:rootH,rx:4,fill:'#12171F',stroke:color,'stroke-width':2}));
-  const rootText=el('text',{x:rootX,y:rootY,'text-anchor':'middle',fill:'#E7EAEE','font-size':12,'font-weight':900});setSvgTextLines(rootText,displayName.toUpperCase(),rootX,rootY,30,14,2);rootG.appendChild(rootText);treeSvg.appendChild(rootG);
-  const watchW=240,watchH=42,watchY=rootY+rootH/2+12,watchG=el('g',{class:'leaf-box'});
-  watchG.appendChild(el('rect',{x:rootX-watchW/2,y:watchY,width:watchW,height:watchH,rx:4,fill:'#1c1408',stroke:'#F59E0B','stroke-width':1.4}));
-  const watchText=el('text',{x:rootX,y:watchY+watchH/2,'text-anchor':'middle','font-size':10.5,fill:'#F59E0B'});watchG.appendChild(watchText);watchLabelNode=watchText;watchLabelMeta={x:rootX,y:watchY+watchH/2,maxChars:36};refreshWatchLabel();
-  watchG.addEventListener('click',()=>{const p=pinnedVideo(id);window.open(p||ytUrl(name),'_blank');});treeSvg.appendChild(watchG);
-  leafIndex=0;
-  branches.forEach((b,bi)=>{
-    const midY=branchMidY[bi];
-    treeSvg.appendChild(el('line',{x1:rootX+rootW/2,y1:rootY,x2:midX-16,y2:midY,stroke:'#3b4a5c','stroke-width':1.2}));
-    treeSvg.appendChild(el('circle',{cx:midX,cy:midY,r:16,fill:'#161C25',stroke:'#3b4a5c','stroke-width':1.2}));
-    const labelG=el('text',{x:(rootX+rootW/2+midX)/2,y:midY-10,'text-anchor':'middle',fill:'#E7EAEE','font-size':11});labelG.textContent=phraseLabel(b.label);treeSvg.appendChild(labelG);
-    const tagG=el('text',{x:(rootX+rootW/2+midX)/2,y:midY+13,'text-anchor':'middle',fill:'#6b7684','font-size':9});tagG.textContent=phraseLabel(b.tag||'');treeSvg.appendChild(tagG);
-    b.children.forEach(child=>{
-      const y=40+leafIndex*rowH+rowH/2;leafIndex++;
-      treeSvg.appendChild(el('line',{x1:midX+16,y1:midY,x2:leafX-100,y2:y,stroke:'#3b4a5c','stroke-width':1.2}));
-      const boxW=210,boxH=46,isVideo=child.type==='video',leafId=isVideo?null:NAME_TO_ID[child.name],leafColor=isVideo?'#F59E0B':CATS[T[leafId].cat].color,g=el('g',{class:'leaf-box'});
-      g.appendChild(el('rect',{x:leafX-100,y:y-boxH/2,width:boxW,height:boxH,rx:4,fill:isVideo?'#1c1408':'#12171F',stroke:leafColor,'stroke-width':1.6}));
-      const label=isVideo?('\u25B6  '+phraseLabel(child.label)):moveLabel(child.name);
-      const txt=el('text',{x:leafX-100+12,y:y-4,'font-size':12,fill:'#E7EAEE'});txt.textContent=label;g.appendChild(txt);
-      if(child.note){const noteTxt=el('text',{x:leafX-100+12,y:y+14,'font-size':9.5,fill:'#8A93A0'});noteTxt.textContent=phraseLabel(child.note);g.appendChild(noteTxt);}
-      g.addEventListener('click',()=>{if(child.type==='tech'){renderTree(leafId,historyStack.concat([id]));}else{window.open(ytUrl(name+' '+child.label),'_blank');}});
-      treeSvg.appendChild(g);
+  function textLines(text,maxChars,maxLines){return splitSvgLines(text,maxChars,maxLines);}
+  function appendLines(parent,lines,x,top,lineHeight,attrs){
+    const node=el('text',Object.assign({x,y:top,'font-size':12,fill:'#E7EAEE'},attrs||{}));
+    lines.forEach((line,i)=>{const span=el('tspan',{x,y:top+i*lineHeight});span.textContent=line;node.appendChild(span);});
+    parent.appendChild(node);return node;
+  }
+  function translatedChild(child){
+    const isVideo=child.type==='video',isTech=child.type==='tech';
+    const leafId=isTech?graphIdByName(child.name):null;
+    const label=isVideo?('\u25B6  '+phraseLabel(child.label)):(isTech&&leafId?moveLabel(leafId):(child.moveLike?moveLabel(child.label):phraseLabel(child.label)));
+    return {isVideo,isTech:isTech&&!!leafId,leafId,label,note:phraseLabel(child.note||'')};
+  }
+  if(mobile){
+    const W=available,margin=14,boxW=W-margin*2,center=W/2;
+    const rootLines=textLines(displayName.toUpperCase(),Math.max(22,Math.floor((boxW-28)/7)),3),rootH=Math.max(62,30+rootLines.length*15);
+    let cursor=20;
+    const rootG=el('g',{});rootG.appendChild(el('rect',{x:margin,y:cursor,width:boxW,height:rootH,rx:6,fill:'#12171F',stroke:color,'stroke-width':2}));
+    appendLines(rootG,rootLines,center,cursor+rootH/2-((rootLines.length-1)*15)/2,15,{'text-anchor':'middle','font-size':12,'font-weight':900});treeSvg.appendChild(rootG);
+    cursor+=rootH+12;
+    const watchLines=textLines(pinnedVideo(id)?tr('watchPinned'):tr('watchHow',{move:displayName.toUpperCase()}),Math.max(24,Math.floor((boxW-30)/7)),3),watchH=Math.max(48,22+watchLines.length*13);
+    const watchG=el('g',{class:'leaf-box'});watchG.appendChild(el('rect',{x:margin,y:cursor,width:boxW,height:watchH,rx:6,fill:'#1c1408',stroke:'#F59E0B','stroke-width':1.5}));
+    const watchText=appendLines(watchG,watchLines,center,cursor+watchH/2-((watchLines.length-1)*13)/2,13,{'text-anchor':'middle','font-size':10.5,fill:'#F59E0B'});watchLabelNode=watchText;watchLabelMeta=null;
+    watchG.addEventListener('click',()=>{const p=pinnedVideo(id);window.open(p||ytUrl(name),'_blank');});treeSvg.appendChild(watchG);cursor+=watchH+24;
+    branches.forEach(branch=>{
+      const branchLabel=phraseLabel(branch.label),tag=phraseLabel(branch.tag||''),bLines=textLines(branchLabel,Math.max(24,Math.floor((boxW-28)/7)),3),tagLines=tag?textLines(tag,Math.max(28,Math.floor((boxW-28)/7)),2):[];
+      const childLayouts=(branch.children||[]).map(child=>{const meta=translatedChild(child),labelLines=textLines(meta.label,Math.max(22,Math.floor((boxW-52)/7)),4),noteLines=meta.note?textLines(meta.note,Math.max(24,Math.floor((boxW-52)/6.5)),3):[];const h=Math.max(58,24+labelLines.length*14+(noteLines.length?8+noteLines.length*12:0));return{child,meta,labelLines,noteLines,h};});
+      const headerH=Math.max(58,22+bLines.length*14+(tagLines.length?7+tagLines.length*11:0));
+      const innerGap=9,pad=10,groupH=headerH+pad+childLayouts.reduce((sum,c)=>sum+c.h+innerGap,0)+(childLayouts.length?pad-innerGap:pad);
+      treeSvg.appendChild(el('line',{x1:center,y1:cursor-18,x2:center,y2:cursor,stroke:'#3b4a5c','stroke-width':1.3}));
+      const group=el('g',{});group.appendChild(el('rect',{x:margin,y:cursor,width:boxW,height:groupH,rx:8,fill:'#0f141c',stroke:'#2e3947','stroke-width':1.2}));
+      group.appendChild(el('rect',{x:margin,y:cursor,width:boxW,height:headerH,rx:8,fill:'#161C25',stroke:'#3b4a5c','stroke-width':1.2}));
+      appendLines(group,bLines,center,cursor+18,14,{'text-anchor':'middle','font-size':11.5,'font-weight':700});
+      if(tagLines.length)appendLines(group,tagLines,center,cursor+22+bLines.length*14,11,{'text-anchor':'middle','font-size':9.5,fill:'#8A93A0'});
+      let cy=cursor+headerH+pad;
+      childLayouts.forEach(layout=>{
+        const {child,meta,labelLines,noteLines,h}=layout,leafColor=meta.isVideo?'#F59E0B':meta.isTech?CATS[T[meta.leafId].cat].color:'#64748B';
+        const cg=el('g',{class:meta.isVideo||meta.isTech?'leaf-box':''});cg.appendChild(el('rect',{x:margin+10,y:cy,width:boxW-20,height:h,rx:6,fill:meta.isVideo?'#1c1408':'#12171F',stroke:leafColor,'stroke-width':1.5}));
+        appendLines(cg,labelLines,margin+24,cy+22,14,{'font-size':11.5,'font-weight':meta.isTech?700:500});
+        if(noteLines.length)appendLines(cg,noteLines,margin+24,cy+29+labelLines.length*14,12,{'font-size':9.5,fill:'#8A93A0'});
+        if(meta.isTech)cg.addEventListener('click',()=>renderTree(meta.leafId,historyStack.concat([id])));else if(meta.isVideo)cg.addEventListener('click',()=>window.open(ytUrl(name+' '+child.label),'_blank'));
+        group.appendChild(cg);cy+=h+innerGap;
+      });
+      treeSvg.appendChild(group);cursor+=groupH+24;
     });
-  });
+    const totalH=Math.max(cursor+10,(wrap&&wrap.clientHeight)||520);
+    treeSvg.setAttribute('width','100%');treeSvg.setAttribute('height',totalH);treeSvg.setAttribute('viewBox','0 0 '+W+' '+totalH);treeSvg.style.width='100%';treeSvg.style.minWidth='0';
+  }else{
+    const W=Math.max(980,available),margin=24,rootW=250,branchW=250,leafW=Math.max(260,W-690),rootX=margin,branchX=340,leafX=650;
+    const layoutBranches=[];let cursor=30;
+    branches.forEach(branch=>{
+      const label=phraseLabel(branch.label),tag=phraseLabel(branch.tag||''),bLines=textLines(label,31,3),tagLines=tag?textLines(tag,34,2):[],branchH=Math.max(58,22+bLines.length*14+(tagLines.length?7+tagLines.length*11:0));
+      const children=(branch.children||[]).map(child=>{const meta=translatedChild(child),labelLines=textLines(meta.label,Math.max(28,Math.floor((leafW-26)/7)),3),noteLines=meta.note?textLines(meta.note,Math.max(32,Math.floor((leafW-26)/6.5)),2):[];return{child,meta,labelLines,noteLines,h:Math.max(54,22+labelLines.length*14+(noteLines.length?7+noteLines.length*12:0))};});
+      const blockH=Math.max(branchH,children.reduce((sum,c)=>sum+c.h+12,0)-(children.length?12:0));
+      layoutBranches.push({branch,bLines,tagLines,branchH,children,top:cursor,blockH,mid:cursor+blockH/2});cursor+=blockH+30;
+    });
+    const totalH=Math.max(480,cursor+20),rootY=totalH/2,rootLines=textLines(displayName.toUpperCase(),31,3),rootH=Math.max(62,30+rootLines.length*15);
+    treeSvg.setAttribute('width',W);treeSvg.setAttribute('height',totalH);treeSvg.setAttribute('viewBox','0 0 '+W+' '+totalH);treeSvg.style.width=W+'px';treeSvg.style.minWidth=W+'px';
+    const rootG=el('g',{});rootG.appendChild(el('rect',{x:rootX,y:rootY-rootH/2,width:rootW,height:rootH,rx:6,fill:'#12171F',stroke:color,'stroke-width':2}));
+    appendLines(rootG,rootLines,rootX+rootW/2,rootY-((rootLines.length-1)*15)/2,15,{'text-anchor':'middle','font-size':12,'font-weight':900});treeSvg.appendChild(rootG);
+    const watchLines=textLines(pinnedVideo(id)?tr('watchPinned'):tr('watchHow',{move:displayName.toUpperCase()}),34,3),watchH=Math.max(46,20+watchLines.length*13),watchY=rootY+rootH/2+12;
+    const watchG=el('g',{class:'leaf-box'});watchG.appendChild(el('rect',{x:rootX,y:watchY,width:rootW,height:watchH,rx:6,fill:'#1c1408',stroke:'#F59E0B','stroke-width':1.5}));
+    const watchText=appendLines(watchG,watchLines,rootX+rootW/2,watchY+watchH/2-((watchLines.length-1)*13)/2,13,{'text-anchor':'middle','font-size':10.5,fill:'#F59E0B'});watchLabelNode=watchText;watchLabelMeta=null;
+    watchG.addEventListener('click',()=>{const p=pinnedVideo(id);window.open(p||ytUrl(name),'_blank');});treeSvg.appendChild(watchG);
+    layoutBranches.forEach(layout=>{
+      treeSvg.appendChild(el('line',{x1:rootX+rootW,y1:rootY,x2:branchX,y2:layout.mid,stroke:'#3b4a5c','stroke-width':1.3}));
+      const bg=el('g',{});bg.appendChild(el('rect',{x:branchX,y:layout.mid-layout.branchH/2,width:branchW,height:layout.branchH,rx:6,fill:'#161C25',stroke:'#3b4a5c','stroke-width':1.3}));
+      appendLines(bg,layout.bLines,branchX+branchW/2,layout.mid-layout.branchH/2+21,14,{'text-anchor':'middle','font-size':11.5,'font-weight':700});
+      if(layout.tagLines.length)appendLines(bg,layout.tagLines,branchX+branchW/2,layout.mid-layout.branchH/2+26+layout.bLines.length*14,11,{'text-anchor':'middle','font-size':9.5,fill:'#8A93A0'});treeSvg.appendChild(bg);
+      let cy=layout.top;
+      layout.children.forEach(({child,meta,labelLines,noteLines,h})=>{
+        const centerY=cy+h/2,leafColor=meta.isVideo?'#F59E0B':meta.isTech?CATS[T[meta.leafId].cat].color:'#64748B';
+        treeSvg.appendChild(el('line',{x1:branchX+branchW,y1:layout.mid,x2:leafX,y2:centerY,stroke:'#3b4a5c','stroke-width':1.2}));
+        const g=el('g',{class:meta.isVideo||meta.isTech?'leaf-box':''});g.appendChild(el('rect',{x:leafX,y:cy,width:leafW,height:h,rx:6,fill:meta.isVideo?'#1c1408':'#12171F',stroke:leafColor,'stroke-width':1.5}));
+        appendLines(g,labelLines,leafX+14,cy+21,14,{'font-size':11.5,'font-weight':meta.isTech?700:500});
+        if(noteLines.length)appendLines(g,noteLines,leafX+14,cy+28+labelLines.length*14,12,{'font-size':9.5,fill:'#8A93A0'});
+        if(meta.isTech)g.addEventListener('click',()=>renderTree(meta.leafId,historyStack.concat([id])));else if(meta.isVideo)g.addEventListener('click',()=>window.open(ytUrl(name+' '+child.label),'_blank'));
+        treeSvg.appendChild(g);cy+=h+12;
+      });
+    });
+  }
   updateNotesStrip(id);
-  requestAnimationFrame(()=>{
-    const wrap=document.getElementById('tree-svg-wrap');
-    if(!wrap)return;
-    wrap.scrollLeft=0;
-    wrap.scrollTop=Math.max(0,rootY-wrap.clientHeight/2);
-  });
+  requestAnimationFrame(()=>{if(!wrap)return;wrap.scrollLeft=0;wrap.scrollTop=0;});
 }
+let treeResizeTimer;
+window.addEventListener('resize',()=>{if(!overlay.classList.contains('open')||!treeRootId)return;clearTimeout(treeResizeTimer);treeResizeTimer=setTimeout(()=>renderTree(treeRootId,historyStack),120);});
+
 
 /* ============ TRAIN ============ */
 let sessions=[];let sTechSel=[];let hitEntries=[],leakEntries=[];
