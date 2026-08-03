@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
-<title>Grappling Atlas</title>
+<title>Grappling Atlas · Complete Movement Maps</title>
 <meta name="theme-color" content="#0A0D12">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -474,6 +474,55 @@
     #tree-svg{display:block;width:100%!important;min-width:0!important;height:auto;}
   }
 
+
+
+  /* ===== MACROCYCLE / MICROCYCLE PLANNER ===== */
+  .cycle-definition{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;}
+  .cycle-definition>div{background:var(--surface2);border:1px solid var(--line);border-radius:6px;padding:11px;}
+  .cycle-definition b{display:block;font-family:var(--disp);font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:var(--counter);margin-bottom:5px;}
+  .cycle-definition span{display:block;font-size:10.5px;line-height:1.55;color:var(--text-dim);}
+  .macro-summary{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:9px;}
+  .macro-summary .span-12{grid-column:span 12}.macro-summary .span-8{grid-column:span 8}.macro-summary .span-6{grid-column:span 6}.macro-summary .span-4{grid-column:span 4}.macro-summary .span-3{grid-column:span 3}
+  .microcycle-list{display:flex;flex-direction:column;gap:10px;}
+  .microcycle-card{background:var(--surface2);border:1px solid var(--line);border-left:3px solid var(--guard);border-radius:7px;padding:11px;}
+  .microcycle-card[data-situation="top"]{border-left-color:var(--guard)}
+  .microcycle-card[data-situation="bottom"]{border-left-color:var(--submission)}
+  .microcycle-card[data-situation="mixed"]{border-left-color:var(--counter)}
+  .microcycle-card[data-situation="standing"]{border-left-color:#10B981}
+  .microcycle-card.collapsed .microcycle-grid{display:none}.microcycle-card.collapsed{padding-bottom:8px}.microcycle-card .toggle-icon{transition:transform .15s}.microcycle-card:not(.collapsed) .toggle-icon{transform:rotate(180deg)}
+  .microcycle-head{display:flex;align-items:center;gap:9px;margin-bottom:9px;}
+  .microcycle-number{width:34px;height:34px;display:grid;place-items:center;flex:0 0 auto;border-radius:50%;background:var(--surface3);border:1px solid var(--line2);font-family:var(--disp);font-weight:900;color:var(--counter);}
+  .microcycle-title{flex:1;min-width:0}.microcycle-title strong{display:block;font-size:11.5px;overflow-wrap:anywhere}.microcycle-title small{display:block;font-size:9.5px;color:var(--text-dim);margin-top:3px;}
+  .microcycle-actions{display:flex;gap:5px;}
+  .microcycle-grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:8px;}
+  .microcycle-grid .span-12{grid-column:span 12}.microcycle-grid .span-8{grid-column:span 8}.microcycle-grid .span-6{grid-column:span 6}.microcycle-grid .span-4{grid-column:span 4}.microcycle-grid .span-3{grid-column:span 3}.microcycle-grid .span-2{grid-column:span 2}
+  .microcycle-card label,.macro-summary label{display:block;font-size:9px;text-transform:uppercase;letter-spacing:.06em;color:var(--text-dim);margin-bottom:4px;}
+  .microcycle-card input,.microcycle-card select,.microcycle-card textarea,.macro-summary input,.macro-summary select,.macro-summary textarea{width:100%;background:var(--surface);border:1px solid var(--line);color:var(--text);font-family:var(--mono);font-size:10.5px;padding:7px 8px;border-radius:4px;outline:none;min-height:36px;}
+  .microcycle-card textarea,.macro-summary textarea{resize:vertical;min-height:64px;line-height:1.45;}
+  .microcycle-card input:focus,.microcycle-card select:focus,.microcycle-card textarea:focus,.macro-summary input:focus,.macro-summary select:focus,.macro-summary textarea:focus{border-color:var(--guard);}
+  .macro-calendar{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;}
+  .macro-week{min-height:96px;background:var(--surface2);border:1px solid var(--line);border-top:3px solid var(--guard);border-radius:6px;padding:9px;}
+  .macro-week[data-situation="top"]{border-top-color:var(--guard)}.macro-week[data-situation="bottom"]{border-top-color:var(--submission)}.macro-week[data-situation="mixed"]{border-top-color:var(--counter)}.macro-week[data-situation="standing"]{border-top-color:#10B981}
+  .macro-week .dates{font-size:9px;color:var(--text-dim);margin-bottom:6px}.macro-week .focus{font-size:11px;font-weight:700;line-height:1.35}.macro-week .meta{font-size:9.5px;color:var(--text-dim);line-height:1.45;margin-top:6px}
+  .cycle-legend{display:flex;gap:8px;flex-wrap:wrap;margin-top:9px}.cycle-legend span{font-size:9.5px;color:var(--text-dim);display:flex;align-items:center;gap:5px}.cycle-legend i{width:8px;height:8px;border-radius:50%;display:inline-block}
+  .cycle-topic-legend{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 10px;}
+  .microcycle-compact{margin:2px 0 0 43px;padding:6px 8px;border-top:1px solid var(--line);font-size:9.5px;color:var(--text-dim);line-height:1.45;overflow-wrap:anywhere;}
+  .microcycle-card.collapsed .microcycle-head{margin-bottom:0;}
+
+  .cycle-topic-chip{display:flex;align-items:center;gap:6px;padding:5px 8px;border-radius:14px;border:1px solid var(--line);background:var(--surface2);font-size:9.5px;color:var(--text-dim);}
+  .cycle-topic-chip i{width:10px;height:10px;border-radius:3px;display:block;flex:0 0 auto;}
+  .microcycle-card{border-left-color:var(--cycle-color,var(--guard))!important;background:linear-gradient(90deg,color-mix(in srgb,var(--cycle-color,var(--guard)) 8%,var(--surface2)),var(--surface2) 42%);}
+  .macro-week{border-top-color:var(--cycle-color,var(--guard))!important;background:linear-gradient(180deg,color-mix(in srgb,var(--cycle-color,var(--guard)) 14%,var(--surface2)),var(--surface2) 58%);}
+  .macro-week .topic-dot{display:inline-block;width:7px;height:7px;border-radius:2px;background:var(--cycle-color,var(--guard));margin-right:5px;vertical-align:1px;}
+  @media(min-width:1200px){.macro-calendar{grid-template-columns:repeat(5,minmax(0,1fr));}}
+  @media(max-width:620px){.macro-calendar{grid-template-columns:1fr 1fr}.macro-week{min-height:88px}.cycle-topic-chip{font-size:9px}}
+  @media(max-width:390px){.macro-calendar{grid-template-columns:1fr}.macro-week{min-height:auto}}
+
+  .video-policy{font-size:10.5px;line-height:1.55;color:var(--text-dim);padding:9px 11px;border:1px solid var(--line);border-radius:5px;background:var(--surface2);margin-bottom:12px;}
+  .video-policy b{color:var(--counter)}
+  @media(max-width:900px){.macro-summary .span-8,.macro-summary .span-6,.macro-summary .span-4,.macro-summary .span-3{grid-column:span 6}.microcycle-grid .span-8,.microcycle-grid .span-6,.microcycle-grid .span-4,.microcycle-grid .span-3,.microcycle-grid .span-2{grid-column:span 6}}
+  @media(max-width:640px){.cycle-definition{grid-template-columns:1fr}.macro-summary,.microcycle-grid{grid-template-columns:1fr}.macro-summary>[class*="span-"],.microcycle-grid>[class*="span-"]{grid-column:1!important}.microcycle-head{align-items:flex-start}.microcycle-actions{flex-wrap:wrap;justify-content:flex-end}.macro-calendar{grid-template-columns:1fr}.cycle-actions{position:sticky;top:0;z-index:8;background:var(--bg);padding:8px 0}}
+
 </style>
 
 <div id="ga-root">
@@ -649,7 +698,7 @@
       <div class="teacher-head">
         <div>
           <div class="ga-h" data-i18n="professorPlanner">Professor &middot; Class Planner</div><span id="lesson-save-state" class="lesson-status" data-i18n="unsavedChanges">unsaved changes</span>
-          <div class="teacher-intro" data-i18n="professorIntro">Prepare structured Gi and No-Gi classes, balance the available time, select techniques from the Atlas and keep a reusable lesson history.</div>
+          <div class="teacher-intro" data-i18n="professorIntro">Prepare Gi and No-Gi classes, organise them inside microcycles and build complete technical-tactical macrocycles.</div>
         </div>
         <div class="teacher-actions teacher-no-print">
           <button class="btn ghost sm" id="lesson-new" data-i18n="newClass">New class</button>
@@ -732,41 +781,58 @@
 
       <div class="teacher-panel" id="teacher-panel-cycles" hidden>
         <div class="cycle-actions teacher-no-print">
-          <button class="btn ghost sm" id="cycle-new" data-i18n="newCycle">New cycle</button>
-          <button class="btn ghost sm" id="cycle-template" data-i18n="loadGuardProgression">Load guard progression</button>
+          <button class="btn ghost sm" id="cycle-new" data-i18n="newMacrocycle">New macrocycle</button>
+          <button class="btn ghost sm" id="cycle-template" data-i18n="loadMacroTemplate">Load annual macrocycle</button>
           <button class="btn ghost sm" id="cycle-duplicate" data-i18n="duplicate">Duplicate</button>
-          <button class="btn primary sm" id="cycle-save" data-i18n="saveCycle">Save cycle</button>
+          <button class="btn primary sm" id="cycle-save" data-i18n="saveMacrocycle">Save macrocycle</button>
+        </div>
+        <div class="cycle-definition">
+          <div><b data-i18n="whatIsMacrocycle">Macrocycle</b><span data-i18n="macrocycleDefinition">The complete technical and tactical programme for a defined period. It sets the programme DNA, tactical priorities, level, calendar and performance moments.</span></div>
+          <div><b data-i18n="whatIsMicrocycle">Microcycle</b><span data-i18n="microcycleDefinition">A short block, normally one week, inside the macrocycle. It defines the task objective, complexity, coordinative load, context, techniques and associated classes.</span></div>
         </div>
         <div class="cycle-layout">
           <div class="cycle-editor">
             <section class="lesson-card">
-              <h3><span data-i18n="cycleSetup">Cycle setup</span><small id="cycle-save-state" data-i18n="unsavedChanges">unsaved changes</small></h3>
-              <div class="lesson-grid">
-                <div class="lesson-field span-6"><label data-i18n="cycleName">Cycle name</label><input id="cy-name" type="text" data-i18n-placeholder="cycleNamePlaceholder" placeholder="e.g. Guard development · 12 weeks"></div>
-                <div class="lesson-field span-3"><label data-i18n="classFormat">Class format</label><select id="cy-format"><option value="Gi">Gi / Kimono</option><option value="No-Gi">No-Gi</option><option value="Mixed" data-i18n="mixed">Mixed</option></select></div>
-                <div class="lesson-field span-3"><label data-i18n="level">Level</label><select id="cy-level"><option value="Beginner" data-i18n="beginner">Beginner</option><option value="Beginner/Intermediate" data-i18n="beginnerIntermediate">Beginner / Intermediate</option><option value="Intermediate" data-i18n="intermediate">Intermediate</option><option value="Advanced" data-i18n="advanced">Advanced</option><option value="Mixed" data-i18n="mixed">Mixed</option></select></div>
-                <div class="lesson-field span-3"><label data-i18n="startDate">Start date</label><input id="cy-start" type="date"></div>
-                <div class="lesson-field span-3"><label data-i18n="sessionsPerWeek">Classes per week</label><input id="cy-sessions" type="number" min="1" max="14" value="2" inputmode="numeric"></div>
-                <div class="lesson-field span-6"><label data-i18n="cycleNotes">Cycle notes</label><textarea id="cy-notes" data-i18n-placeholder="cycleNotesPlaceholder" placeholder="Progression criteria, assessment points and adaptations..."></textarea></div>
+              <h3><span data-i18n="macrocycleSetup">Macrocycle setup</span><small id="cycle-save-state" data-i18n="unsavedChanges">unsaved changes</small></h3>
+              <div class="macro-summary">
+                <div class="span-8"><label data-i18n="macrocycleName">Macrocycle name</label><input id="cy-name" type="text" data-i18n-placeholder="macrocycleNamePlaceholder" placeholder="e.g. Annual technical-tactical programme"></div>
+                <div class="span-4"><label data-i18n="classFormat">Class format</label><select id="cy-format"><option value="Gi">Gi / Kimono</option><option value="No-Gi">No-Gi</option><option value="Mixed" data-i18n="mixed">Mixed</option></select></div>
+                <div class="span-3"><label data-i18n="startDate">Start date</label><input id="cy-start" type="date"></div>
+                <div class="span-3"><label data-i18n="endDate">End date</label><input id="cy-end" type="date"></div>
+                <div class="span-3"><label data-i18n="level">Level</label><select id="cy-level"><option value="Beginner" data-i18n="beginner">Beginner</option><option value="Beginner/Intermediate" data-i18n="beginnerIntermediate">Beginner / Intermediate</option><option value="Intermediate" data-i18n="intermediate">Intermediate</option><option value="Advanced" data-i18n="advanced">Advanced</option><option value="Mixed" data-i18n="mixed">Mixed</option></select></div>
+                <div class="span-3"><label data-i18n="trainingTarget">Training target</label><select id="cy-audience"><option value="Group" data-i18n="group">Group</option><option value="Individual" data-i18n="individual">Individual</option></select></div>
+                <div class="span-6"><label data-i18n="programmeDna">Programme DNA / tactical division</label><textarea id="cy-dna" data-i18n-placeholder="programmeDnaPlaceholder" placeholder="Top, bottom, mixed, standing, guard passing, pins, back control..."></textarea></div>
+                <div class="span-6"><label data-i18n="performanceMoments">Performance moments / competitive calendar</label><textarea id="cy-performance" data-i18n-placeholder="performanceMomentsPlaceholder" placeholder="Competitions, assessments, grading, testing weeks and peak dates..."></textarea></div>
+                <div class="span-12"><label data-i18n="macrocycleNotes">General notes and progression criteria</label><textarea id="cy-notes" data-i18n-placeholder="macrocycleNotesPlaceholder" placeholder="Technical priorities, assessment points, adaptations and safety criteria..."></textarea></div>
               </div>
             </section>
+
             <section class="lesson-card">
-              <h3><span data-i18n="cycleModules">Cycle modules / weeks</span><small><span id="cy-module-count">0</span> <span data-i18n="modules">modules</span></small></h3>
-              <div class="teacher-no-print" style="margin-bottom:10px"><button class="btn ghost sm" id="cycle-add-module" data-i18n="addModule">+ Add module</button></div>
-              <div class="cycle-modules" id="cycle-modules"></div>
+              <h3><span data-i18n="microcycles">Microcycles</span><small><span id="cy-module-count">0</span> <span data-i18n="microcycleBlocks">blocks</span></small></h3>
+              <div class="video-policy"><b data-i18n="atlasVideoRule">Atlas video rule:</b> <span data-i18n="atlasVideoRuleText">only catalogue techniques with an available video link can be selected. Generic concepts are not added as movement nodes.</span></div>
+              <div class="teacher-no-print" style="margin-bottom:10px"><button class="btn ghost sm" id="cycle-add-module" data-i18n="addMicrocycle">+ Add microcycle</button></div>
+              <div class="microcycle-list" id="cycle-modules"></div>
+            </section>
+
+            <section class="lesson-card">
+              <h3><span data-i18n="macrocycleCalendar">Macrocycle calendar</span><small data-i18n="calendarUpdates">updates from the microcycles</small></h3>
+              <div class="cycle-topic-legend" id="cy-topic-legend"></div>
+              <div class="macro-calendar" id="cy-calendar"></div>
+              <div class="cycle-legend"><span><i style="background:var(--guard)"></i><span data-i18n="topWork">Top work</span></span><span><i style="background:var(--submission)"></i><span data-i18n="bottomWork">Bottom work</span></span><span><i style="background:var(--counter)"></i><span data-i18n="mixedWork">Mixed / sequences</span></span><span><i style="background:#10B981"></i><span data-i18n="standingWork">Standing</span></span></div>
             </section>
           </div>
           <aside class="teacher-side teacher-no-print">
             <section class="lesson-card">
-              <h3><span data-i18n="savedCycles">Saved cycles</span><small id="cy-saved-count">0</small></h3>
+              <h3><span data-i18n="savedMacrocycles">Saved macrocycles</span><small id="cy-saved-count">0</small></h3>
               <div class="saved-lessons" id="cy-saved-list"></div>
             </section>
             <section class="lesson-card">
-              <h3 data-i18n="guardProgressionGuide">Guard progression reference</h3>
-              <div class="cycle-guide-list" id="cycle-guide-list"></div>
+              <h3 data-i18n="cyclePlanningGuide">Planning logic</h3>
+              <div class="teacher-help" data-i18n-html="cyclePlanningGuideText"><b>Macrocycle:</b> define the period, programme DNA, tactical situations, techniques, level and performance moments.<br><br><b>Microcycle:</b> classify complexity, progress or regress coordinative load and adjust the context to the objective.<br><br><b>Class:</b> select a microcycle when preparing the lesson.</div>
             </section>
           </aside>
         </div>
+      </div>
       </div>
     </div>
   </div>
@@ -852,6 +918,32 @@ Object.assign(I18N['pt-BR'],{
 });
 Object.assign(I18N['pt-PT'],{
   studentFront:'Aluno',teacherFront:'Professor',teacherClasses:'Aulas',trainingCycles:'Ciclos de treino',className:'Nome da aula',classNamePlaceholder:'ex.: Guarda fechada: quebra de postura e raspagem em tesoura',linkedCycle:'Ciclo de treino',noCycle:'Sem ciclo',newCycle:'Novo ciclo',loadGuardProgression:'Carregar progressão de guardas',saveCycle:'Guardar ciclo',cycleSetup:'Configuração do ciclo',cycleName:'Nome do ciclo',cycleNamePlaceholder:'ex.: Desenvolvimento de guardas · 12 semanas',startDate:'Data de início',sessionsPerWeek:'Aulas por semana',cycleNotes:'Notas do ciclo',cycleNotesPlaceholder:'Critérios de progressão, pontos de avaliação e adaptações...',cycleModules:'Módulos / semanas do ciclo',modules:'módulos',addModule:'+ Adicionar módulo',savedCycles:'Ciclos guardados',guardProgressionGuide:'Referência de progressão de guardas',focusGuard:'Foco / posição',linkedClass:'Aula associada',moduleNotes:'Ênfase técnica / observações',noModules:'Ainda não existem módulos. Adicione um ou carregue o modelo de progressão de guardas.',noSavedCycles:'Ainda não existem ciclos guardados.',cycleSaved:'Ciclo guardado',cycleLoaded:'Ciclo carregado',cycleDuplicated:'Ciclo duplicado',guardTemplateLoaded:'Modelo de progressão de guardas carregado',basic:'Básico',cycleProgress:'{done} de {total} módulos associados a aulas',openClass:'Abrir aula',selectClass:'Selecione uma aula guardada'
+});
+
+
+Object.assign(I18N.en,{
+  trainingCycles:'Macro & microcycles',linkedCycle:'Macrocycle / microcycle',noCycle:'No macrocycle or microcycle',
+  newMacrocycle:'New macrocycle',loadMacroTemplate:'Load annual macrocycle',saveMacrocycle:'Save macrocycle',whatIsMacrocycle:'Macrocycle',whatIsMicrocycle:'Microcycle',
+  macrocycleDefinition:'The complete technical and tactical programme for a defined period. It sets the programme DNA, tactical priorities, level, calendar and performance moments.',
+  microcycleDefinition:'A short block, normally one week, inside the macrocycle. It defines the task objective, complexity, coordinative load, context, techniques and associated classes.',
+  macrocycleSetup:'Macrocycle setup',macrocycleName:'Macrocycle name',macrocycleNamePlaceholder:'e.g. Annual technical-tactical programme',endDate:'End date',trainingTarget:'Training target',group:'Group',individual:'Individual',programmeDna:'Programme DNA / tactical division',programmeDnaPlaceholder:'Top, bottom, mixed, standing, guard passing, pins, back control...',performanceMoments:'Performance moments / competitive calendar',performanceMomentsPlaceholder:'Competitions, assessments, grading, testing weeks and peak dates...',macrocycleNotes:'General notes and progression criteria',macrocycleNotesPlaceholder:'Technical priorities, assessment points, adaptations and safety criteria...',microcycles:'Microcycles',microcycleBlocks:'blocks',atlasVideoRule:'Atlas video rule:',atlasVideoRuleText:'only catalogue techniques with an available video link can be selected. Generic concepts are not added as movement nodes.',addMicrocycle:'+ Add microcycle',macrocycleCalendar:'Macrocycle calendar',calendarUpdates:'updates from the microcycles',topWork:'Top work',bottomWork:'Bottom work',mixedWork:'Mixed / sequences',standingWork:'Standing',savedMacrocycles:'Saved macrocycles',cyclePlanningGuide:'Planning logic',cyclePlanningGuideText:'<b>Macrocycle:</b> define the period, programme DNA, tactical situations, techniques, level and performance moments.<br><br><b>Microcycle:</b> classify complexity, progress or regress coordinative load and adjust the context to the objective.<br><br><b>Class:</b> select a microcycle when preparing the lesson.',
+  microcycleName:'Microcycle name',microcycleNamePlaceholder:'e.g. Guard passing · outside position',tacticalSituation:'Tactical situation',topSituation:'Top',bottomSituation:'Bottom',mixedSituation:'Mixed / sequences',standingSituation:'Standing',complexity:'Complexity',basic:'Basic',coordinativeLoad:'Coordinative load',regression:'Regression',standardLoad:'Standard',progression:'Progression',taskContext:'Task context',technicalDrilling:'Technical drilling',positionalTraining:'Positional training',scenarioTraining:'Scenario training',competitionContext:'Competition context',taskObjective:'Task objective',taskObjectivePlaceholder:'What should the athlete solve or execute?',mainTechnique:'Main technique with video',linkedClass:'Linked class',selectTechnique:'Select a video-backed technique',selectClass:'Select a class',microcycleNotes:'Microcycle notes',week:'Week',macrocycleSaved:'Macrocycle saved',macrocycleLoaded:'Macrocycle loaded',macrocycleDuplicated:'Macrocycle duplicated',macrocycleTemplateLoaded:'Annual macrocycle loaded with all weekly positions',noMicrocycles:'No microcycles yet. Add one or load the annual macrocycle.',noSavedMacrocycles:'No macrocycles saved yet.',microcycleProgress:'{done} of {total} microcycles linked to a class'
+});
+Object.assign(I18N['pt-BR'],{
+  trainingCycles:'Macro e microciclos',linkedCycle:'Macrociclo / microciclo',noCycle:'Sem macrociclo ou microciclo',
+  newMacrocycle:'Novo macrociclo',loadMacroTemplate:'Carregar macrociclo anual',saveMacrocycle:'Salvar macrociclo',whatIsMacrocycle:'Macrociclo',whatIsMicrocycle:'Microciclo',
+  macrocycleDefinition:'Programa técnico e tático completo para um período definido. Organiza o DNA do programa, prioridades táticas, nível, calendário e momentos de performance.',
+  microcycleDefinition:'Bloco curto, normalmente de uma semana, dentro do macrociclo. Define o objetivo da tarefa, complexidade, sobrecarga coordenativa, contexto, técnicas e aulas associadas.',
+  macrocycleSetup:'Configuração do macrociclo',macrocycleName:'Nome do macrociclo',macrocycleNamePlaceholder:'ex.: Programa técnico e tático anual',endDate:'Data final',trainingTarget:'Público do treino',group:'Grupo',individual:'Individual',programmeDna:'DNA do programa / divisão tática',programmeDnaPlaceholder:'Por cima, por baixo, mistos, em pé, passagem, controles, costas...',performanceMoments:'Momentos de performance / calendário competitivo',performanceMomentsPlaceholder:'Competições, avaliações, graduações, semanas de teste e datas de pico...',macrocycleNotes:'Observações gerais e critérios de progressão',macrocycleNotesPlaceholder:'Prioridades técnicas, avaliações, adaptações e critérios de segurança...',microcycles:'Microciclos',microcycleBlocks:'blocos',atlasVideoRule:'Regra de vídeo do Atlas:',atlasVideoRuleText:'somente técnicas do catálogo com link de vídeo disponível podem ser selecionadas. Conceitos genéricos não entram como movimentos.',addMicrocycle:'+ Adicionar microciclo',macrocycleCalendar:'Calendário do macrociclo',calendarUpdates:'atualizado pelos microciclos',topWork:'Trabalho por cima',bottomWork:'Trabalho por baixo',mixedWork:'Mistos / sequências',standingWork:'Em pé',savedMacrocycles:'Macrociclos salvos',cyclePlanningGuide:'Lógica de planejamento',cyclePlanningGuideText:'<b>Macrociclo:</b> defina período, DNA, situações táticas, técnicas, nível e momentos de performance.<br><br><b>Microciclo:</b> classifique a complexidade, progrida ou regrida a sobrecarga coordenativa e adapte o contexto ao objetivo.<br><br><b>Aula:</b> selecione um microciclo ao preparar a sessão.',
+  microcycleName:'Nome do microciclo',microcycleNamePlaceholder:'ex.: Passagem de guarda · posição exterior',tacticalSituation:'Situação tática',topSituation:'Por cima',bottomSituation:'Por baixo',mixedSituation:'Mistos / sequências',standingSituation:'Em pé',complexity:'Complexidade',basic:'Básico',coordinativeLoad:'Sobrecarga coordenativa',regression:'Regressão',standardLoad:'Padrão',progression:'Progressão',taskContext:'Contexto da tarefa',technicalDrilling:'Drill técnico',positionalTraining:'Treino posicional',scenarioTraining:'Treino por cenário',competitionContext:'Contexto competitivo',taskObjective:'Objetivo da tarefa',taskObjectivePlaceholder:'O que o atleta deve resolver ou executar?',mainTechnique:'Técnica principal com vídeo',linkedClass:'Aula associada',selectTechnique:'Selecione uma técnica com vídeo',selectClass:'Selecione uma aula',microcycleNotes:'Observações do microciclo',week:'Semana',macrocycleSaved:'Macrociclo salvo',macrocycleLoaded:'Macrociclo carregado',macrocycleDuplicated:'Macrociclo duplicado',macrocycleTemplateLoaded:'Macrociclo anual carregado com todas as posições semanais',noMicrocycles:'Ainda não existem microciclos. Adicione um ou carregue o macrociclo anual.',noSavedMacrocycles:'Ainda não existem macrociclos salvos.',microcycleProgress:'{done} de {total} microciclos associados a uma aula'
+});
+Object.assign(I18N['pt-PT'],{
+  trainingCycles:'Macro e microciclos',linkedCycle:'Macrociclo / microciclo',noCycle:'Sem macrociclo ou microciclo',
+  newMacrocycle:'Novo macrociclo',loadMacroTemplate:'Carregar macrociclo anual',saveMacrocycle:'Guardar macrociclo',whatIsMacrocycle:'Macrociclo',whatIsMicrocycle:'Microciclo',
+  macrocycleDefinition:'Programa técnico e tático completo para um período definido. Organiza o ADN do programa, prioridades táticas, nível, calendário e momentos de desempenho.',
+  microcycleDefinition:'Bloco curto, normalmente de uma semana, dentro do macrociclo. Define o objetivo da tarefa, complexidade, sobrecarga coordenativa, contexto, técnicas e aulas associadas.',
+  macrocycleSetup:'Configuração do macrociclo',macrocycleName:'Nome do macrociclo',macrocycleNamePlaceholder:'ex.: Programa técnico e tático anual',endDate:'Data final',trainingTarget:'Destinatário do treino',group:'Grupo',individual:'Individual',programmeDna:'ADN do programa / divisão tática',programmeDnaPlaceholder:'Por cima, por baixo, mistos, em pé, passagem, controlos, costas...',performanceMoments:'Momentos de desempenho / calendário competitivo',performanceMomentsPlaceholder:'Competições, avaliações, graduações, semanas de teste e datas de pico...',macrocycleNotes:'Observações gerais e critérios de progressão',macrocycleNotesPlaceholder:'Prioridades técnicas, avaliações, adaptações e critérios de segurança...',microcycles:'Microciclos',microcycleBlocks:'blocos',atlasVideoRule:'Regra de vídeo do Atlas:',atlasVideoRuleText:'apenas técnicas do catálogo com ligação de vídeo disponível podem ser selecionadas. Conceitos genéricos não entram como movimentos.',addMicrocycle:'+ Adicionar microciclo',macrocycleCalendar:'Calendário do macrociclo',calendarUpdates:'atualizado pelos microciclos',topWork:'Trabalho por cima',bottomWork:'Trabalho por baixo',mixedWork:'Mistos / sequências',standingWork:'Em pé',savedMacrocycles:'Macrociclos guardados',cyclePlanningGuide:'Lógica de planeamento',cyclePlanningGuideText:'<b>Macrociclo:</b> defina o período, ADN, situações táticas, técnicas, nível e momentos de desempenho.<br><br><b>Microciclo:</b> classifique a complexidade, progrida ou regrida a sobrecarga coordenativa e adapte o contexto ao objetivo.<br><br><b>Aula:</b> selecione um microciclo ao preparar a sessão.',
+  microcycleName:'Nome do microciclo',microcycleNamePlaceholder:'ex.: Passagem de guarda · posição exterior',tacticalSituation:'Situação tática',topSituation:'Por cima',bottomSituation:'Por baixo',mixedSituation:'Mistos / sequências',standingSituation:'Em pé',complexity:'Complexidade',basic:'Básico',coordinativeLoad:'Sobrecarga coordenativa',regression:'Regressão',standardLoad:'Padrão',progression:'Progressão',taskContext:'Contexto da tarefa',technicalDrilling:'Drill técnico',positionalTraining:'Treino posicional',scenarioTraining:'Treino por cenário',competitionContext:'Contexto competitivo',taskObjective:'Objetivo da tarefa',taskObjectivePlaceholder:'O que deve o praticante resolver ou executar?',mainTechnique:'Técnica principal com vídeo',linkedClass:'Aula associada',selectTechnique:'Selecione uma técnica com vídeo',selectClass:'Selecione uma aula',microcycleNotes:'Observações do microciclo',week:'Semana',macrocycleSaved:'Macrociclo guardado',macrocycleLoaded:'Macrociclo carregado',macrocycleDuplicated:'Macrociclo duplicado',macrocycleTemplateLoaded:'Macrociclo anual carregado com todas as posições semanais',noMicrocycles:'Ainda não existem microciclos. Adicione um ou carregue o macrociclo anual.',noSavedMacrocycles:'Ainda não existem macrociclos guardados.',microcycleProgress:'{done} de {total} microciclos associados a uma aula'
 });
 
 function tr(key,vars){let out=(I18N[currentLang]&&I18N[currentLang][key])||I18N.en[key]||key;if(vars)Object.keys(vars).forEach(k=>out=out.replaceAll('{'+k+'}',vars[k]));return out;}
@@ -1490,7 +1582,14 @@ Object.entries(SUPPLEMENTAL_CATALOG).forEach(([cat,names])=>names.forEach(name=>
 function slugify(s){return s.toLowerCase().replace(/&/g,'and').replace(/['\u2019]/g,'').replace(/[()]/g,'').replace(/\//g,'_').replace(/[^a-z0-9]+/g,'_').replace(/^_+|_+$/g,'');}
 const T={},NAME_TO_ID={};
 CAT_ORDER.forEach(cat=>CATALOG[cat].forEach(name=>{const id=slugify(name);T[id]={name,cat};NAME_TO_ID[name]=id;}));
-const ids=Object.keys(T);const TOTAL=ids.length;
+const ALL_IDS=Object.keys(T);
+function catalogueVideoUrl(id){
+  if(!T[id])return '';
+  return 'https://www.youtube.com/results?search_query='+encodeURIComponent(T[id].name+' Brazilian Jiu Jitsu tutorial');
+}
+function hasCatalogueVideo(id){return Boolean(catalogueVideoUrl(id));}
+/* The Atlas is built only from movement records with a video destination. */
+const ids=ALL_IDS.filter(hasCatalogueVideo);const TOTAL=ids.length;
 
 const GRAPH_NORMALIZED_NAME_TO_ID={};
 function graphNorm(value){return String(value||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[’'"°]/g,'').replace(/[^a-z0-9]+/g,' ').trim();}
@@ -1647,6 +1746,48 @@ Object.assign(PHRASE_PT,{
   'Stabilise the position before advancing':'Estabilizar a posição antes de avançar','Control hips, shoulders and inside space':'Controlar a anca, os ombros e o espaço interior','Advance to a more dominant control when the opponent turns':'Avançar para um controlo mais dominante quando o adversário roda','Maintain control while changing sides':'Manter o controlo ao mudar de lado','Follow the opponent’s turn to expose the back':'Acompanhar a rotação do adversário para expor as costas','Frame, create space and recover guard or stand':'Criar frames, abrir espaço e recuperar a guarda ou levantar','Opponent frames, bridges or turns to a side':'O adversário cria frames, faz ponte ou roda para um lado'
 });
 
+
+Object.assign(PHRASE_PT,{
+  'Options from the same source position':'Opções a partir da mesma posição de origem',
+  'Not a direct continuation':'Não representa uma continuação direta',
+  'Movement preparation':'Preparação do movimento',
+  'Establish the required position, grips, posture and alignment before applying the movement':'Estabelecer a posição, as pegadas, a postura e o alinhamento necessários antes de aplicar o movimento',
+  'Critical controls':'Controlos essenciais',
+  'Maintain connection, base and safe joint alignment throughout the movement':'Manter a ligação, a base e o alinhamento articular seguro durante todo o movimento',
+  'Common defensive reactions':'Reações defensivas comuns',
+  'Expect grip fighting, posture recovery, framing, base changes or disengagement':'Antecipar disputa de pegadas, recuperação da postura, frames, alterações de base ou afastamento',
+  'Safe reset if the movement fails':'Reposição segura se o movimento falhar',
+  'Release unsafe pressure, recover position and rebuild the attack':'Libertar pressão insegura, recuperar a posição e reconstruir o ataque',
+  'Follow-ups after success':'Continuações após o sucesso',
+  'Stabilise top control before attacking again':'Estabilizar o controlo por cima antes de voltar a atacar',
+  'Pass if the opponent retains guard':'Passar a guarda se o adversário a recuperar',
+  'Take the back if the opponent turns away':'Pegar as costas se o adversário se virar',
+  'Attack only after positional control is secure':'Atacar apenas depois de assegurar o controlo posicional',
+  'If the finish is defended':'Se a finalização for defendida',
+  'Maintain positional control, release unsafe pressure and switch only to a technically connected option':'Manter o controlo posicional, libertar pressão insegura e mudar apenas para uma opção tecnicamente ligada',
+  'Common source positions':'Posições de origem comuns',
+  'Positions documented by variations in the catalogue':'Posições documentadas pelas variações existentes no catálogo',
+  'After the pass':'Depois da passagem',
+  'Side Control, Knee on Belly or Mount after stabilising the pass':'Controlo lateral, joelho na barriga ou montada depois de estabilizar a passagem',
+  'After the takedown':'Depois da queda',
+  'Stabilise top position, clear the legs and follow the turn to the back when available':'Estabilizar a posição por cima, ultrapassar as pernas e acompanhar a rotação para as costas quando possível',
+  'Back control priorities':'Prioridades no controlo das costas',
+  'Secure chest-to-back connection and win hand fighting before attacking':'Assegurar a ligação peito-costas e vencer a disputa de mãos antes de atacar',
+  'After the escape or counter':'Depois da saída ou contra-ataque',
+  'Recover guard, stand up, reverse or stabilise top position according to the situation':'Repor a guarda, levantar, inverter ou estabilizar a posição por cima conforme a situação',
+  'Complete source-position map':'Mapa completo da posição de origem',
+  'These are related options from the same position, not an automatic sequence':'Estas são opções relacionadas a partir da mesma posição, não uma sequência automática'
+});
+
+
+Object.assign(PHRASE_PT,{
+  'No verified catalogue attack is linked directly to this position; establish control before selecting an attack':'Nenhum ataque verificado no catálogo está ligado diretamente a esta posição; estabeleça o controlo antes de escolher um ataque',
+  'Study off-balancing, reversals and base recovery relevant to this position':'Estudar desequilíbrios, inversões e recuperação de base relevantes para esta posição',
+  'Study guard-passing threats or top-position advancement relevant to this position':'Estudar ameaças de passagem ou progressão para posições de controlo relevantes para esta posição',
+  'Follow a technically justified turn, arm drag, underhook or leg angle before taking the back':'Acompanhar uma rotação, arm drag, underhook ou ângulo de perna tecnicamente justificado antes de pegar as costas',
+  'Create space, protect vulnerable joints and recover a stable position':'Criar espaço, proteger as articulações vulneráveis e recuperar uma posição estável'
+});
+
 function techChildrenFromIds(list,note){return Array.from(new Set(list)).filter(id=>T[id]).sort((a,b)=>T[a].name.localeCompare(T[b].name)).map(id=>({type:'tech',name:T[id].name,note:note||''}));}
 function conceptChild(label,note,moveLike){return {type:'concept',label,note:note||'',moveLike:!!moveLike};}
 function videoChild(label){return {type:'video',label:label||'Core mechanics, entries and finishing details'};}
@@ -1702,20 +1843,70 @@ function positionNameForId(id){const item=T[id];if(item.cat==='guard'||item.cat=
 function explicitFromPosition(name){return ids.filter(other=>sourceInfoForId(other).nodeName===name);}
 function addPositionEcosystem(branches,positionName,compact=false){
   const p=profileForPosition(positionName);if(!p)return;const explicit=explicitFromPosition(positionName);
+  const attacks=techChildrenFromIds(explicit.filter(x=>T[x].cat==='submission'),'Catalogued relationship');
+  const sweeps=techChildrenFromIds(explicit.filter(x=>T[x].cat==='sweep'),'Catalogued relationship').concat(profileChildren(p.sweeps));
+  const passes=techChildrenFromIds(explicit.filter(x=>T[x].cat==='pass'),'Catalogued relationship').concat(profileChildren(p.passes));
+  const backs=techChildrenFromIds(explicit.filter(x=>T[x].cat==='backtake'),'Catalogued relationship').concat(profileChildren(p.backtakes));
+  const exits=techChildrenFromIds(explicit.filter(x=>T[x].cat==='defense'||T[x].cat==='counter'),'Catalogued relationship').concat(profileChildren(p.exits));
   addTreeBranch(branches,'Entries and setups','Position ecosystem',profileChildren(p.entries));
   addTreeBranch(branches,'Core controls and grips','Position ecosystem',profileChildren(p.controls));
   if(!compact){
-    addTreeBranch(branches,'Submissions and attacks','Position ecosystem',techChildrenFromIds(explicit.filter(x=>T[x].cat==='submission'),'Catalogued relationship'));
-    addTreeBranch(branches,'Sweeps and reversals','Position ecosystem',techChildrenFromIds(explicit.filter(x=>T[x].cat==='sweep'),'Catalogued relationship').concat(profileChildren(p.sweeps)));
-    addTreeBranch(branches,'Passes and top transitions','Position ecosystem',techChildrenFromIds(explicit.filter(x=>T[x].cat==='pass'),'Catalogued relationship').concat(profileChildren(p.passes)));
-    addTreeBranch(branches,'Back takes','Position ecosystem',techChildrenFromIds(explicit.filter(x=>T[x].cat==='backtake'),'Catalogued relationship').concat(profileChildren(p.backtakes)));
+    addTreeBranch(branches,'Submissions and attacks','Position ecosystem',attacks.length?attacks:[conceptChild('No verified catalogue attack is linked directly to this position; establish control before selecting an attack','No speculative continuation added')]);
+    addTreeBranch(branches,'Sweeps and reversals','Position ecosystem',sweeps.length?sweeps:[conceptChild('Study off-balancing, reversals and base recovery relevant to this position','No speculative continuation added')]);
+    addTreeBranch(branches,'Passes and top transitions','Position ecosystem',passes.length?passes:[conceptChild('Study guard-passing threats or top-position advancement relevant to this position','No speculative continuation added')]);
+    addTreeBranch(branches,'Back takes','Position ecosystem',backs.length?backs:[conceptChild('Follow a technically justified turn, arm drag, underhook or leg angle before taking the back','No speculative continuation added')]);
   }else{
     const continuations=techChildrenFromIds(explicit.filter(x=>['submission','sweep','backtake','pass'].includes(T[x].cat)),'Catalogued relationship').slice(0,8).concat(profileChildren([...(p.transitions||[]),...(p.sweeps||[]),...(p.backtakes||[])].slice(0,5)));
-    addTreeBranch(branches,'Position continuations','Position ecosystem',continuations);
+    addTreeBranch(branches,'Position continuations','Position ecosystem',continuations.length?continuations:[conceptChild('Maintain position and move only to a technically connected option','No speculative continuation added')]);
   }
-  addTreeBranch(branches,'Defenses and exits','Position ecosystem',techChildrenFromIds(explicit.filter(x=>T[x].cat==='defense'||T[x].cat==='counter'),'Catalogued relationship').concat(profileChildren(p.exits)));
+  addTreeBranch(branches,'Defenses and exits','Position ecosystem',exits.length?exits:[conceptChild('Create space, protect vulnerable joints and recover a stable position','No speculative continuation added')]);
   addTreeBranch(branches,'Common reactions and counters','Position ecosystem',profileChildren(p.reactions));
   addTreeBranch(branches,'Transitions to neighbouring positions','Position ecosystem',profileChildren(p.transitions));
+}
+
+function branchHas(branches,label){return branches.some(b=>b.label===label);}
+function submissionSourcePositions(id){
+  const family=submissionFamilyName(T[id].name)||T[id].name,seen=new Set(),out=[];
+  submissionFamilyIds(family).forEach(other=>{
+    const source=sourceInfoForId(other);
+    if(source.nodeName&&!seen.has(source.nodeName)){seen.add(source.nodeName);const sid=graphIdByName(source.nodeName);if(sid)out.push({type:'tech',name:T[sid].name,note:'Positions documented by variations in the catalogue'});}
+  });
+  return out;
+}
+function addUniversalMovementFramework(branches,id){
+  const item=T[id],cat=item.cat;
+  if(!branchHas(branches,'Entries and setups')&&!branchHas(branches,'Movement preparation')){
+    addTreeBranch(branches,'Movement preparation','Study',[conceptChild('Establish the required position, grips, posture and alignment before applying the movement','No speculative continuation added')]);
+  }
+  if(!branchHas(branches,'Core controls and grips')&&!branchHas(branches,'Critical controls')){
+    addTreeBranch(branches,'Critical controls','Study',[conceptChild('Maintain connection, base and safe joint alignment throughout the movement','No speculative continuation added')]);
+  }
+  if(!branchHas(branches,'Common reactions and counters')&&!branchHas(branches,'Common defensive reactions')){
+    addTreeBranch(branches,'Common defensive reactions','Study',[conceptChild('Expect grip fighting, posture recovery, framing, base changes or disengagement','No speculative continuation added')]);
+  }
+  if(!branchHas(branches,'Defenses and exits')&&!branchHas(branches,'Defenses and escapes')&&!branchHas(branches,'Safe reset if the movement fails')){
+    addTreeBranch(branches,'Safe reset if the movement fails','Study',[conceptChild('Release unsafe pressure, recover position and rebuild the attack','No speculative continuation added')]);
+  }
+  if(cat==='sweep'){
+    addTreeBranch(branches,'Follow-ups after success','Common study route',[
+      conceptChild('Stabilise top control before attacking again','No speculative continuation added'),
+      conceptChild('Pass if the opponent retains guard','No speculative continuation added'),
+      conceptChild('Take the back if the opponent turns away','No speculative continuation added')
+    ]);
+  }else if(cat==='pass'){
+    const targets=['Side Control','Knee on Belly','Mount'].map(graphIdByName).filter(Boolean).map(x=>({type:'tech',name:T[x].name,note:'After the pass'}));
+    addTreeBranch(branches,'After the pass','Common study route',targets.length?targets:[conceptChild('Side Control, Knee on Belly or Mount after stabilising the pass','No speculative continuation added')]);
+  }else if(cat==='submission'){
+    addTreeBranch(branches,'Common source positions','Family-based',submissionSourcePositions(id));
+    addTreeBranch(branches,'If the finish is defended','Common study route',[conceptChild('Maintain positional control, release unsafe pressure and switch only to a technically connected option','No speculative continuation added')]);
+  }else if(cat==='takedown'){
+    addTreeBranch(branches,'After the takedown','Common study route',[conceptChild('Stabilise top position, clear the legs and follow the turn to the back when available','No speculative continuation added')]);
+  }else if(cat==='backtake'){
+    const back=graphIdByName('Back Control');
+    addTreeBranch(branches,'Back control priorities','Common study route',back?[{type:'tech',name:T[back].name,note:'Secure back control before attacking'}]:[conceptChild('Secure chest-to-back connection and win hand fighting before attacking','No speculative continuation added')]);
+  }else if(cat==='defense'||cat==='counter'){
+    addTreeBranch(branches,'After the escape or counter','Common study route',[conceptChild('Recover guard, stand up, reverse or stabilise top position according to the situation','No speculative continuation added')]);
+  }
 }
 function buildValidatedTree(id){
   const item=T[id],name=item.name,cat=item.cat,branches=[],positionName=positionNameForId(id);
@@ -1754,12 +1945,101 @@ function buildValidatedTree(id){
       addTreeBranch(branches,'Expected outcome','Common study route',[conceptChild(/guard pull/i.test(name)?'Establish a chosen guard with posture and grips':'Finish on top and stabilise control','No speculative continuation added')]);
       addTreeBranch(branches,'Common reactions and counters','Position ecosystem',profileChildren(/double leg|single leg|high crotch|ankle pick|knee tap/i.test(name)?['Sprawl','Whizzer','Go-Behind']:['Opponent changes stance','Opponent circles away','Opponent counters the grip direction']));
     }
-    if(positionName)addPositionEcosystem(branches,positionName,true);
+    if(positionName){addTreeBranch(branches,'Complete source-position map','Options from the same source position',[conceptChild('These are related options from the same position, not an automatic sequence','Not a direct continuation')]);addPositionEcosystem(branches,positionName,false);}
   }
+  addUniversalMovementFramework(branches,id);
   addTreeBranch(branches,'Technique study','Study',[videoChild('Core mechanics, entries and finishing details')]);
   return {branches};
 }
-function getTree(id){return buildValidatedTree(id);}
+
+
+Object.assign(PHRASE_PT,{
+  'Video-backed movements':'Movimentos com vídeo','Video-backed catalogue technique':'Técnica do catálogo com vídeo',
+  'Position or movement that can lead into this context':'Posição ou movimento que pode conduzir a este contexto',
+  'Control or grip option from the same position':'Opção de controlo ou pega a partir da mesma posição',
+  'Attack with the same verified source position':'Ataque com a mesma posição de origem identificada',
+  'Sweep with the same verified source position':'Raspagem com a mesma posição de origem identificada',
+  'Pass or top progression related to this position':'Passagem ou progressão por cima relacionada com esta posição',
+  'Back-take option with the same verified source position':'Opção de pega das costas com a mesma posição de origem identificada',
+  'Defence, escape or threat directly linked by family or source position':'Defesa, saída ou ameaça ligada diretamente pela família ou posição de origem',
+  'Counter or reaction represented by a movement with video':'Contra-ataque ou reação representada por um movimento com vídeo',
+  'Position or guard transition represented in the catalogue':'Transição de posição ou guarda representada no catálogo',
+  'Same technical family or same verified source position':'Mesma família técnica ou mesma posição de origem identificada'
+});
+
+function videoTechChildren(idList,note,limit=14){
+  const seen=new Set();
+  return (idList||[]).filter(id=>id&&T[id]&&hasCatalogueVideo(id)&&!seen.has(id)&&(seen.add(id),true)).slice(0,limit).map(id=>({type:'tech',name:T[id].name,note:note||'Video-backed catalogue technique'}));
+}
+function resolveMovementIds(values){
+  return (values||[]).map(v=>T[v]?v:graphIdByName(v)).filter(id=>id&&T[id]&&hasCatalogueVideo(id));
+}
+function sourcePositionNameForTree(id){
+  const item=T[id];if(!item)return null;
+  if(item.cat==='guard'||item.cat==='position')return item.name;
+  return sourceInfoForId(id).nodeName||null;
+}
+function idsFromPosition(positionName,cats){
+  if(!positionName)return[];const allowed=cats?new Set(cats):null;
+  return ids.filter(other=>{const s=sourceInfoForId(other);return s.nodeName===positionName&&(!allowed||allowed.has(T[other].cat));});
+}
+function reversePositionTransitions(positionName){
+  const out=[];Object.entries(POSITION_PROFILES).forEach(([from,p])=>{
+    const targets=resolveMovementIds(p.transitions||[]);
+    if(targets.some(id=>T[id].name===positionName)){const fromId=graphIdByName(from);if(fromId)out.push(fromId);}
+  });return out;
+}
+function profileMovementIds(positionName,key){const p=POSITION_PROFILES[positionName];return p?resolveMovementIds(p[key]||[]):[];}
+function techniqueFamilyIds(id){
+  const item=T[id],name=item.name;
+  if(item.cat==='submission'){const fam=submissionFamilyName(name);return fam?submissionFamilyIds(fam).filter(x=>x!==id):[];}
+  if(item.cat==='takedown'){const group=takedownStudyGroup(name);return ids.filter(x=>x!==id&&T[x].cat==='takedown'&&takedownStudyGroup(T[x].name)===group);}
+  const source=sourceInfoForId(id);if(source.key)return ids.filter(x=>x!==id&&T[x].cat===item.cat&&sourceInfoForId(x).key===source.key);
+  const words=graphNorm(name).split(' ').filter(w=>w.length>4);return ids.filter(x=>x!==id&&T[x].cat===item.cat&&words.some(w=>graphNorm(T[x].name).includes(w))).slice(0,10);
+}
+function buildMovementOnlyTree(id){
+  const item=T[id];if(!item||!hasCatalogueVideo(id))return{branches:[]};
+  const branches=[],positionName=sourcePositionNameForTree(id),same=positionName?idsFromPosition(positionName):[];
+  const add=(label,tag,idList,note,limit)=>{const children=videoTechChildren(idList.filter(x=>x!==id),note,limit);if(children.length)addTreeBranch(branches,label,tag,children);};
+
+  let entries=[];
+  if(positionName&&positionName!==item.name){const p=graphIdByName(positionName);if(p)entries.push(p);}
+  if(item.cat==='guard'||item.cat==='position')entries.push(...reversePositionTransitions(item.name));
+  add('Entries and setups','Video-backed movements',entries,'Position or movement that can lead into this context',10);
+
+  const controlTerms=/grip|control|hook|drag|underhook|overhook|two on one|2 on 1|lockdown|clamp|pin|body lock/i;
+  add('Core controls and grips','Video-backed movements',same.filter(x=>(T[x].cat==='guard'||T[x].cat==='position'||T[x].cat==='counter')&&controlTerms.test(T[x].name)),'Control or grip option from the same position',10);
+  add('Submissions and attacks','Options from the same source position',same.filter(x=>T[x].cat==='submission'),'Attack with the same verified source position',14);
+  add('Sweeps and reversals','Options from the same source position',same.filter(x=>T[x].cat==='sweep'),'Sweep with the same verified source position',14);
+  add('Passes and top transitions','Options from the same source position',same.filter(x=>T[x].cat==='pass'||T[x].cat==='position'),'Pass or top progression related to this position',14);
+  add('Back takes','Options from the same source position',same.filter(x=>T[x].cat==='backtake'),'Back-take option with the same verified source position',12);
+
+  let defenses=same.filter(x=>T[x].cat==='defense'||T[x].cat==='counter');
+  if(item.cat==='submission'){const fam=submissionFamilyName(item.name);if(fam)defenses.push(...relatedDefensesForFamily(fam));}
+  if(item.cat==='defense'||item.cat==='counter'){const threat=threatInfoForId(id);if(threat.nodeId)defenses.push(threat.nodeId);}
+  defenses.push(...profileMovementIds(positionName,'exits'));
+  add('Defenses and escapes','Video-backed movements',defenses,'Defence, escape or threat directly linked by family or source position',14);
+
+  let reactions=[];
+  if(item.cat==='pass')reactions.push(...ids.filter(x=>T[x].cat==='counter'&&/pass|knee cut|leg drag|guard recovery/i.test(T[x].name)));
+  if(item.cat==='takedown')reactions.push(...ids.filter(x=>T[x].cat==='counter'&&/sprawl|whizzer|guard pull/i.test(T[x].name)));
+  if(item.cat==='backtake'||positionName==='Back Control')reactions.push(...ids.filter(x=>T[x].cat==='defense'&&/back|body triangle|collar choke/i.test(T[x].name)));
+  reactions.push(...profileMovementIds(positionName,'reactions'));
+  add('Common reactions and counters','Video-backed movements',reactions,'Counter or reaction represented by a movement with video',12);
+
+  let transitions=[];
+  if(positionName)transitions.push(...profileMovementIds(positionName,'transitions'));
+  if(item.cat==='sweep')transitions.push(graphIdByName('Mount'),graphIdByName('Side Control'),graphIdByName('Knee on Belly'));
+  if(item.cat==='pass')transitions.push(graphIdByName('Side Control'),graphIdByName('Mount'),graphIdByName('North-South'),graphIdByName('Knee on Belly'));
+  if(item.cat==='backtake')transitions.push(graphIdByName('Back Control'));
+  add('Transitions to neighbouring positions','Video-backed movements',transitions,'Position or guard transition represented in the catalogue',12);
+
+  add('Related options in the same family','Video-backed movements',techniqueFamilyIds(id),'Same technical family or same verified source position',14);
+
+  /* Every displayed leaf is a real catalogue movement with a video destination. */
+  return{branches};
+}
+function getTree(id){return buildMovementOnlyTree(id);}
 
 function ytUrl(q){return 'https://www.youtube.com/results?search_query='+encodeURIComponent(q+' bjj tutorial');}
 
@@ -2009,7 +2289,7 @@ function renderTree(id,history){
     const watchLines=textLines(pinnedVideo(id)?tr('watchPinned'):tr('watchHow',{move:displayName.toUpperCase()}),Math.max(24,Math.floor((boxW-30)/7)),3),watchH=Math.max(48,22+watchLines.length*13);
     const watchG=el('g',{class:'leaf-box'});watchG.appendChild(el('rect',{x:margin,y:cursor,width:boxW,height:watchH,rx:6,fill:'#1c1408',stroke:'#F59E0B','stroke-width':1.5}));
     const watchText=appendLines(watchG,watchLines,center,cursor+watchH/2-((watchLines.length-1)*13)/2,13,{'text-anchor':'middle','font-size':10.5,fill:'#F59E0B'});watchLabelNode=watchText;watchLabelMeta=null;
-    watchG.addEventListener('click',()=>{const p=pinnedVideo(id);window.open(p||ytUrl(name),'_blank');});treeSvg.appendChild(watchG);cursor+=watchH+24;
+    watchG.addEventListener('click',()=>{const p=pinnedVideo(id);window.open(p||catalogueVideoUrl(id),'_blank');});treeSvg.appendChild(watchG);cursor+=watchH+24;
     branches.forEach(branch=>{
       const branchLabel=phraseLabel(branch.label),tag=phraseLabel(branch.tag||''),bLines=textLines(branchLabel,Math.max(24,Math.floor((boxW-28)/7)),3),tagLines=tag?textLines(tag,Math.max(28,Math.floor((boxW-28)/7)),2):[];
       const childLayouts=(branch.children||[]).map(child=>{const meta=translatedChild(child),labelLines=textLines(meta.label,Math.max(22,Math.floor((boxW-52)/7)),4),noteLines=meta.note?textLines(meta.note,Math.max(24,Math.floor((boxW-52)/6.5)),3):[];const h=Math.max(58,24+labelLines.length*14+(noteLines.length?8+noteLines.length*12:0));return{child,meta,labelLines,noteLines,h};});
@@ -2049,7 +2329,7 @@ function renderTree(id,history){
     const watchLines=textLines(pinnedVideo(id)?tr('watchPinned'):tr('watchHow',{move:displayName.toUpperCase()}),34,3),watchH=Math.max(46,20+watchLines.length*13),watchY=rootY+rootH/2+12;
     const watchG=el('g',{class:'leaf-box'});watchG.appendChild(el('rect',{x:rootX,y:watchY,width:rootW,height:watchH,rx:6,fill:'#1c1408',stroke:'#F59E0B','stroke-width':1.5}));
     const watchText=appendLines(watchG,watchLines,rootX+rootW/2,watchY+watchH/2-((watchLines.length-1)*13)/2,13,{'text-anchor':'middle','font-size':10.5,fill:'#F59E0B'});watchLabelNode=watchText;watchLabelMeta=null;
-    watchG.addEventListener('click',()=>{const p=pinnedVideo(id);window.open(p||ytUrl(name),'_blank');});treeSvg.appendChild(watchG);
+    watchG.addEventListener('click',()=>{const p=pinnedVideo(id);window.open(p||catalogueVideoUrl(id),'_blank');});treeSvg.appendChild(watchG);
     layoutBranches.forEach(layout=>{
       treeSvg.appendChild(el('line',{x1:rootX+rootW,y1:rootY,x2:branchX,y2:layout.mid,stroke:'#3b4a5c','stroke-width':1.3}));
       const bg=el('g',{});bg.appendChild(el('rect',{x:branchX,y:layout.mid-layout.branchH/2,width:branchW,height:layout.branchH,rx:6,fill:'#161C25',stroke:'#3b4a5c','stroke-width':1.3}));
@@ -2226,13 +2506,13 @@ function collectLesson(){
   id:currentLessonId||('lp'+Date.now()),number:lpEl('number').value.trim(),date:lpEl('date').value,professor:lpEl('professor').value.trim(),format:lessonFormat,title:lpEl('title').value.trim()||automaticTitle,cycleId:lpEl('cycle').value||'',level:lpEl('level').value,students:lpEl('students').value,duration:used||(+lpEl('duration').value||0),space:lpEl('space').value.trim(),objectives:lpEl('objectives').value.trim(),materials:lpEl('materials').value.trim(),warmMin:+lpEl('warm-min').value||0,warm:lpEl('warm').value.trim(),techMin:+lpEl('tech-min').value||0,tech:lpEl('tech').value.trim(),specificMin:+lpEl('specific-min').value||0,specific:lpEl('specific').value.trim(),coolMin:+lpEl('cool-min').value||0,cool:lpEl('cool').value.trim(),techniques:lessonTechs.slice(),notes:lpEl('notes').value.trim(),report:lpEl('report').value.trim(),updatedAt:Date.now()
 };}
 function loadLessonIntoForm(l){
-  currentLessonId=l.id||null;lpEl('number').value=l.number||'';lpEl('date').value=l.date||new Date().toISOString().slice(0,10);lpEl('professor').value=l.professor||'';lpEl('title').value=l.title||'';lpEl('cycle').value=l.cycleId||'';lpEl('level').value=l.level||'Beginner/Intermediate';lpEl('students').value=l.students??'';lpEl('space').value=l.space||'';lpEl('duration').value=l.duration||60;lpEl('objectives').value=l.objectives||'';lpEl('materials').value=l.materials||'';lpEl('warm-min').value=l.warmMin??10;lpEl('warm').value=l.warm||'';lpEl('tech-min').value=l.techMin??25;lpEl('tech').value=l.tech||'';lpEl('specific-min').value=l.specificMin??15;lpEl('specific').value=l.specific||'';lpEl('cool-min').value=l.coolMin??10;lpEl('cool').value=l.cool||'';lpEl('notes').value=l.notes||'';lpEl('report').value=l.report||'';lessonTechs=(l.techniques||[]).filter(id=>T[id]);setLessonFormat(l.format||'Gi',false);lessonDirty=false;document.getElementById('lesson-save-state').textContent=tr('savedChanges');renderLessonTechs();updateLessonTime();renderSavedLessons();}
+  currentLessonId=l.id||null;lpEl('number').value=l.number||'';lpEl('date').value=l.date||new Date().toISOString().slice(0,10);lpEl('professor').value=l.professor||'';lpEl('title').value=l.title||'';lpEl('cycle').value=l.cycleId||'';lpEl('level').value=l.level||'Beginner/Intermediate';lpEl('students').value=l.students??'';lpEl('space').value=l.space||'';lpEl('duration').value=l.duration||60;lpEl('objectives').value=l.objectives||'';lpEl('materials').value=l.materials||'';lpEl('warm-min').value=l.warmMin??10;lpEl('warm').value=l.warm||'';lpEl('tech-min').value=l.techMin??25;lpEl('tech').value=l.tech||'';lpEl('specific-min').value=l.specificMin??15;lpEl('specific').value=l.specific||'';lpEl('cool-min').value=l.coolMin??10;lpEl('cool').value=l.cool||'';lpEl('notes').value=l.notes||'';lpEl('report').value=l.report||'';lessonTechs=(l.techniques||[]).filter(id=>T[id]&&hasCatalogueVideo(id));setLessonFormat(l.format||'Gi',false);lessonDirty=false;document.getElementById('lesson-save-state').textContent=tr('savedChanges');renderLessonTechs();updateLessonTime();renderSavedLessons();}
 function updateLessonTime(){
   const planned=+lpEl('duration').value||0,used=['warm-min','tech-min','specific-min','cool-min'].reduce((a,k)=>a+(+lpEl(k).value||0),0),pct=planned?Math.min(100,used/planned*100):0,fill=document.getElementById('lp-time-fill'),copy=document.getElementById('lp-time-copy');fill.style.width=pct+'%';fill.classList.toggle('over',used>planned);copy.classList.toggle('warn',used!==planned);copy.textContent=used===planned?tr('timeBalanced',{used,planned}):(used<planned?tr('timeUnder',{used,planned,remaining:planned-used}):tr('timeOver',{used,planned,over:used-planned}));
 }
 function renderLessonPicker(){
   const q=lpEl('tech-search').value.trim().toLowerCase(),box=document.getElementById('lp-tech-results');box.innerHTML='';
-  ids.filter(id=>searchMatches(id,q)&&!lessonTechs.includes(id)).slice(0,70).forEach(id=>{const d=document.createElement('div');d.className='teacher-tech';d.setAttribute('role','button');d.setAttribute('tabindex','0');d.innerHTML='<span class="dot" style="width:7px;height:7px;background:'+CATS[T[id].cat].color+'"></span><span>'+moveLabel(id)+'</span><span class="teacher-open-tree" aria-hidden="true">↗</span>';const choose=()=>{if(!lessonTechs.includes(id)){lessonTechs.push(id);markLessonDirty();renderLessonTechs();renderLessonPicker();}openTree(id,[],'lesson');};d.onclick=choose;d.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();choose();}};box.appendChild(d);});
+  ids.filter(id=>hasCatalogueVideo(id)&&searchMatches(id,q)&&!lessonTechs.includes(id)).slice(0,70).forEach(id=>{const d=document.createElement('div');d.className='teacher-tech';d.setAttribute('role','button');d.setAttribute('tabindex','0');d.innerHTML='<span class="dot" style="width:7px;height:7px;background:'+CATS[T[id].cat].color+'"></span><span>'+moveLabel(id)+'</span><span class="teacher-open-tree" aria-hidden="true">↗</span>';const choose=()=>{if(!lessonTechs.includes(id)){lessonTechs.push(id);markLessonDirty();renderLessonTechs();renderLessonPicker();}openTree(id,[],'lesson');};d.onclick=choose;d.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();choose();}};box.appendChild(d);});
 }
 function renderLessonTechs(){
   const box=document.getElementById('lp-tech-selected'),printBox=document.getElementById('lp-print-techniques'),printCard=document.getElementById('lp-print-tech-card');
@@ -2251,7 +2531,7 @@ async function saveLesson(){
 }
 async function renderProfessor(){
   if(!lessonsLoaded){lessons=(await storeGet(K_LESSONS))||[];lessonsLoaded=true;}
-  await ensureCyclesLoaded();refreshLessonCycleOptions();
+  await ensureCyclesLoaded();localizeAnnualPresetData();refreshLessonCycleOptions();
   if(!currentLessonId&&!lpEl('date').value)loadLessonIntoForm(lessonBlank());
   applyStaticLanguage();setLessonFormat(lessonFormat,false);renderLessonPicker();renderLessonTechs();updateLessonTime();renderSavedLessons();renderCycles();
 }
@@ -2266,58 +2546,146 @@ document.getElementById('lesson-print').onclick=()=>{document.title=(lpEl('title
 
 
 
-/* ============ PROFESSOR FRONTS / TRAINING CYCLES ============ */
+/* ============ PROFESSOR FRONTS / MACRO & MICROCYCLES ============ */
 let professorPanel='lessons',cycles=[],cyclesLoaded=false,currentCycleId=null,cycleModules=[],cycleDirty=false;
-const CY_FIELDS=['name','format','level','start','sessions','notes'];
+const openMicrocycleIds=new Set();
+const CY_FIELDS=['name','format','level','start','end','audience','dna','performance','notes'];
 function cyEl(key){return document.getElementById('cy-'+key);}
 function setProfessorPanel(panel){professorPanel=panel==='cycles'?'cycles':'lessons';document.querySelectorAll('[data-prof-tab]').forEach(b=>b.classList.toggle('active',b.dataset.profTab===professorPanel));document.getElementById('teacher-panel-lessons').hidden=professorPanel!=='lessons';document.getElementById('teacher-panel-cycles').hidden=professorPanel!=='cycles';if(professorPanel==='cycles')renderCycles();}
 document.querySelectorAll('[data-prof-tab]').forEach(b=>b.onclick=()=>setProfessorPanel(b.dataset.profTab));
-function cycleBlank(){return{id:null,name:'',format:'Gi',level:'Mixed',start:new Date().toISOString().slice(0,10),sessionsPerWeek:2,notes:'',modules:[],updatedAt:Date.now()};}
-function guardTemplateRows(){
-  const pt=isPortuguese();
-  const rows=[
-    ['Closed Guard','Basic',pt?'Base para aprendizagem de quebras de postura, raspagens elementares e transições simples.':'Foundation for posture breaks, elementary sweeps and simple transitions.'],
-    ['Half Guard','Basic',pt?'Knee shield: controlo de distância, primeiras saídas e raspagem elevador; base para meia-guarda profunda.':'Knee shield: distance control, first escapes and elevator sweeps; foundation for deep half guard.'],
-    ['Butterfly Guard','Basic',pt?'Introdução ao uso de ganchos, raspagens com elevação e mobilidade.':'Introduction to hooks, elevation sweeps and mobility.'],
-    ['Open Guard','Basic',pt?'Conceito de pernas livres e pré-requisito para spider, DLR e guarda X.':'Open-leg concepts and prerequisite for spider, DLR and X guard.'],
-    ['Spider Guard','Intermediate',pt?'Coordenação de pegas em manga, controlo de distância e raspagens diagonais.':'Sleeve-grip coordination, distance control and diagonal sweeps.'],
-    ['De La Riva Guard','Intermediate',pt?'Gancho exterior no quadril, raspagens laterais e transições para guarda X ou 50/50.':'Outside hip hook, lateral sweeps and transitions to X guard or 50/50.'],
-    ['Collar-Lapel Guard','Intermediate',pt?'Uso da lapela como alavanca para controlar o tronco e iniciar raspagens.':'Use the lapel as a lever to control the torso and initiate sweeps.'],
-    ['Z Guard','Intermediate',pt?'Meia-guarda alta para criar espaço e transitar para guarda X ou guarda fechada.':'High half guard for creating space and moving to X guard or closed guard.'],
-    ['X Guard','Intermediate',pt?'Ganchos por dentro das pernas para raspagens de alavanca; exige leitura de postura e timing.':'Inside hooks for leverage sweeps; requires posture reading and timing.'],
-    ['Butterfly Lapel Guard','Intermediate',pt?'Combinação do gancho borboleta com pega de lapela para maior controlo do tronco.':'Butterfly hook combined with lapel control for stronger torso connection.'],
-    ['50/50 Guard','Advanced',pt?'Posição simétrica para raspagens, passagens, pegadas das costas, leg locks e defesas da linha do joelho.':'Symmetrical position for sweeps, passes, back takes, leg locks and knee-line defense.'],
-    ['Lasso Guard','Advanced',pt?'Controlo com laço de manga para raspagens e transições para costas ou guarda X.':'Sleeve-lasso control for sweeps and transitions to the back or X guard.'],
-    ['Reverse De La Riva','Advanced',pt?'Gancho invertido para transições à guarda X, berimbolo e pegadas das costas.':'Reverse hook for X-guard, berimbolo and back-take transitions.'],
-    ['Single Leg X Guard','Advanced',pt?'Controlo de uma perna para raspagens direcionadas e transições a entrelaçamentos.':'Single-leg control for directed sweeps and leg-entanglement transitions.'],
-    ['K Guard','Advanced',pt?'Enquadramento em K para controlar a perna, desequilibrar e entrar em 50/50 ou backside.':'K-shaped leg frame for control, off-balancing and entries to 50/50 or backside.'],
-    ['Inverted Guard','Advanced',pt?'Rotação invertida para recuperar guarda, raspar ou expor as costas, com atenção à segurança cervical.':'Inverted rotation to recover guard, sweep or expose the back, with cervical safety priority.'],
-    ['Worm Guard','Advanced',pt?'Lapela enrolada na perna para controlar o adversário; exige mobilidade e compreensão profunda do Gi.':'Lapel wrapped around the leg for control; requires mobility and deep Gi understanding.'],
-    ['Rubber Guard','Advanced',pt?'Controlo de postura com perna alta; exige flexibilidade, ângulo e coordenação segura.':'High-leg posture control requiring flexibility, angle and safe coordination.']
-  ];
-  return rows.map((r,i)=>({id:'cm'+Date.now()+i,focus:r[0],level:r[1],lessonId:'',notes:r[2]}));
+function isoAddDays(iso,days){const d=new Date((iso||new Date().toISOString().slice(0,10))+'T00:00:00');d.setDate(d.getDate()+days);return d.toISOString().slice(0,10);}
+function cycleBlank(){const start=new Date().toISOString().slice(0,10);return{id:null,name:'',format:'Mixed',level:'Mixed',start,end:isoAddDays(start,83),audience:'Group',dna:'',performance:'',notes:'',microcycles:[],updatedAt:Date.now()};}
+function microBlank(index=0,start){const s=start||isoAddDays(cyEl('start')&&cyEl('start').value||new Date().toISOString().slice(0,10),index*7);return{id:'mc'+Date.now()+index,name:'',start:s,end:isoAddDays(s,4),situation:'mixed',complexity:'Intermediate',load:'standard',context:'positional',objective:'',techniqueId:'',lessonId:'',notes:'',topicKey:'',color:''};}
+function findMoveId(patterns){for(const p of patterns){const id=ids.find(x=>p.test(T[x].name));if(id)return id;}return'';}
+function annualIso(year,month,day){return year+'-'+String(month).padStart(2,'0')+'-'+String(day).padStart(2,'0');}
+function annualCycleYear(){const n=new Date();return(n.getMonth()>0||n.getDate()>5)?n.getFullYear()+1:n.getFullYear();}
+function annualTopicDefinitions(){
+  const pt=isPortuguese(),ptpt=isPtPt();
+  const L=(en,br,ptText)=>pt?(ptpt?ptText:br):en;
+  return{
+    guard_bottom:{name:L('Closed guard','Guarda fechada','Guarda fechada'),color:'#F1DADB',situation:'bottom',complexity:'Basic',techniqueId:findMoveId([/^Closed Guard$/i]),objective:L('Closed-guard posture control, attacks, sweeps and retention.','Controle de postura, ataques, raspagens e retenção a partir da guarda fechada.','Controlo da postura, ataques, raspagens e retenção a partir da guarda fechada.')},
+    half_bottom:{name:L('Half guard · bottom','Meia-guarda · por baixo','Meia-guarda · por baixo'),color:'#E4B2B6',situation:'bottom',complexity:'Intermediate',techniqueId:findMoveId([/^Half Guard$/i]),objective:L('Frames, underhook, guard recovery and sweeps from bottom half guard.','Frames, underhook, reposição de guarda e raspagens por baixo.','Frames, underhook, reposição de guarda e raspagens por baixo.')},
+    mount:{name:L('Mount','Montada','Montada'),color:'#F6D5B0',situation:'mixed',complexity:'Intermediate',techniqueId:findMoveId([/^Mount$/i]),objective:L('Control, attacks and escapes from mount.','Controle, ataques e saídas da montada.','Controlo, ataques e saídas da montada.')},
+    turtle_top:{name:L('Four-point / turtle · top','Quatro apoios · por cima','Quatro apoios · por cima'),color:'#26305F',situation:'top',complexity:'Intermediate',techniqueId:findMoveId([/^Turtle Top$/i,/Rear-Naked Choke from Turtle Position/i]),objective:L('Control the turtle, expose the back and prevent guard recovery.','Controlar os quatro apoios, expor as costas e impedir a reposição de guarda.','Controlar os quatro apoios, expor as costas e impedir a reposição de guarda.')},
+    sequences:{name:L('Integrated sequences','Sequências','Sequências'),color:'#EFFF00',situation:'mixed',complexity:'Advanced',techniqueId:findMoveId([/Closed Guard \(Bottom\) Back Take: Arm Drag Back Take/i,/Arm Drag Back Take/i,/Arm Drag to Takedown/i]),objective:L('Connect positions and reactions in a continuous technical sequence.','Conectar posições e reações em uma sequência técnica contínua.','Ligar posições e reações numa sequência técnica contínua.')},
+    pass:{name:L('Guard passing','Passagem de guarda','Passagem de guarda'),color:'#C9D6F3',situation:'top',complexity:'Intermediate',techniqueId:findMoveId([/^Knee Slice Pass$/i,/Open Guard Pass: Toreando/i,/Toreando Pass/i]),objective:L('Control the legs, pass the guard and stabilise the top position.','Controlar as pernas, passar a guarda e estabilizar por cima.','Controlar as pernas, passar a guarda e estabilizar por cima.')},
+    side_top:{name:L('Side control / 100 kilos · top','100 quilos · por cima','100 quilos · por cima'),color:'#6D83DA',situation:'top',complexity:'Intermediate',techniqueId:findMoveId([/^Side Control$/i]),objective:L('Pin from side control, block recovery and progress to attacks.','Controlar nos 100 quilos, impedir a reposição e progredir para ataques.','Controlar nos 100 quilos, impedir a reposição e progredir para ataques.')},
+    back:{name:L('Back control','Costas','Costas'),color:'#F6BC8A',situation:'mixed',complexity:'Intermediate',techniqueId:findMoveId([/^Back Control$/i]),objective:L('Maintain back control, attack and practise structured escapes.','Manter o controle das costas, atacar e praticar saídas estruturadas.','Manter o controlo das costas, atacar e praticar saídas estruturadas.')},
+    side_bottom:{name:L('Side control / 100 kilos · bottom','100 quilos · por baixo','100 quilos · por baixo'),color:'#D98B93',situation:'bottom',complexity:'Intermediate',techniqueId:findMoveId([/Side Control Escape: Reguard/i,/Side Control Escape: Bridge and Roll/i,/^Side Control Escape$/i]),objective:L('Build frames, recover inside position and escape side control.','Criar frames, recuperar a posição interna e sair dos 100 quilos.','Criar frames, recuperar a posição interior e sair dos 100 quilos.')},
+    turtle_bottom:{name:L('Four-point / turtle · bottom','Quatro apoios · por baixo','Quatro apoios · por baixo'),color:'#951132',situation:'bottom',complexity:'Intermediate',techniqueId:findMoveId([/Turtle Escape: Invert and Re-Guard/i,/Turtle Escape: Peterson Roll/i,/Turtle Recovery/i]),objective:L('Protect the neck, remove controls and recover guard or top position.','Proteger o pescoço, eliminar controles e recuperar a guarda ou a posição por cima.','Proteger o pescoço, eliminar controlos e recuperar a guarda ou a posição por cima.')},
+    standing:{name:L('Standing','Em pé','Em pé'),color:'#C4FFC7',situation:'standing',complexity:'Intermediate',techniqueId:findMoveId([/^Single Leg Takedown$/i,/^Double Leg Takedown$/i,/Ankle Pick/i]),objective:L('Work stance, distance, entries, takedowns and post-takedown control.','Trabalhar postura, distância, entradas, quedas e controle após a queda.','Trabalhar postura, distância, entradas, quedas e controlo após a queda.')},
+    half_top:{name:L('Half guard · top','Meia-guarda · por cima','Meia-guarda · por cima'),color:'#98AFE6',situation:'top',complexity:'Intermediate',techniqueId:findMoveId([/Half Guard Pass: With Underhook/i,/Half Guard Pass: Under Hook and Helicopter/i,/^Knee Slice Pass$/i]),objective:L('Win upper-body control, clear the knee line and complete the pass.','Ganhar o controle da parte superior, liberar a linha do joelho e concluir a passagem.','Ganhar o controlo da parte superior, libertar a linha do joelho e concluir a passagem.')},
+    top_integration:{name:L('Top-game integration','Jogo por cima · integração','Jogo por cima · integração'),color:'#6A00FF',situation:'top',complexity:'Advanced',techniqueId:findMoveId([/^Knee Slice Pass$/i,/Open Guard Pass: Toreando/i,/^Side Control$/i]),objective:L('Integrate passing, pinning, transitions and attacks from top.','Integrar passagem, controle, transições e ataques por cima.','Integrar passagem, controlo, transições e ataques por cima.')}
+  };
 }
-function cycleTemplate(){return{...cycleBlank(),name:isPtPt()?'Progressão de guardas · Básico a avançado':currentLang==='pt-BR'?'Progressão de guardas · Básico ao avançado':'Guard progression · Basic to advanced',level:'Mixed',modules:guardTemplateRows()};}
-async function ensureCyclesLoaded(){if(!cyclesLoaded){cycles=(await storeGet(K_CYCLES))||[];cyclesLoaded=true;}}
-function cycleNameById(id){const c=cycles.find(x=>x.id===id);return c?c.name:tr('noCycle');}
+function macroTemplate(){
+  const year=annualCycleYear(),defs=annualTopicDefinitions(),pt=isPortuguese();
+  const schedule=[
+    [1,1,1,5,'guard_bottom'],[1,8,1,12,'half_bottom'],[1,15,1,19,'mount'],[1,22,1,26,'turtle_top'],[1,29,2,2,'sequences'],
+    [2,5,2,9,'guard_bottom'],[2,12,2,16,'pass'],[2,19,2,23,'side_top'],[2,26,3,1,'back'],[3,4,3,8,'side_bottom'],
+    [3,11,3,15,'turtle_bottom'],[3,18,3,22,'standing'],[3,25,3,29,'guard_bottom'],[4,1,4,5,'side_top'],[4,8,4,12,'mount'],
+    [4,15,4,19,'back'],[4,22,4,26,'pass'],[4,29,5,3,'half_top'],[5,6,5,10,'guard_bottom'],[5,13,5,17,'turtle_top'],
+    [5,20,5,24,'side_bottom'],[5,27,5,31,'pass'],[6,3,6,7,'half_top'],[6,10,6,14,'standing'],[6,17,6,21,'sequences'],
+    [6,24,6,28,'guard_bottom'],[7,1,7,5,'turtle_bottom'],[7,8,7,12,'mount'],[7,15,7,19,'side_top'],[7,22,7,26,'back'],
+    [7,29,8,2,'side_bottom'],[8,5,8,9,'guard_bottom'],[8,12,8,16,'sequences'],[8,19,8,23,'standing'],[8,26,8,30,'half_bottom'],
+    [9,2,9,6,'pass'],[9,9,9,13,'mount'],[9,16,9,20,'half_top'],[9,23,9,27,'back'],[9,30,10,4,'guard_bottom'],
+    [10,7,10,11,'turtle_top'],[10,14,10,18,'turtle_bottom'],[10,21,10,25,'side_top'],[10,28,11,1,'pass'],[11,4,11,8,'half_bottom'],
+    [11,11,11,15,'guard_bottom'],[11,18,11,22,'standing'],[11,25,11,29,'pass'],[12,2,12,6,'side_top'],[12,9,12,13,'guard_bottom'],
+    [12,16,12,20,'pass'],[12,23,12,27,'back'],[12,30,1,3,'top_integration']
+  ];
+  const base=cycleBlank();
+  base.presetAnnual=true;
+  base.start=annualIso(year,1,1);base.end=annualIso(year+1,1,3);
+  base.name=(isPtPt()?'Macrociclo anual técnico e tático ':currentLang==='pt-BR'?'Macrociclo anual técnico e tático ':'Annual technical-tactical macrocycle ')+year;
+  base.format='Mixed';base.level='Mixed';base.audience='Group';
+  base.dna=pt?'Planeamento anual baseado no calendário por cores: guarda fechada, meia-guarda, passagem, montada, 100 quilos, quatro apoios, costas, em pé, sequências e integração por cima.':'Annual colour-coded plan covering closed guard, half guard, passing, mount, side control, turtle, back control, standing, sequences and top-game integration.';
+  base.performance=pt?'Usar as semanas de sequências e a última semana de integração para avaliação, consolidação e ligação entre temas.':'Use sequence weeks and the final integration week for assessment, consolidation and connection between themes.';
+  base.notes=pt?'As posições e datas seguem o calendário fornecido. A complexidade, a sobrecarga coordenativa, o contexto e as aulas associadas continuam editáveis pelo professor.':'Positions and dates follow the supplied calendar. Complexity, coordinative load, context and linked classes remain editable by the professor.';
+  base.microcycles=schedule.map((r,i)=>{
+    const [sm,sd,em,ed,key]=r,d=defs[key],endYear=(sm===12&&em===1)?year+1:year;
+    return{id:'mc-annual-'+year+'-'+String(i+1).padStart(2,'0'),name:d.name,start:annualIso(year,sm,sd),end:annualIso(endYear,em,ed),situation:d.situation,complexity:d.complexity,load:'standard',context:key==='sequences'||key==='top_integration'?'scenario':'positional',objective:d.objective,techniqueId:d.techniqueId||'',lessonId:'',notes:'',topicKey:key,color:d.color};
+  });
+  return base;
+}
+function migrateCycle(c){
+  if(c.microcycles)return{...cycleBlank(),...c,microcycles:(c.microcycles||[]).map((m,i)=>({...microBlank(i,c.start),...m,id:m.id||('mc'+Date.now()+i)}))};
+  const old=(c.modules||[]).map((m,i)=>{const s=isoAddDays(c.start||new Date().toISOString().slice(0,10),i*7);return{...microBlank(i,s),name:m.focus||('Microcycle '+(i+1)),complexity:m.level||'Intermediate',techniqueId:graphIdByName(m.focus)||'',lessonId:m.lessonId||'',objective:m.notes||''};});
+  return{...cycleBlank(),...c,end:c.end||isoAddDays(c.start||new Date().toISOString().slice(0,10),Math.max(0,old.length*7-1)),microcycles:old};
+}
+function localizeAnnualPresetData(){
+  const defs=annualTopicDefinitions();
+  const applyMicro=m=>{if(m&&m.topicKey&&defs[m.topicKey])m.name=defs[m.topicKey].name;};
+  const applyCycle=c=>{if(!c)return;const preset=c.presetAnnual||String(c.id||'').startsWith('preset-annual-');if(!preset)return;const year=String(c.start||'').slice(0,4);c.name=(isPtPt()?'Macrociclo anual técnico e tático ':currentLang==='pt-BR'?'Macrociclo anual técnico e tático ':'Annual technical-tactical macrocycle ')+year;(c.microcycles||[]).forEach(applyMicro);};
+  cycles.forEach(applyCycle);cycleModules.forEach(applyMicro);
+  if(currentCycleId&&String(currentCycleId).startsWith('preset-annual-')&&cyEl('name')){const c=cycles.find(x=>x.id===currentCycleId);if(c)cyEl('name').value=c.name;}
+}
+async function ensureCyclesLoaded(){if(!cyclesLoaded){cycles=((await storeGet(K_CYCLES))||[]).map(migrateCycle);if(!cycles.length){const preset=macroTemplate();preset.id='preset-annual-'+preset.start.slice(0,4);preset.updatedAt=Date.now();cycles=[preset];await storeSet(K_CYCLES,cycles);}cyclesLoaded=true;}}
+function cycleRefParts(ref){const parts=String(ref||'').split('::');return{macroId:parts[0]||'',microId:parts[1]||''};}
+function microcycleDisplayName(m){
+  if(!m)return tr('week');
+  if(m.topicKey){const d=annualTopicDefinitions()[m.topicKey];if(d)return d.name;}
+  return m.name||tr('week');
+}
+function macrocycleDisplayName(c){
+  if(!c)return tr('newMacrocycle');
+  if(c.presetAnnual||String(c.id||'').startsWith('preset-annual-')){const year=String(c.start||'').slice(0,4);return(isPtPt()?'Macrociclo anual técnico e tático ':currentLang==='pt-BR'?'Macrociclo anual técnico e tático ':'Annual technical-tactical macrocycle ')+year;}
+  return c.name||tr('newMacrocycle');
+}
+function cycleNameById(ref){const p=cycleRefParts(ref),c=cycles.find(x=>x.id===p.macroId);if(!c)return tr('noCycle');const m=(c.microcycles||[]).find(x=>x.id===p.microId);return m?(macrocycleDisplayName(c)+' › '+microcycleDisplayName(m)):macrocycleDisplayName(c);}
 function markCycleDirty(){cycleDirty=true;const st=document.getElementById('cycle-save-state');if(st)st.textContent=tr('unsavedChanges');}
-function refreshLessonCycleOptions(){const sel=lpEl('cycle');if(!sel)return;const keep=sel.value;sel.innerHTML='<option value="">'+tr('noCycle')+'</option>'+cycles.slice().sort((a,b)=>(a.name||'').localeCompare(b.name||'')).map(c=>'<option value="'+escapeHtml(c.id)+'">'+escapeHtml(c.name||tr('newCycle'))+'</option>').join('');sel.value=cycles.some(c=>c.id===keep)?keep:'';}
-function collectCycle(){return{id:currentCycleId||('cy'+Date.now()),name:cyEl('name').value.trim()||(isPortuguese()?'Novo ciclo':'New cycle'),format:cyEl('format').value,level:cyEl('level').value,start:cyEl('start').value,sessionsPerWeek:+cyEl('sessions').value||1,notes:cyEl('notes').value.trim(),modules:cycleModules.map(m=>({...m})),updatedAt:Date.now()};}
-function loadCycle(c){currentCycleId=c.id||null;cyEl('name').value=c.name||'';cyEl('format').value=c.format||'Gi';cyEl('level').value=c.level||'Mixed';cyEl('start').value=c.start||new Date().toISOString().slice(0,10);cyEl('sessions').value=c.sessionsPerWeek||2;cyEl('notes').value=c.notes||'';cycleModules=(c.modules||[]).map((m,i)=>({id:m.id||('cm'+Date.now()+i),focus:m.focus||'',level:m.level||'Intermediate',lessonId:m.lessonId||'',notes:m.notes||''}));cycleDirty=false;document.getElementById('cycle-save-state').textContent=tr('savedChanges');renderCycleModules();renderSavedCycles();}
-function guardOptions(value){return CATALOG.guard.map(n=>'<option value="'+escapeHtml(n)+'"'+(n===value?' selected':'')+'>'+moveLabel(n)+'</option>').join('');}
+function refreshLessonCycleOptions(){const sel=lpEl('cycle');if(!sel)return;const keep=sel.value;let html='<option value="">'+tr('noCycle')+'</option>';cycles.slice().sort((a,b)=>macrocycleDisplayName(a).localeCompare(macrocycleDisplayName(b))).forEach(c=>{const micros=c.microcycles||[],macroName=macrocycleDisplayName(c);if(micros.length){html+='<optgroup label="'+escapeHtml(macroName)+'">'+micros.map((m,i)=>'<option value="'+escapeHtml(c.id+'::'+m.id)+'">'+escapeHtml((i+1)+'. '+microcycleDisplayName(m))+'</option>').join('')+'</optgroup>';}else html+='<option value="'+escapeHtml(c.id)+'">'+escapeHtml(macroName)+'</option>';});sel.innerHTML=html;sel.value=Array.from(sel.options).some(o=>o.value===keep)?keep:'';}
+function collectCycle(){return{id:currentCycleId||('cy'+Date.now()),presetAnnual:currentCycleId&&String(currentCycleId).startsWith('preset-annual-'),name:cyEl('name').value.trim()||(isPortuguese()?'Novo macrociclo':'New macrocycle'),format:cyEl('format').value,level:cyEl('level').value,start:cyEl('start').value,end:cyEl('end').value,audience:cyEl('audience').value,dna:cyEl('dna').value.trim(),performance:cyEl('performance').value.trim(),notes:cyEl('notes').value.trim(),microcycles:cycleModules.map(m=>({...m})),updatedAt:Date.now()};}
+function loadCycle(c){c=migrateCycle(c);openMicrocycleIds.clear();if(c.presetAnnual||String(c.id||'').startsWith('preset-annual-')){const defs=annualTopicDefinitions();c.name=(isPtPt()?'Macrociclo anual técnico e tático ':currentLang==='pt-BR'?'Macrociclo anual técnico e tático ':'Annual technical-tactical macrocycle ')+String(c.start||'').slice(0,4);(c.microcycles||[]).forEach(m=>{if(m.topicKey&&defs[m.topicKey])m.name=defs[m.topicKey].name;});}currentCycleId=c.id||null;cyEl('name').value=c.name||'';cyEl('format').value=c.format||'Mixed';cyEl('level').value=c.level||'Mixed';cyEl('start').value=c.start||new Date().toISOString().slice(0,10);cyEl('end').value=c.end||isoAddDays(c.start||new Date().toISOString().slice(0,10),83);cyEl('audience').value=c.audience||'Group';cyEl('dna').value=c.dna||'';cyEl('performance').value=c.performance||'';cyEl('notes').value=c.notes||'';cycleModules=(c.microcycles||[]).map((m,i)=>({...microBlank(i,c.start),...m,id:m.id||('mc'+Date.now()+i)}));cycleDirty=false;document.getElementById('cycle-save-state').textContent=tr('savedChanges');renderCycleModules();renderSavedCycles();renderMacroCalendar();}
+function techniqueOptions(value){return '<option value="">'+tr('selectTechnique')+'</option>'+ids.slice().sort((a,b)=>moveLabel(a).localeCompare(moveLabel(b))).map(id=>'<option value="'+id+'"'+(id===value?' selected':'')+'>'+escapeHtml(moveLabel(id))+'</option>').join('');}
 function lessonOptions(value){return '<option value="">'+tr('selectClass')+'</option>'+lessons.slice().sort((a,b)=>(a.title||'').localeCompare(b.title||'')).map(l=>'<option value="'+escapeHtml(l.id)+'"'+(l.id===value?' selected':'')+'>'+escapeHtml(l.title||tr('newClass'))+'</option>').join('');}
-function renderCycleModules(){const box=document.getElementById('cycle-modules');document.getElementById('cy-module-count').textContent=cycleModules.length;box.innerHTML='';if(!cycleModules.length){box.innerHTML='<div class="cycle-empty">'+tr('noModules')+'</div>';return;}cycleModules.forEach((m,i)=>{const row=document.createElement('div');row.className='cycle-module';row.innerHTML='<div class="cycle-module-index">'+(i+1)+'</div><div><label class="sr-only">'+tr('focusGuard')+'</label><select data-k="focus">'+guardOptions(m.focus)+'</select></div><div><label class="sr-only">'+tr('level')+'</label><select data-k="level"><option value="Basic"'+(m.level==='Basic'?' selected':'')+'>'+tr('basic')+'</option><option value="Intermediate"'+(m.level==='Intermediate'?' selected':'')+'>'+tr('intermediate')+'</option><option value="Advanced"'+(m.level==='Advanced'?' selected':'')+'>'+tr('advanced')+'</option></select><select data-k="lessonId" style="margin-top:6px">'+lessonOptions(m.lessonId)+'</select></div><div><label class="sr-only">'+tr('moduleNotes')+'</label><textarea data-k="notes" placeholder="'+tr('moduleNotes')+'">'+escapeHtml(m.notes)+'</textarea></div><div class="cycle-module-actions"><button class="cycle-icon-btn" data-act="up" title="Up">↑</button><button class="cycle-icon-btn" data-act="down" title="Down">↓</button><button class="cycle-icon-btn danger" data-act="remove" title="Remove">×</button></div>';
-    row.querySelectorAll('[data-k]').forEach(el=>{el.oninput=()=>{m[el.dataset.k]=el.value;markCycleDirty();};el.onchange=el.oninput;});row.querySelector('[data-act="up"]').onclick=()=>{if(i){[cycleModules[i-1],cycleModules[i]]=[cycleModules[i],cycleModules[i-1]];markCycleDirty();renderCycleModules();}};row.querySelector('[data-act="down"]').onclick=()=>{if(i<cycleModules.length-1){[cycleModules[i+1],cycleModules[i]]=[cycleModules[i],cycleModules[i+1]];markCycleDirty();renderCycleModules();}};row.querySelector('[data-act="remove"]').onclick=()=>{cycleModules.splice(i,1);markCycleDirty();renderCycleModules();};box.appendChild(row);});}
-function renderSavedCycles(){const box=document.getElementById('cy-saved-list');document.getElementById('cy-saved-count').textContent=cycles.length;box.innerHTML='';if(!cycles.length){box.innerHTML='<div class="lesson-status">'+tr('noSavedCycles')+'</div>';return;}cycles.slice().sort((a,b)=>(b.updatedAt||0)-(a.updatedAt||0)).forEach(c=>{const linked=(c.modules||[]).filter(m=>m.lessonId).length,total=(c.modules||[]).length,pct=total?linked/total*100:0,d=document.createElement('div');d.className='cycle-saved'+(c.id===currentCycleId?' active':'');d.innerHTML='<div class="cycle-saved-title">'+escapeHtml(c.name||tr('newCycle'))+'</div><div class="cycle-saved-meta">'+escapeHtml(c.format)+' · '+escapeHtml(levelLabel(c.level))+' · '+total+' '+tr('modules')+'<br>'+tr('cycleProgress',{done:linked,total})+'</div><div class="cycle-progress"><span style="width:'+pct+'%"></span></div><div class="lesson-saved-actions"><span class="lesson-link" data-act="edit">'+tr('edit')+'</span><span class="lesson-link" data-act="copy">'+tr('copy')+'</span><span class="lesson-link danger" data-act="remove">'+tr('remove')+'</span></div>';const open=()=>{loadCycle(c);toast(tr('cycleLoaded'));};d.querySelector('.cycle-saved-title').onclick=open;d.querySelector('[data-act="edit"]').onclick=open;d.querySelector('[data-act="copy"]').onclick=()=>{const cp={...c,id:null,name:(c.name||'')+' '+(isPortuguese()?'(cópia)':'(copy)'),modules:(c.modules||[]).map((m,i)=>({...m,id:'cm'+Date.now()+i}))};loadCycle(cp);markCycleDirty();toast(tr('cycleDuplicated'));};d.querySelector('[data-act="remove"]').onclick=async()=>{cycles=cycles.filter(x=>x.id!==c.id);if(currentCycleId===c.id)loadCycle(cycleBlank());await storeSet(K_CYCLES,cycles);refreshLessonCycleOptions();renderSavedCycles();renderSavedLessons();};box.appendChild(d);});}
-function renderCycleGuide(){const guide=document.getElementById('cycle-guide-list');if(!guide)return;const groups=[['Basic',isPortuguese()?'Guarda fechada, meia-guarda, borboleta e guarda aberta.':'Closed, half, butterfly and open guard.'],['Intermediate',isPortuguese()?'Spider, De La Riva, lapela, Z, X e borboleta com lapela.':'Spider, De La Riva, lapel, Z, X and butterfly-lapel.'],['Advanced',isPortuguese()?'50/50, lasso, RDLR, single-leg X, K, invertida, worm e rubber.':'50/50, lasso, RDLR, single-leg X, K, inverted, worm and rubber.']];guide.innerHTML=groups.map(g=>'<div class="cycle-guide-item"><div class="cycle-level">'+escapeHtml(g[0]==='Basic'?tr('basic'):levelLabel(g[0]))+'</div><div>'+escapeHtml(g[1])+'</div></div>').join('');}
-function renderCycles(){if(!cyEl('name'))return;if(!currentCycleId&&!cyEl('start').value)loadCycle(cycleBlank());renderCycleModules();renderSavedCycles();renderCycleGuide();}
-async function saveCycle(){const c=collectCycle();currentCycleId=c.id;cycles=cycles.filter(x=>x.id!==c.id);cycles.push(c);await storeSet(K_CYCLES,cycles);cycleDirty=false;document.getElementById('cycle-save-state').textContent=tr('savedChanges');refreshLessonCycleOptions();renderSavedCycles();renderSavedLessons();toast(tr('cycleSaved'));}
+function situationLabel(v){return tr(v==='top'?'topSituation':v==='bottom'?'bottomSituation':v==='standing'?'standingSituation':'mixedSituation');}
+function loadLabel(v){return tr(v==='regression'?'regression':v==='progression'?'progression':'standardLoad');}
+function contextLabel(v){return tr(v==='technical'?'technicalDrilling':v==='scenario'?'scenarioTraining':v==='competition'?'competitionContext':'positionalTraining');}
+function renderCycleModules(){
+  const box=document.getElementById('cycle-modules');document.getElementById('cy-module-count').textContent=cycleModules.length;box.innerHTML='';
+  if(!cycleModules.length){box.innerHTML='<div class="cycle-empty">'+tr('noMicrocycles')+'</div>';renderMacroCalendar();return;}
+  if(!openMicrocycleIds.size&&cycleModules[0])openMicrocycleIds.add(cycleModules[0].id);
+  cycleModules.forEach((m,i)=>{
+    const expanded=openMicrocycleIds.has(m.id),displayName=microcycleDisplayName(m),row=document.createElement('article');
+    row.className='microcycle-card'+(expanded?'':' collapsed');row.dataset.situation=m.situation||'mixed';row.style.setProperty('--cycle-color',m.color||'var(--guard)');
+    const tech=m.techniqueId&&T[m.techniqueId]?moveLabel(m.techniqueId):'';
+    const grid=expanded?'<div class="microcycle-grid">'+
+      '<div class="span-6"><label>'+tr('microcycleName')+'</label><input data-k="name" value="'+escapeHtml(displayName)+'" placeholder="'+tr('microcycleNamePlaceholder')+'"></div>'+
+      '<div class="span-3"><label>'+tr('startDate')+'</label><input type="date" data-k="start" value="'+escapeHtml(m.start)+'"></div>'+
+      '<div class="span-3"><label>'+tr('endDate')+'</label><input type="date" data-k="end" value="'+escapeHtml(m.end)+'"></div>'+
+      '<div class="span-3"><label>'+tr('tacticalSituation')+'</label><select data-k="situation"><option value="top"'+(m.situation==='top'?' selected':'')+'>'+tr('topSituation')+'</option><option value="bottom"'+(m.situation==='bottom'?' selected':'')+'>'+tr('bottomSituation')+'</option><option value="mixed"'+(m.situation==='mixed'?' selected':'')+'>'+tr('mixedSituation')+'</option><option value="standing"'+(m.situation==='standing'?' selected':'')+'>'+tr('standingSituation')+'</option></select></div>'+
+      '<div class="span-3"><label>'+tr('complexity')+'</label><select data-k="complexity"><option value="Basic"'+(m.complexity==='Basic'?' selected':'')+'>'+tr('basic')+'</option><option value="Intermediate"'+(m.complexity==='Intermediate'?' selected':'')+'>'+tr('intermediate')+'</option><option value="Advanced"'+(m.complexity==='Advanced'?' selected':'')+'>'+tr('advanced')+'</option></select></div>'+
+      '<div class="span-3"><label>'+tr('coordinativeLoad')+'</label><select data-k="load"><option value="regression"'+(m.load==='regression'?' selected':'')+'>'+tr('regression')+'</option><option value="standard"'+(m.load==='standard'?' selected':'')+'>'+tr('standardLoad')+'</option><option value="progression"'+(m.load==='progression'?' selected':'')+'>'+tr('progression')+'</option></select></div>'+
+      '<div class="span-3"><label>'+tr('taskContext')+'</label><select data-k="context"><option value="technical"'+(m.context==='technical'?' selected':'')+'>'+tr('technicalDrilling')+'</option><option value="positional"'+(m.context==='positional'?' selected':'')+'>'+tr('positionalTraining')+'</option><option value="scenario"'+(m.context==='scenario'?' selected':'')+'>'+tr('scenarioTraining')+'</option><option value="competition"'+(m.context==='competition'?' selected':'')+'>'+tr('competitionContext')+'</option></select></div>'+
+      '<div class="span-6"><label>'+tr('mainTechnique')+'</label><select data-k="techniqueId">'+techniqueOptions(m.techniqueId)+'</select></div>'+
+      '<div class="span-6"><label>'+tr('linkedClass')+'</label><select data-k="lessonId">'+lessonOptions(m.lessonId)+'</select></div>'+
+      '<div class="span-8"><label>'+tr('taskObjective')+'</label><textarea data-k="objective" placeholder="'+tr('taskObjectivePlaceholder')+'">'+escapeHtml(m.objective)+'</textarea></div>'+
+      '<div class="span-4"><label>'+tr('microcycleNotes')+'</label><textarea data-k="notes">'+escapeHtml(m.notes)+'</textarea></div></div>':
+      '<div class="microcycle-compact">'+escapeHtml(situationLabel(m.situation))+(tech?' · '+escapeHtml(tech):'')+'</div>';
+    row.innerHTML='<div class="microcycle-head"><div class="microcycle-number">'+(i+1)+'</div><div class="microcycle-title"><strong>'+escapeHtml(displayName)+'</strong><small>'+escapeHtml(fmtDate(m.start))+' — '+escapeHtml(fmtDate(m.end))+'</small></div><div class="microcycle-actions"><button class="cycle-icon-btn toggle-icon" data-act="toggle" title="Open / close">⌄</button><button class="cycle-icon-btn" data-act="up" title="Up">↑</button><button class="cycle-icon-btn" data-act="down" title="Down">↓</button><button class="cycle-icon-btn danger" data-act="remove" title="Remove">×</button></div></div>'+grid;
+    row.querySelector('[data-act="toggle"]').onclick=()=>{expanded?openMicrocycleIds.delete(m.id):openMicrocycleIds.add(m.id);renderCycleModules();};
+    row.querySelectorAll('[data-k]').forEach(el=>{const update=()=>{const k=el.dataset.k;m[k]=el.value;if(k==='name'){m.topicKey='';m.name=el.value;}row.dataset.situation=m.situation||'mixed';row.style.setProperty('--cycle-color',m.color||'var(--guard)');markCycleDirty();renderMacroCalendar();};el.oninput=update;el.onchange=update;});
+    row.querySelector('[data-act="up"]').onclick=()=>{if(i){[cycleModules[i-1],cycleModules[i]]=[cycleModules[i],cycleModules[i-1]];markCycleDirty();renderCycleModules();}};
+    row.querySelector('[data-act="down"]').onclick=()=>{if(i<cycleModules.length-1){[cycleModules[i+1],cycleModules[i]]=[cycleModules[i],cycleModules[i+1]];markCycleDirty();renderCycleModules();}};
+    row.querySelector('[data-act="remove"]').onclick=()=>{openMicrocycleIds.delete(m.id);cycleModules.splice(i,1);markCycleDirty();renderCycleModules();};
+    box.appendChild(row);
+  });
+  renderMacroCalendar();
+}
+function renderCycleTopicLegend(){
+  const box=document.getElementById('cy-topic-legend');if(!box)return;box.innerHTML='';
+  const seen=new Set();cycleModules.forEach(m=>{const key=m.topicKey||m.name||m.color;if(!key||seen.has(key))return;seen.add(key);const chip=document.createElement('span');chip.className='cycle-topic-chip';chip.innerHTML='<i style="background:'+escapeHtml(m.color||'#3B82F6')+'"></i><span>'+escapeHtml(microcycleDisplayName(m)||tr('week'))+'</span>';box.appendChild(chip);});
+}
+function renderMacroCalendar(){const box=document.getElementById('cy-calendar');if(!box)return;box.innerHTML='';renderCycleTopicLegend();if(!cycleModules.length){box.innerHTML='<div class="cycle-empty">'+tr('noMicrocycles')+'</div>';return;}cycleModules.forEach((m,i)=>{const d=document.createElement('div');d.className='macro-week';d.dataset.situation=m.situation||'mixed';d.style.setProperty('--cycle-color',m.color||'var(--guard)');const tech=m.techniqueId&&T[m.techniqueId]?moveLabel(m.techniqueId):'';d.innerHTML='<div class="dates">'+escapeHtml((i+1)+'. '+fmtDate(m.start)+' — '+fmtDate(m.end))+'</div><div class="focus"><span class="topic-dot"></span>'+escapeHtml(microcycleDisplayName(m)||tr('week')+' '+(i+1))+'</div><div class="meta">'+escapeHtml(situationLabel(m.situation))+(tech?'<br>'+escapeHtml(tech):'')+'</div>';box.appendChild(d);});}
+function renderSavedCycles(){const box=document.getElementById('cy-saved-list');document.getElementById('cy-saved-count').textContent=cycles.length;box.innerHTML='';if(!cycles.length){box.innerHTML='<div class="lesson-status">'+tr('noSavedMacrocycles')+'</div>';return;}cycles.slice().sort((a,b)=>(b.updatedAt||0)-(a.updatedAt||0)).forEach(c=>{const micros=c.microcycles||[],linked=micros.filter(m=>m.lessonId).length,total=micros.length,pct=total?linked/total*100:0,d=document.createElement('div');d.className='cycle-saved'+(c.id===currentCycleId?' active':'');d.innerHTML='<div class="cycle-saved-title">'+escapeHtml(macrocycleDisplayName(c))+'</div><div class="cycle-saved-meta">'+escapeHtml(c.format)+' · '+escapeHtml(levelLabel(c.level))+' · '+escapeHtml(fmtDate(c.start))+' — '+escapeHtml(fmtDate(c.end))+'<br>'+tr('microcycleProgress',{done:linked,total})+'</div><div class="cycle-progress"><span style="width:'+pct+'%"></span></div><div class="lesson-saved-actions"><span class="lesson-link" data-act="edit">'+tr('edit')+'</span><span class="lesson-link" data-act="copy">'+tr('copy')+'</span><span class="lesson-link danger" data-act="remove">'+tr('remove')+'</span></div>';const open=()=>{loadCycle(c);toast(tr('macrocycleLoaded'));};d.querySelector('.cycle-saved-title').onclick=open;d.querySelector('[data-act="edit"]').onclick=open;d.querySelector('[data-act="copy"]').onclick=()=>{const cp={...c,id:null,name:(c.name||'')+' '+(isPortuguese()?'(cópia)':'(copy)'),microcycles:micros.map((m,i)=>({...m,id:'mc'+Date.now()+i}))};loadCycle(cp);markCycleDirty();toast(tr('macrocycleDuplicated'));};d.querySelector('[data-act="remove"]').onclick=async()=>{cycles=cycles.filter(x=>x.id!==c.id);if(currentCycleId===c.id)loadCycle(cycleBlank());await storeSet(K_CYCLES,cycles);refreshLessonCycleOptions();renderSavedCycles();renderSavedLessons();};box.appendChild(d);});}
+function renderCycles(){if(!cyEl('name'))return;if(!currentCycleId&&!cyEl('start').value)loadCycle(cycles.length?cycles[0]:macroTemplate());renderCycleModules();renderSavedCycles();renderMacroCalendar();}
+async function saveCycle(){const c=collectCycle();currentCycleId=c.id;cycles=cycles.filter(x=>x.id!==c.id);cycles.push(c);await storeSet(K_CYCLES,cycles);cycleDirty=false;document.getElementById('cycle-save-state').textContent=tr('savedChanges');refreshLessonCycleOptions();renderSavedCycles();renderSavedLessons();toast(tr('macrocycleSaved'));}
 CY_FIELDS.forEach(k=>{const el=cyEl(k);if(el){el.addEventListener('input',markCycleDirty);el.addEventListener('change',markCycleDirty);}});
 document.getElementById('cycle-new').onclick=()=>{loadCycle(cycleBlank());markCycleDirty();};
-document.getElementById('cycle-template').onclick=()=>{loadCycle(cycleTemplate());markCycleDirty();toast(tr('guardTemplateLoaded'));};
-document.getElementById('cycle-duplicate').onclick=()=>{const c=collectCycle();c.id=null;c.name=(c.name||'')+' '+(isPortuguese()?'(cópia)':'(copy)');c.modules=c.modules.map((m,i)=>({...m,id:'cm'+Date.now()+i}));loadCycle(c);markCycleDirty();toast(tr('cycleDuplicated'));};
+document.getElementById('cycle-template').onclick=()=>{loadCycle(macroTemplate());markCycleDirty();toast(tr('macrocycleTemplateLoaded'));};
+document.getElementById('cycle-duplicate').onclick=()=>{const c=collectCycle();c.id=null;c.name=(c.name||'')+' '+(isPortuguese()?'(cópia)':'(copy)');c.microcycles=c.microcycles.map((m,i)=>({...m,id:'mc'+Date.now()+i}));loadCycle(c);markCycleDirty();toast(tr('macrocycleDuplicated'));};
 document.getElementById('cycle-save').onclick=saveCycle;
-document.getElementById('cycle-add-module').onclick=()=>{cycleModules.push({id:'cm'+Date.now(),focus:'Closed Guard',level:'Basic',lessonId:'',notes:''});markCycleDirty();renderCycleModules();};
+document.getElementById('cycle-add-module').onclick=()=>{const previous=cycleModules[cycleModules.length-1],start=previous?isoAddDays(previous.start,7):cyEl('start').value;cycleModules.push(microBlank(cycleModules.length,start));markCycleDirty();renderCycleModules();};
 
 /* ============ GAME BUILDER ============ */
 let gameNodes=[];         // array of {id, x, y}
