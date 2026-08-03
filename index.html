@@ -356,14 +356,53 @@
   .teacher-help{font-size:10.5px;color:var(--text-dim);line-height:1.6;}
   .teacher-help b{color:var(--counter);font-weight:700;}
 
+
+  /* ===== STUDENT / PROFESSOR FRONTS ===== */
+  .ga-role-picker{display:flex;align-items:center;gap:4px;padding:3px;border:1px solid var(--line);border-radius:7px;background:var(--surface);}
+  .ga-role-btn{min-height:34px;padding:6px 11px;border:1px solid transparent;border-radius:5px;background:transparent;color:var(--text-dim);font-family:var(--disp);font-size:11px;font-weight:900;letter-spacing:.035em;cursor:pointer;white-space:nowrap;}
+  .ga-role-btn:hover,.ga-role-btn:focus-visible{outline:none;background:var(--surface3);color:var(--text);border-color:var(--line2);}
+  .ga-role-btn.active{background:var(--surface3);color:var(--counter);border-color:var(--counter);}
+  .teacher-subnav{display:flex;gap:5px;padding:4px;margin-bottom:14px;width:max-content;max-width:100%;overflow:auto;background:var(--surface);border:1px solid var(--line);border-radius:7px;scrollbar-width:none;}
+  .teacher-subnav::-webkit-scrollbar{display:none;}
+  .teacher-subtab{min-height:36px;padding:7px 14px;border:0;border-radius:5px;background:transparent;color:var(--text-dim);font-family:var(--disp);font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.05em;cursor:pointer;white-space:nowrap;}
+  .teacher-subtab.active{background:var(--surface3);color:var(--text);box-shadow:inset 0 0 0 1px var(--line2);}
+  .teacher-panel[hidden]{display:none!important;}
+  .lesson-identity{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(180px,.7fr) minmax(180px,.8fr);gap:10px;margin-bottom:13px;padding-bottom:13px;border-bottom:1px solid var(--line);}
+  .lesson-identity .lesson-type{height:38px;}
+
+  /* ===== TRAINING CYCLES ===== */
+  .cycle-layout{display:grid;grid-template-columns:minmax(0,1fr) 310px;gap:16px;align-items:start;}
+  .cycle-editor{display:flex;flex-direction:column;gap:12px;min-width:0;}
+  .cycle-actions{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:12px;}
+  .cycle-modules{display:flex;flex-direction:column;gap:9px;}
+  .cycle-module{display:grid;grid-template-columns:44px minmax(150px,1fr) 150px minmax(180px,1.2fr) auto;gap:8px;align-items:start;padding:10px;background:var(--surface2);border:1px solid var(--line);border-radius:6px;}
+  .cycle-module-index{width:34px;height:34px;display:grid;place-items:center;border-radius:50%;background:var(--surface3);border:1px solid var(--line2);color:var(--counter);font-family:var(--disp);font-weight:900;}
+  .cycle-module input,.cycle-module select,.cycle-module textarea{width:100%;min-height:36px;background:var(--surface);border:1px solid var(--line);color:var(--text);font-family:var(--mono);font-size:10.5px;padding:7px 8px;border-radius:4px;outline:none;}
+  .cycle-module textarea{min-height:66px;resize:vertical;line-height:1.45;}
+  .cycle-module input:focus,.cycle-module select:focus,.cycle-module textarea:focus{border-color:var(--guard);}
+  .cycle-module-actions{display:flex;flex-direction:column;gap:5px;}
+  .cycle-icon-btn{width:34px;height:30px;border:1px solid var(--line);border-radius:4px;background:var(--surface3);color:var(--text-dim);cursor:pointer;font-size:12px;}
+  .cycle-icon-btn:hover{color:var(--text);border-color:var(--line2);}.cycle-icon-btn.danger:hover{color:var(--submission);border-color:var(--submission);}
+  .cycle-empty{padding:24px 12px;text-align:center;color:var(--text-dim2);font-size:11px;border:1px dashed var(--line2);border-radius:6px;}
+  .cycle-saved{background:var(--surface2);border:1px solid var(--line);border-radius:5px;padding:10px;}
+  .cycle-saved.active{border-color:var(--counter);}
+  .cycle-saved-title{font-size:11.5px;font-weight:700;cursor:pointer;overflow-wrap:anywhere;}.cycle-saved-title:hover{color:var(--counter);}
+  .cycle-saved-meta{font-size:9.5px;color:var(--text-dim);margin-top:5px;line-height:1.45;}
+  .cycle-progress{height:7px;margin-top:8px;border:1px solid var(--line);border-radius:5px;background:var(--surface);overflow:hidden;}.cycle-progress span{display:block;height:100%;background:var(--guard);}
+  .cycle-guide-list{display:flex;flex-direction:column;gap:7px;}
+  .cycle-guide-item{display:grid;grid-template-columns:74px 1fr;gap:8px;font-size:10.5px;line-height:1.5;padding-bottom:7px;border-bottom:1px solid var(--line);}.cycle-guide-item:last-child{border-bottom:0;padding-bottom:0;}
+  .cycle-level{color:var(--counter);font-weight:700;}
+
   @media(max-width:1050px){
-    .teacher-layout{grid-template-columns:minmax(0,1fr) 270px;}
+    .teacher-layout,.cycle-layout{grid-template-columns:minmax(0,1fr) 270px;}
     .lesson-grid .span-2{grid-column:span 3}.lesson-grid .span-3{grid-column:span 4}.lesson-grid .span-4{grid-column:span 6}
   }
   @media(max-width:820px){
     #ga-root{height:auto!important;min-height:100dvh!important;overflow:visible;}
     .ga-topbar{position:sticky;top:0;background:rgba(10,13,18,.97);backdrop-filter:blur(10px);padding:10px 12px;z-index:30;}
-    .ga-nav{order:3;width:100%;overflow-x:auto;justify-content:flex-start;scrollbar-width:none;}
+    .ga-role-picker{order:3;width:100%;}
+    .ga-role-btn{flex:1;}
+    .ga-nav{order:4;width:100%;overflow-x:auto;justify-content:flex-start;scrollbar-width:none;}
     .ga-nav::-webkit-scrollbar{display:none}.ga-tab{min-height:40px;padding:8px 13px;}
     .ga-language-picker{margin-left:auto;}
     .ga-view.active{min-height:calc(100dvh - 108px);}
@@ -373,7 +412,7 @@
     #atlas-search{width:100%;min-height:42px;}
     #atlas-search-results{left:0;right:auto;width:100%;max-height:45vh;}
     #globe-wrap{min-height:calc(100dvh - 200px);}
-    .teacher-layout{grid-template-columns:1fr;}
+    .teacher-layout,.cycle-layout{grid-template-columns:1fr;}
     .teacher-side{position:static;}
     .teacher-picker{grid-template-columns:1fr;}
     .saved-lessons{max-height:none;}
@@ -390,6 +429,10 @@
     .row2,.tap-row{grid-template-columns:1fr;}.tap-add{min-height:38px;display:grid;place-items:center;}
     .panel{padding:13px}.stat-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
     .lesson-grid{grid-template-columns:1fr;}
+    .lesson-identity{grid-template-columns:1fr;}
+    .cycle-module{grid-template-columns:40px minmax(0,1fr);}
+    .cycle-module>div:nth-child(3),.cycle-module>div:nth-child(4){grid-column:2;}
+    .cycle-module-actions{grid-column:1/-1;flex-direction:row;justify-content:flex-end;}
     .lesson-grid .span-2,.lesson-grid .span-3,.lesson-grid .span-4,.lesson-grid .span-6,.lesson-grid .span-8,.lesson-grid .span-12{grid-column:1/-1;}
     .phase-row{grid-template-columns:1fr 86px;}
     .phase-row textarea{grid-column:1/-1;}
@@ -438,12 +481,16 @@
 
   <div class="ga-topbar">
     <div class="ga-brand">GRAPPLING <span>ATLAS</span></div>
+    <div class="ga-role-picker" id="role-picker" role="group" aria-label="User mode">
+      <button class="ga-role-btn active" type="button" data-role-switch="student"><span aria-hidden="true">◉</span> <span data-i18n="studentFront">Student</span></button>
+      <button class="ga-role-btn" type="button" data-role-switch="teacher"><span aria-hidden="true">◆</span> <span data-i18n="teacherFront">Professor</span></button>
+    </div>
     <div class="ga-nav" id="ga-nav">
-      <button class="ga-tab active" data-view="atlas" data-i18n="navAtlas">Atlas</button>
-      <button class="ga-tab" data-view="library" data-i18n="navLibrary">Library</button>
-      <button class="ga-tab" data-view="train" data-i18n="navTrain">Train</button>
-      <button class="ga-tab" data-view="game" data-i18n="navGame">Game</button>
-      <button class="ga-tab" data-view="professor" data-i18n="navProfessor">Professor</button>
+      <button class="ga-tab active" data-view="atlas" data-role="shared" data-i18n="navAtlas">Atlas</button>
+      <button class="ga-tab" data-view="library" data-role="shared" data-i18n="navLibrary">Library</button>
+      <button class="ga-tab" data-view="train" data-role="student" data-i18n="navTrain">Train</button>
+      <button class="ga-tab" data-view="game" data-role="student" data-i18n="navGame">Game</button>
+      <button class="ga-tab" data-view="professor" data-role="teacher" data-i18n="navProfessor">Professor</button>
     </div>
     <div class="ga-language-picker" id="language-picker" role="group" aria-label="Language selector">
       <button class="ga-lang" type="button" data-lang="en" aria-label="English" title="English">EN</button>
@@ -613,14 +660,18 @@
         </div>
       </div>
 
-      <div class="teacher-layout">
+      <div class="teacher-subnav teacher-no-print" role="tablist" aria-label="Professor tools">
+        <button class="teacher-subtab active" type="button" data-prof-tab="lessons" data-i18n="teacherClasses">Classes</button>
+        <button class="teacher-subtab" type="button" data-prof-tab="cycles" data-i18n="trainingCycles">Training cycles</button>
+      </div>
+
+      <div class="teacher-layout teacher-panel" id="teacher-panel-lessons">
         <div class="lesson-editor" id="lesson-editor">
           <!-- Hidden compatibility fields: keeps existing saved lesson data functional without displaying the removed setup blocks. -->
           <div id="lesson-hidden-meta" hidden aria-hidden="true">
             <input id="lp-number" type="hidden" value="001">
             <input id="lp-date" type="hidden">
             <input id="lp-professor" type="hidden">
-            <input id="lp-title" type="hidden">
             <input id="lp-level" type="hidden" value="Beginner/Intermediate">
             <input id="lp-students" type="hidden">
             <input id="lp-space" type="hidden">
@@ -630,6 +681,11 @@
           </div>
 
           <section class="lesson-card">
+            <div class="lesson-identity">
+              <div class="lesson-field"><label data-i18n="className">Class name</label><input id="lp-title" type="text" data-i18n-placeholder="classNamePlaceholder" placeholder="e.g. Closed guard: posture break and scissor sweep"></div>
+              <div class="lesson-field"><label data-i18n="classFormat">Class format</label><div class="lesson-type"><button type="button" class="active" data-format="Gi" data-i18n="giKimono">Gi / Kimono</button><button type="button" data-format="No-Gi">No-Gi</button></div></div>
+              <div class="lesson-field"><label data-i18n="linkedCycle">Training cycle</label><select id="lp-cycle"><option value="" data-i18n="noCycle">No cycle</option></select></div>
+            </div>
             <h3><span data-i18n="classTimeline">Class timeline</span><small data-i18n="timelineHelp">the total updates automatically</small></h3>
             <div class="phase-list">
               <div class="phase-row"><div class="phase-name"><span class="phase-index">1</span><span data-i18n="warmup">Warm-up</span></div><input id="lp-warm-min" type="number" min="0" value="10" inputmode="numeric" aria-label="Warm-up minutes"><textarea id="lp-warm" data-i18n-placeholder="warmupPlaceholder" placeholder="Mobility, rolls, technical movements and progressive activation..."></textarea></div>
@@ -672,6 +728,45 @@
             <div class="teacher-help" data-i18n-html="plannerGuideText"><b>1.</b> Define one main outcome.<br><b>2.</b> Use progressive drills.<br><b>3.</b> Finish with positional training linked to the technique.<br><b>4.</b> Record what needs reinforcement.</div>
           </section>
         </aside>
+      </div>
+
+      <div class="teacher-panel" id="teacher-panel-cycles" hidden>
+        <div class="cycle-actions teacher-no-print">
+          <button class="btn ghost sm" id="cycle-new" data-i18n="newCycle">New cycle</button>
+          <button class="btn ghost sm" id="cycle-template" data-i18n="loadGuardProgression">Load guard progression</button>
+          <button class="btn ghost sm" id="cycle-duplicate" data-i18n="duplicate">Duplicate</button>
+          <button class="btn primary sm" id="cycle-save" data-i18n="saveCycle">Save cycle</button>
+        </div>
+        <div class="cycle-layout">
+          <div class="cycle-editor">
+            <section class="lesson-card">
+              <h3><span data-i18n="cycleSetup">Cycle setup</span><small id="cycle-save-state" data-i18n="unsavedChanges">unsaved changes</small></h3>
+              <div class="lesson-grid">
+                <div class="lesson-field span-6"><label data-i18n="cycleName">Cycle name</label><input id="cy-name" type="text" data-i18n-placeholder="cycleNamePlaceholder" placeholder="e.g. Guard development · 12 weeks"></div>
+                <div class="lesson-field span-3"><label data-i18n="classFormat">Class format</label><select id="cy-format"><option value="Gi">Gi / Kimono</option><option value="No-Gi">No-Gi</option><option value="Mixed" data-i18n="mixed">Mixed</option></select></div>
+                <div class="lesson-field span-3"><label data-i18n="level">Level</label><select id="cy-level"><option value="Beginner" data-i18n="beginner">Beginner</option><option value="Beginner/Intermediate" data-i18n="beginnerIntermediate">Beginner / Intermediate</option><option value="Intermediate" data-i18n="intermediate">Intermediate</option><option value="Advanced" data-i18n="advanced">Advanced</option><option value="Mixed" data-i18n="mixed">Mixed</option></select></div>
+                <div class="lesson-field span-3"><label data-i18n="startDate">Start date</label><input id="cy-start" type="date"></div>
+                <div class="lesson-field span-3"><label data-i18n="sessionsPerWeek">Classes per week</label><input id="cy-sessions" type="number" min="1" max="14" value="2" inputmode="numeric"></div>
+                <div class="lesson-field span-6"><label data-i18n="cycleNotes">Cycle notes</label><textarea id="cy-notes" data-i18n-placeholder="cycleNotesPlaceholder" placeholder="Progression criteria, assessment points and adaptations..."></textarea></div>
+              </div>
+            </section>
+            <section class="lesson-card">
+              <h3><span data-i18n="cycleModules">Cycle modules / weeks</span><small><span id="cy-module-count">0</span> <span data-i18n="modules">modules</span></small></h3>
+              <div class="teacher-no-print" style="margin-bottom:10px"><button class="btn ghost sm" id="cycle-add-module" data-i18n="addModule">+ Add module</button></div>
+              <div class="cycle-modules" id="cycle-modules"></div>
+            </section>
+          </div>
+          <aside class="teacher-side teacher-no-print">
+            <section class="lesson-card">
+              <h3><span data-i18n="savedCycles">Saved cycles</span><small id="cy-saved-count">0</small></h3>
+              <div class="saved-lessons" id="cy-saved-list"></div>
+            </section>
+            <section class="lesson-card">
+              <h3 data-i18n="guardProgressionGuide">Guard progression reference</h3>
+              <div class="cycle-guide-list" id="cycle-guide-list"></div>
+            </section>
+          </aside>
+        </div>
       </div>
     </div>
   </div>
@@ -749,6 +844,16 @@ I18N['pt-PT']={...I18N['pt-BR'],
   sessions:'Sessões',thisWeek:'Esta semana',last7Days:'últimos 7 dias',minTotal:'min no total',noSessions:'Ainda não existem treinos. Registe o primeiro no formulário.',rounds:'rondas',topLeaks:'Principais falhas',topLeaksSub:'o que mais o finaliza',noLeaks:'Ainda não existem finalizações sofridas. Registe-as em “Finalizações sofridas” para criar esta análise.',gettingRusty:'A precisar de revisão',rustySub:'sem treino há mais de 4 semanas',nothingRusty:'Nenhuma técnica esquecida. As técnicas treinadas nas últimas 4 semanas não aparecem aqui.',partnersSub:'relatório de confronto',noPartners:'Adicione o nome do parceiro ao registar uma finalização. Esta área mostrará o que funciona contra cada pessoa e o que ela utiliza contra si.',tapsYouWith:'finaliza-o com:',youTapWith:'finaliza com:',noSubsLogged:'nenhuma finalização registada',
   emptyGameAnalysis:'O seu jogo está vazio. Adicione técnicas para analisar a cobertura, as lacunas e as ligações que podem unir o seu sistema.',connectors:'Ligações a considerar',links:'ligações',expectAgainst:'O que esperar contra o seu jogo',movesConnections:'{moves} técnicas · {connections} ligação{plural}',watchPinned:'▶  VER: VÍDEO FIXADO',watchHow:'▶  VER: COMO FAZER {move}',timeBalanced:'{used} de {planned} min planeados',timeUnder:'{used} de {planned} min · {remaining} min disponíveis',timeOver:'{used} de {planned} min · {over} min acima',printTitle:'Plano de aula'
 };
+Object.assign(I18N.en,{
+  studentFront:'Student',teacherFront:'Professor',teacherClasses:'Classes',trainingCycles:'Training cycles',className:'Class name',classNamePlaceholder:'e.g. Closed guard: posture break and scissor sweep',linkedCycle:'Training cycle',noCycle:'No cycle',newCycle:'New cycle',loadGuardProgression:'Load guard progression',saveCycle:'Save cycle',cycleSetup:'Cycle setup',cycleName:'Cycle name',cycleNamePlaceholder:'e.g. Guard development · 12 weeks',startDate:'Start date',sessionsPerWeek:'Classes per week',cycleNotes:'Cycle notes',cycleNotesPlaceholder:'Progression criteria, assessment points and adaptations...',cycleModules:'Cycle modules / weeks',modules:'modules',addModule:'+ Add module',savedCycles:'Saved cycles',guardProgressionGuide:'Guard progression reference',focusGuard:'Focus / position',linkedClass:'Linked class',moduleNotes:'Technical emphasis / observations',noModules:'No modules yet. Add one or load the guard progression template.',noSavedCycles:'No saved cycles yet.',cycleSaved:'Cycle saved',cycleLoaded:'Cycle loaded',cycleDuplicated:'Cycle duplicated',guardTemplateLoaded:'Guard progression template loaded',basic:'Basic',cycleProgress:'{done} of {total} modules linked to classes',openClass:'Open class',selectClass:'Select a saved class'
+});
+Object.assign(I18N['pt-BR'],{
+  studentFront:'Aluno',teacherFront:'Professor',teacherClasses:'Aulas',trainingCycles:'Ciclos de treino',className:'Nome da aula',classNamePlaceholder:'ex.: Guarda fechada: quebra de postura e raspagem tesoura',linkedCycle:'Ciclo de treino',noCycle:'Sem ciclo',newCycle:'Novo ciclo',loadGuardProgression:'Carregar progressão de guardas',saveCycle:'Salvar ciclo',cycleSetup:'Configuração do ciclo',cycleName:'Nome do ciclo',cycleNamePlaceholder:'ex.: Desenvolvimento de guardas · 12 semanas',startDate:'Data de início',sessionsPerWeek:'Aulas por semana',cycleNotes:'Notas do ciclo',cycleNotesPlaceholder:'Critérios de progressão, pontos de avaliação e adaptações...',cycleModules:'Módulos / semanas do ciclo',modules:'módulos',addModule:'+ Adicionar módulo',savedCycles:'Ciclos salvos',guardProgressionGuide:'Referência de progressão de guardas',focusGuard:'Foco / posição',linkedClass:'Aula associada',moduleNotes:'Ênfase técnica / observações',noModules:'Ainda não existem módulos. Adicione um ou carregue o modelo de progressão de guardas.',noSavedCycles:'Ainda não existem ciclos salvos.',cycleSaved:'Ciclo salvo',cycleLoaded:'Ciclo carregado',cycleDuplicated:'Ciclo duplicado',guardTemplateLoaded:'Modelo de progressão de guardas carregado',basic:'Básico',cycleProgress:'{done} de {total} módulos associados a aulas',openClass:'Abrir aula',selectClass:'Selecione uma aula salva'
+});
+Object.assign(I18N['pt-PT'],{
+  studentFront:'Aluno',teacherFront:'Professor',teacherClasses:'Aulas',trainingCycles:'Ciclos de treino',className:'Nome da aula',classNamePlaceholder:'ex.: Guarda fechada: quebra de postura e raspagem em tesoura',linkedCycle:'Ciclo de treino',noCycle:'Sem ciclo',newCycle:'Novo ciclo',loadGuardProgression:'Carregar progressão de guardas',saveCycle:'Guardar ciclo',cycleSetup:'Configuração do ciclo',cycleName:'Nome do ciclo',cycleNamePlaceholder:'ex.: Desenvolvimento de guardas · 12 semanas',startDate:'Data de início',sessionsPerWeek:'Aulas por semana',cycleNotes:'Notas do ciclo',cycleNotesPlaceholder:'Critérios de progressão, pontos de avaliação e adaptações...',cycleModules:'Módulos / semanas do ciclo',modules:'módulos',addModule:'+ Adicionar módulo',savedCycles:'Ciclos guardados',guardProgressionGuide:'Referência de progressão de guardas',focusGuard:'Foco / posição',linkedClass:'Aula associada',moduleNotes:'Ênfase técnica / observações',noModules:'Ainda não existem módulos. Adicione um ou carregue o modelo de progressão de guardas.',noSavedCycles:'Ainda não existem ciclos guardados.',cycleSaved:'Ciclo guardado',cycleLoaded:'Ciclo carregado',cycleDuplicated:'Ciclo duplicado',guardTemplateLoaded:'Modelo de progressão de guardas carregado',basic:'Básico',cycleProgress:'{done} de {total} módulos associados a aulas',openClass:'Abrir aula',selectClass:'Selecione uma aula guardada'
+});
+
 function tr(key,vars){let out=(I18N[currentLang]&&I18N[currentLang][key])||I18N.en[key]||key;if(vars)Object.keys(vars).forEach(k=>out=out.replaceAll('{'+k+'}',vars[k]));return out;}
 function isPortuguese(){return currentLang==='pt-BR'||currentLang==='pt-PT';}
 function isPtPt(){return currentLang==='pt-PT';}
@@ -769,6 +874,13 @@ const MOVE_EXACT_PT={
   'Knee Slice Pass':'Passagem cortando o joelho','Toreando Pass':'Passagem toreando','Toreador Pass':'Passagem toreando','Leg Drag Pass':'Passagem com arrasto de perna','Over-Under Pass':'Passagem over-under','Double Under Pass':'Passagem dupla por baixo','Stack Pass':'Passagem empilhando','X-Pass':'Passagem X','Long Step Pass':'Passagem long step','Smash Pass':'Passagem de pressão','Folding Pass':'Passagem dobrando as pernas','Headquarters Pass':'Passagem da posição headquarters','Body Lock Pass':'Passagem com body lock','Matador':'Passagem matador','Over Under':'Passagem over-under','Double Under':'Passagem dupla por baixo','Back Step':'Passagem com back step','Backstep':'Passagem com back step','Leg Weave':'Entrelaçamento de pernas','Knee Slide':'Passagem de joelho','Cross Knee Slide':'Passagem cruzada de joelho',
   'Hip Escape (Shrimp)':'Fuga de quadril (camarão)','Bridge & Roll (Upa)':'Ponte e giro (upa)','Frame & Stand Up':'Enquadrar e levantar','Mount Escape (Trap & Roll)':'Saída da montada (prender e girar)','Side Control Escape':'Saída do controle lateral','Back Escape (Hip Heist)':'Saída das costas (giro de quadril)','Triangle Defense':'Defesa do triângulo','Armbar Defense':'Defesa da chave de braço','Choke Defense (Hand Fighting)':'Defesa de estrangulamento (luta de mãos)','Turtle Recovery':'Recuperação da tartaruga','Guard Recovery':'Reposição de guarda','Sprawl':'Sprawl','Whizzer':'Whizzer','Back Take Defense':'Defesa da pegada das costas'
 };
+Object.assign(MOVE_EXACT_PT,{
+  'Collar-Lapel Guard':'Guarda de gola e lapela','Z Guard':'Guarda Z','Butterfly Lapel Guard':'Guarda borboleta com lapela','K Guard':'Guarda K','Inverted Guard':'Guarda invertida',
+  '50/50 Guard Sweep: Technical Stand-Up Sweep':'Guarda 50/50 — raspagem com levantamento técnico','50/50 Guard Sweep: Forward Off-Balance Sweep':'Guarda 50/50 — raspagem com desequilíbrio para a frente','50/50 Guard Sweep: Wrestle-Up Sweep':'Guarda 50/50 — raspagem com wrestle-up',
+  '50/50 Guard Pass: Stand and Clear Knee Line':'Guarda 50/50 — levantar e libertar a linha do joelho','50/50 Guard Pass: Backstep to Leg Drag':'Guarda 50/50 — backstep para arrasto de perna','50/50 Guard Back Take: Backside 50/50 Spin to Back':'Guarda 50/50 — backside 50/50 para as costas',
+  '50/50 Guard Escape: Hide Heel and Clear Knee Line':'Guarda 50/50 — esconder o calcanhar e libertar a linha do joelho','50/50 Guard Escape: Stand, Pummel, and Disengage':'Guarda 50/50 — levantar, repor a posição dos pés e desligar'
+});
+
 const MOVE_REPL_PT=[
   ['Rear-Naked Choke','Mata-leão'],['Rear Naked Choke','Mata-leão'],['Straight Ankle Lock','Chave de pé reta'],['Outside Ankle Lock','Chave de pé externa'],['Inside Ankle Lock','Chave de pé interna'],['Ankle Lock','Chave de pé'],['Arm Triangle Choke','Triângulo de braço'],['Triangle Choke','Triângulo'],['Guillotine Choke','Guilhotina'],['North South Choke','Estrangulamento norte-sul'],['North-South Choke','Estrangulamento norte-sul'],['Paper-Cutter Choke','Estrangulamento corta-papel'],['Baseball Choke','Estrangulamento baseball'],['Clock Choke','Estrangulamento relógio'],['Loop Choke','Estrangulamento loop'],['Brabo Choke','Estrangulamento brabo'],['Buggy Choke','Estrangulamento buggy'],["D'Arce Choke",'Estrangulamento D’Arce'],['D’arce Choke','Estrangulamento D’Arce'],['Anaconda Choke','Estrangulamento anaconda'],['Ezekiel Choke','Ezequiel'],['Von Flue Choke','Estrangulamento Von Flue'],['Cross Choke','Estrangulamento cruzado'],['Rear Naked Choke','Mata-leão'],['Bow and Arrow','Arco e flecha'],['Wrist Lock','Chave de punho'],['Heel Hook','Chave de calcanhar'],['Kneebar','Chave de joelho'],['Toe Hold','Chave de pé (toe hold)'],['Calf Slicer','Compressão de panturrilha'],['Bicep Slicer','Compressão de bíceps'],['Spine Lock','Chave de coluna'],['Hip Lock','Chave de quadril'],['Groin Stretch','Alongamento de virilha'],['Armbar','Chave de braço'],
   ['Reverse De La Riva Guard','Guarda De La Riva invertida'],['Reverse De La Riva','De La Riva invertida'],['Single Leg X Guard','Guarda X de uma perna'],['Single X Guard','Guarda X de uma perna'],['Deep Half Guard','Meia-guarda profunda'],['Half Butterfly Guard','Meia-guarda borboleta'],['Butterfly Guard','Guarda borboleta'],['Closed Guard','Guarda fechada'],['Open Guard','Guarda aberta'],['Half Guard','Meia-guarda'],['Spider Guard','Guarda aranha'],['Lasso Guard','Guarda laço'],['De La Riva Guard','Guarda De La Riva'],['X Guard','Guarda X'],['50/50 Guard','Guarda 50/50'],['Rubber Guard','Guarda de borracha'],['Shin on Shin Guard','Guarda canela com canela'],
@@ -1366,6 +1478,15 @@ const CATALOG={
     "X Guard Counter"
   ]
 };
+const SUPPLEMENTAL_CATALOG={
+  guard:['Collar-Lapel Guard','Z Guard','Butterfly Lapel Guard','K Guard','Inverted Guard'],
+  sweep:['50/50 Guard Sweep: Technical Stand-Up Sweep','50/50 Guard Sweep: Forward Off-Balance Sweep','50/50 Guard Sweep: Wrestle-Up Sweep'],
+  pass:['50/50 Guard Pass: Stand and Clear Knee Line','50/50 Guard Pass: Backstep to Leg Drag'],
+  backtake:['50/50 Guard Back Take: Backside 50/50 Spin to Back'],
+  defense:['50/50 Guard Escape: Hide Heel and Clear Knee Line','50/50 Guard Escape: Stand, Pummel, and Disengage']
+};
+Object.entries(SUPPLEMENTAL_CATALOG).forEach(([cat,names])=>names.forEach(name=>{if(!CATALOG[cat].includes(name))CATALOG[cat].push(name);}));
+
 function slugify(s){return s.toLowerCase().replace(/&/g,'and').replace(/['\u2019]/g,'').replace(/[()]/g,'').replace(/\//g,'_').replace(/[^a-z0-9]+/g,'_').replace(/^_+|_+$/g,'');}
 const T={},NAME_TO_ID={};
 CAT_ORDER.forEach(cat=>CATALOG[cat].forEach(name=>{const id=slugify(name);T[id]={name,cat};NAME_TO_ID[name]=id;}));
@@ -1387,6 +1508,11 @@ function canonicalSourceNode(raw){
   const s=graphNorm(raw);
   if(!s)return null;
   if(/omoplata setup/.test(s))return 'Omoplata';
+  if(/collar lapel|lapel guard/.test(s))return 'Collar-Lapel Guard';
+  if(/^z guard$|z lock guard/.test(s))return 'Z Guard';
+  if(/butterfly lapel/.test(s))return 'Butterfly Lapel Guard';
+  if(/^k guard$|cristiano guard/.test(s))return 'K Guard';
+  if(/inverted guard|inversion guard/.test(s))return 'Inverted Guard';
   if(/leg drag/.test(s))return 'Leg Drag Pass';
   if(/guard pull/.test(s))return 'Guard Pull';
   if(/backside 50 50|50 50/.test(s))return '50/50 Guard';
@@ -1515,6 +1641,12 @@ Object.assign(PHRASE_PT,{
   'Source or threat':'Origem ou ameaça','Catalogued relationship':'Relação indicada no catálogo','Common study route':'Rota comum de estudo','Pass completion':'Conclusão da passagem',
   'Sweep completion':'Conclusão da raspagem','Back-take completion':'Conclusão da pegada das costas','Position recovery':'Recuperação da posição','Defensive objective':'Objetivo defensivo'
 });
+Object.assign(PHRASE_PT,{
+  'Entries and setups':'Entradas e preparações','Core controls and grips':'Controlos e pegas essenciais','Submissions and attacks':'Finalizações e ataques','Sweeps and reversals':'Raspagens e inversões','Passes and top transitions':'Passagens e transições por cima','Back takes':'Pegadas das costas','Common reactions and counters':'Reações e contra-ataques comuns','Transitions to neighbouring positions':'Transições para posições próximas','Position continuations':'Continuações a partir da posição','Position ecosystem':'Sistema da posição',
+  'Establish distance before connecting':'Estabelecer a distância antes de criar a ligação','Win inside position before committing the hips':'Ganhar a posição interior antes de comprometer a anca','Control posture and distance':'Controlar a postura e a distância','Keep knee and elbow lines protected':'Proteger as linhas dos joelhos e dos cotovelos','Create an angle before attacking':'Criar um ângulo antes de atacar','Move to a neighbouring guard when alignment is lost':'Mudar para uma guarda próxima quando se perde o alinhamento','Use off-balancing to create the next connection':'Usar o desequilíbrio para criar a ligação seguinte','Off-balance before trying to come on top':'Desequilibrar antes de tentar ficar por cima','Finish the reversal with stable top control':'Concluir a inversão com controlo estável por cima','Protect frames and recover inside position against the pass':'Proteger os frames e recuperar a posição interior contra a passagem','Create back exposure from an arm drag, underhook or leg angle':'Criar exposição das costas com arrasto de braço, underhook ou ângulo das pernas','Clear grips, recover alignment and return to a safe guard':'Libertar as pegas, recuperar o alinhamento e regressar a uma guarda segura','Protect the knee line before disengaging from leg entanglements':'Proteger a linha do joelho antes de sair dos entrelaçamentos de pernas','Opponent stands, kneels or removes a controlling grip':'O adversário levanta-se, ajoelha ou elimina uma pega de controlo',
+  'Stabilise the position before advancing':'Estabilizar a posição antes de avançar','Control hips, shoulders and inside space':'Controlar a anca, os ombros e o espaço interior','Advance to a more dominant control when the opponent turns':'Avançar para um controlo mais dominante quando o adversário roda','Maintain control while changing sides':'Manter o controlo ao mudar de lado','Follow the opponent’s turn to expose the back':'Acompanhar a rotação do adversário para expor as costas','Frame, create space and recover guard or stand':'Criar frames, abrir espaço e recuperar a guarda ou levantar','Opponent frames, bridges or turns to a side':'O adversário cria frames, faz ponte ou roda para um lado'
+});
+
 function techChildrenFromIds(list,note){return Array.from(new Set(list)).filter(id=>T[id]).sort((a,b)=>T[a].name.localeCompare(T[b].name)).map(id=>({type:'tech',name:T[id].name,note:note||''}));}
 function conceptChild(label,note,moveLike){return {type:'concept',label,note:note||'',moveLike:!!moveLike};}
 function videoChild(label){return {type:'video',label:label||'Core mechanics, entries and finishing details'};}
@@ -1522,49 +1654,107 @@ function addTreeBranch(branches,label,tag,children){const seen=new Set(),clean=(
 function sourceChildrenFor(id){const s=sourceInfoForId(id);if(!s.raw)return[];const sourceId=s.nodeName?graphIdByName(s.nodeName):null;if(sourceId&&sourceId!==id)return[{type:'tech',name:T[sourceId].name,note:'Explicit source in the catalogue'}];return[conceptChild(s.raw,'Explicit source in the catalogue',true)];}
 function submissionFamilyIds(family){return ids.filter(id=>T[id].cat==='submission'&&submissionFamilyName(T[id].name)===family);}
 function takedownStudyGroup(name){const n=graphNorm(name);if(/double leg|single leg|high crotch|ankle pick|knee tap|fireman/.test(n))return 'leg attacks';if(/gari|harai|goshi|guruma|otoshi|nage|mata|foot sweep|trip/.test(n))return 'throws and trips';if(/snap down|go behind|duck under|arm drag/.test(n))return 'angles and front headlock';if(/body lock/.test(n))return 'body lock';if(/guard pull/.test(n))return 'guard entry';return 'standing grappling';}
+
+const GENERIC_GUARD_PROFILE={
+  entries:['Establish distance before connecting','Win inside position before committing the hips'],
+  controls:['Control posture and distance','Keep knee and elbow lines protected','Create an angle before attacking'],
+  transitions:['Move to a neighbouring guard when alignment is lost','Use off-balancing to create the next connection'],
+  sweeps:['Off-balance before trying to come on top','Finish the reversal with stable top control'],
+  passes:['Protect frames and recover inside position against the pass'],
+  backtakes:['Create back exposure from an arm drag, underhook or leg angle'],
+  exits:['Clear grips, recover alignment and return to a safe guard','Protect the knee line before disengaging from leg entanglements'],
+  reactions:['Opponent stands, kneels or removes a controlling grip']
+};
+const GENERIC_POSITION_PROFILE={
+  entries:['Stabilise the position before advancing'],controls:['Control hips, shoulders and inside space'],transitions:['Advance to a more dominant control when the opponent turns'],sweeps:[],passes:['Maintain control while changing sides'],backtakes:['Follow the opponent’s turn to expose the back'],exits:['Frame, create space and recover guard or stand'],reactions:['Opponent frames, bridges or turns to a side']
+};
+const POSITION_PROFILES={
+  'Closed Guard':{entries:['Guard pull with posture control','Recover closed guard from an open guard connection'],controls:['Break posture before attacking','Control an arm across the centre line','Use hip angle instead of pulling straight'],transitions:['Open Guard','High guard or clamp guard','Hip bump to front headlock reaction'],sweeps:['Scissor Sweep','Hip Bump Sweep','Flower Sweep (Pendulum)','Double Ankle Sweep'],passes:['Standing guard opening','Knee-in-tailbone opening','Sao Paulo pressure pass'],backtakes:['Closed Guard (Bottom) Back Take: Arm Drag Back Take'],exits:['Open to a preferred guard before the legs are forced apart','Frame and recover posture after a failed attack'],reactions:['Opponent stands','Opponent posts a hand','Opponent drives the elbows inside']},
+  'Open Guard':{entries:['Technical stand-up distance management','Sit-up guard with feet and hands connected'],controls:['Maintain four points of contact when possible','Control distance with feet, shins and grips','Keep hips mobile and knees between both athletes'],transitions:['De La Riva Guard','Butterfly Guard','Single Leg X Guard','Spider Guard'],sweeps:['Tripod Sweep','Sickle Sweep','Balloon Sweep','Tomahawk Sweep'],passes:['Toreando Pass','Leg Drag Pass','Over-Under Pass','Double Under Pass'],backtakes:['Arm drag to back exposure','Leg drag to back exposure'],exits:['Frame and re-guard after the legs are cleared','Technical stand-up when the opponent disengages'],reactions:['Opponent kneels','Opponent stands square','Opponent controls both ankles']},
+  'Half Guard':{entries:['Knee shield recovery from side control','Capture a leg while re-guarding'],controls:['Protect the crossface','Win the underhook or frame before coming up','Control the trapped knee line'],transitions:['Z Guard','Deep Half Guard','Butterfly Guard'],sweeps:['Old School Sweep','John Wayne Sweep','Foot Grab Sweep','Kimura/Fishing Pole Sweeps'],passes:['Knee Slice Pass','Smash Pass','Under Hook and Helicopter'],backtakes:['Half Guard (Bottom) Back Take: Kimura Back Take','Half Guard (Top) Back Take: Rolling Back Take'],exits:['Recover full guard when the knee line is freed','Build to an elbow and technical stand-up'],reactions:['Opponent crossfaces','Opponent backsteps','Opponent hides the far leg']},
+  'Deep Half Guard':{entries:['Enter under the opponent’s centre of gravity from half guard','Use the far-leg hook to prevent the backstep'],controls:['Keep the opponent’s weight over the hips','Protect the head and inside arm','Control the far leg before turning'],transitions:['X Guard','Single Leg X Guard','Back-door exit'],sweeps:['Waiter Sweep','Deep Half Guard Sweep: Double Under Sweep (From Front Leg Hook)','Deep Half Guard Sweep: Technical Stand Up Sweep (From Triangle Legs)'],passes:['Backstep and crossface pass','Leg extraction to knee slice'],backtakes:['Half Guard (Bottom) Back Take: Back Take from Deep Half (Back Leg Hook)'],exits:['Return to knee shield if the opponent clears the hips','Unwind before the neck or arm becomes trapped'],reactions:['Opponent sits back','Opponent bases the far hand','Opponent backsteps']},
+  'Butterfly Guard':{entries:['Seated guard with inside hooks','Pummel from half butterfly to double hooks'],controls:['Head position under the opponent’s chin','Inside hooks and upper-body connection','Load weight onto the hooks before elevating'],transitions:['Single Leg X Guard','X Guard','Half Butterfly Guard'],sweeps:['Elevator/Butterfly Sweep','Butterfly Guard Sweep: Elevator/Butterfly Sweep'],passes:['Body-Lock Pass','Toreador Pass (Cuff Grip)'],backtakes:['Butterfly Guard Back Take: 2 on 1 Grip Back Take'],exits:['Re-pummel the inside hook before the knees are pinned','Post and technical stand-up if distance opens'],reactions:['Opponent posts the sweep-side hand','Opponent drives a body lock','Opponent stands to remove the hooks']},
+  'De La Riva Guard':{entries:['Connect the outside hook before the opponent squares the hips','Control the far ankle or sleeve to stop the backstep'],controls:['Keep the DLR hook active at the hip','Angle the hips outside the controlled leg','Manage the opponent’s free leg'],transitions:['X Guard','Single Leg X Guard','50/50 Guard','Reverse De La Riva'],sweeps:['De La Riva Sweep','De La Riva Guard Sweep: Forward Sweep','De La Riva Guard Sweep: Tripod Sweep'],passes:['De La Riva Guard Pass: Leg Drag','De La Riva Guard Pass: Cross Knee Slide','De La Riva Guard Pass: Back Step'],backtakes:['De La Riva Guard Back Take: Berimbolo from De La Riva Guard','De La Riva Guard Back Take: Kiss of the Dragon from De La Riva Guard'],exits:['Recover an inside frame when the hook is removed','Switch to RDLR when the opponent turns the knee inward'],reactions:['Opponent turns the knee out','Opponent backsteps','Opponent controls the hooking leg']},
+  'Reverse De La Riva':{entries:['Insert the reverse hook against a knee-cut stance','Control the near ankle before inverting'],controls:['Keep the knee line between both athletes','Use the hook to redirect forward pressure','Protect the far-side underhook'],transitions:['X Guard','K Guard','Inverted Guard','De La Riva Guard'],sweeps:['Reverse De La Riva Guard Sweep: Reverse Butterfly Sweep','Reverse De La Riva Guard Sweep: Tripod Sweep'],passes:['Reverse DLR Pass: Chubby Checker','Reverse DLR Pass: Leg Weave'],backtakes:['Reverse DLR Passing Back Take: Circle to Back (Force Reap, Remove Hook)'],exits:['Remove the hook and square the hips before standing','Re-guard when the opponent clears the knee line'],reactions:['Opponent knee cuts','Opponent turns away','Opponent forces the hook across']},
+  'Spider Guard':{entries:['Establish sleeve grips before placing the feet on the biceps','Use one foot at a time while changing distance'],controls:['Keep tension through sleeve and biceps connection','Angle the hips rather than extending both legs equally','Protect the grips from knee and hand breaks'],transitions:['Lasso Guard','De La Riva Guard','Open Guard'],sweeps:['Spider Guard Sweep: Sickle Sweep','Spider Guard Sweep: Tall Scissor Sweep','Spider Guard Sweep: Open Book Sweep'],passes:['Spider/Lasso Guard Pass: Hands Under Foot on Bicep','Spider/Lasso Guard Pass: Use Knee to Break Grip'],backtakes:['Arm drag after retracting one spider hook'],exits:['Retract the feet before the sleeves are stripped','Switch to collar-sleeve or open guard'],reactions:['Opponent circles a hand free','Opponent steps close','Opponent kneels to compress the legs']},
+  'Lasso Guard':{entries:['Create sleeve control before threading the lasso','Keep the lasso knee outside the opponent’s shoulder line'],controls:['Control posture with lasso tension','Use the free leg to manage distance','Protect the trapped sleeve grip'],transitions:['Spider Guard','X Guard','De La Riva Guard'],sweeps:['Lasso Guard Sweep: Leg Hook Sweep (Both Legs)','Lasso Guard Sweep: Slicer Sweep'],passes:['Spider/Lasso Guard Pass: Pin Lasso Leg and Sprawl','Spider/Lasso Guard Pass: Circle Out Trapped Hand'],backtakes:['Back exposure when the opponent turns to clear the lasso'],exits:['Unthread the lasso before the knee is compressed','Return to spider or open guard when the sleeve breaks'],reactions:['Opponent circles the trapped hand','Opponent sprawls on the lasso leg','Opponent steps over the free leg']},
+  'X Guard':{entries:['Enter under the hips from butterfly or single-leg X','Secure the far leg before extending the hooks'],controls:['Keep both hooks connected to different legs','Control one ankle while managing the far knee','Stay under the opponent’s centre of gravity'],transitions:['Single Leg X Guard','Technical stand-up','Back-door angle'],sweeps:['X Guard Sweep','X Guard Sweep: Backward Sweep','X Guard Sweep: Forward Sweep'],passes:['X Guard Pass: Run Out','X Guard Pass: Trap Foot and Sprawl'],backtakes:['X Guard Back Take: Back Take from X Guard'],exits:['Retract the hooks before the opponent sprawls past the hips','Return to butterfly when the legs are cleared'],reactions:['Opponent posts a hand','Opponent turns the knee inward','Opponent runs away from the hooks']},
+  'Single Leg X Guard':{entries:['Enter from butterfly elevation or shin-to-shin','Secure the hip line before extending the outside leg'],controls:['Pinch the knees around the controlled leg','Control the ankle and keep the hips attached','Keep the inside foot protected from being peeled'],transitions:['X Guard','50/50 Guard','Technical stand-up'],sweeps:['Single Leg X Guard Sweep: Single X Sweep'],passes:['Single Leg X Guard Pass: Remove Foot from Hip, Clear Knee, Mount'],backtakes:['Outside angle after the opponent turns the knee away'],exits:['Clear the knee line before standing out of the entanglement','Recover seated guard if the hip foot is removed'],reactions:['Opponent peels the foot from the hip','Opponent turns the knee outward','Opponent drops the knee to the mat']},
+  '50/50 Guard':{entries:['Enter from De La Riva, reverse De La Riva or single-leg X','Control the knee line before crossing the legs'],controls:['Keep the opponent’s knee line captured','Control the heel without exposing your own','Use upper-body grips to prevent a mirrored stand-up'],transitions:['Backside 50/50','Leg Drag Pass','Technical stand-up'],sweeps:['50/50 Guard Sweep: Technical Stand-Up Sweep','50/50 Guard Sweep: Forward Off-Balance Sweep','50/50 Guard Sweep: Wrestle-Up Sweep'],passes:['50/50 Guard Pass: Stand and Clear Knee Line','50/50 Guard Pass: Backstep to Leg Drag'],backtakes:['50/50 Guard Back Take: Backside 50/50 Spin to Back'],exits:['50/50 Guard Escape: Hide Heel and Clear Knee Line','50/50 Guard Escape: Stand, Pummel, and Disengage'],reactions:['Opponent hides the heel','Opponent mirrors the technical stand-up','Opponent rolls backward to counter the sweep']},
+  'Worm Guard':{entries:['Feed the lapel only after controlling distance','Wrap the lapel around the leg without trapping your own knee'],controls:['Maintain lapel tension while keeping the hips mobile','Control the opponent’s posture and trapped leg','Use the free leg to stop the backstep'],transitions:['De La Riva Guard','Lasso Guard','Technical stand-up'],sweeps:['Lapel-assisted tripod sweep','Technical stand-up sweep with lapel control'],passes:['Free the lapel before initiating the pass','Step over the wrapping leg and square the hips'],backtakes:['Follow the trapped leg when the opponent turns away'],exits:['Release the lapel if the knee or spine becomes twisted','Return to a standard open guard when the wrap loosens'],reactions:['Opponent frees the lapel','Opponent backsteps','Opponent kneels on the wrapping leg']},
+  'Rubber Guard':{entries:['Break posture before bringing the leg high','Control the shoulder line without forcing hip flexibility'],controls:['Keep the knee supported by posture and angle','Control one arm inside the leg configuration','Avoid pulling the foot beyond comfortable hip range'],transitions:['Closed Guard','Omoplata','Triangle Choke'],sweeps:['Hip bump when the opponent postures away','Omoplata sweep when the shoulder turns'],passes:['Posture, frame and stack pressure','Free the trapped arm before circling outside'],backtakes:['Arm drag when the opponent withdraws the trapped arm'],exits:['Release the position if knee or hip alignment is compromised','Return to closed guard before losing posture control'],reactions:['Opponent postures strongly','Opponent drives the trapped shoulder forward','Opponent circles the elbow free']},
+  'Collar-Lapel Guard':{entries:['Establish collar and lapel control before wrapping the leg'],controls:['Use the lapel as a lever without losing hip mobility','Keep the opponent’s posture connected to the trapped side'],transitions:['De La Riva Guard','Spider Guard','Worm Guard'],sweeps:['Lapel-assisted tripod sweep','Diagonal sleeve-and-lapel sweep'],passes:['Clear the lapel wrap before stepping around the legs'],backtakes:['Arm drag or lapel pull when the opponent turns away'],exits:['Release the lapel and recover open guard if the wrap is lost'],reactions:['Opponent removes the lapel grip','Opponent steps over the wrapping leg']},
+  'Z Guard':{entries:['Build the knee shield before the crossface is secured'],controls:['Frame at the shoulder and hip','Keep the bottom knee connected to the trapped leg','Protect the underhook side'],transitions:['Half Guard','X Guard','Closed Guard'],sweeps:['Knee lever sweep','Underhook wrestle-up'],passes:['Smash the knee shield','Backstep around the top knee'],backtakes:['Underhook to dogfight and back exposure'],exits:['Recover closed guard or full knee shield','Technical stand-up when the opponent disengages'],reactions:['Opponent flattens the shield','Opponent backsteps','Opponent switches the crossface']},
+  'Butterfly Lapel Guard':{entries:['Combine an inside hook with a secure lapel feed'],controls:['Use the lapel to keep the torso connected to the hook','Maintain head position and free-hand posting'],transitions:['Butterfly Guard','X Guard','Worm Guard'],sweeps:['Lapel-assisted butterfly sweep','Technical stand-up after elevation'],passes:['Clear the lapel before body-lock passing'],backtakes:['Arm drag with lapel-assisted torso control'],exits:['Release the lapel and return to standard butterfly guard'],reactions:['Opponent posts against the elevation','Opponent stands to clear the hook']},
+  'K Guard':{entries:['Enter under the near leg from open guard without exposing the neck'],controls:['Control the knee line and far hip','Keep the framing leg active around the near thigh'],transitions:['50/50 Guard','Single Leg X Guard','Backside leg entanglement'],sweeps:['Underhook sweep to top position','Off-balance into a technical stand-up'],passes:['Clear the knee line and square the hips before passing'],backtakes:['Backside spin when the opponent turns the knee away'],exits:['Retract the framing leg before the opponent collapses the knee','Return to open guard if the knee line is lost'],reactions:['Opponent turns the knee outward','Opponent sits to the far hip']},
+  'Inverted Guard':{entries:['Invert only after creating space and protecting the neck'],controls:['Keep weight on shoulders rather than the cervical spine','Use leg frames to manage distance while rotating'],transitions:['Reverse De La Riva','K Guard','De La Riva Guard'],sweeps:['Tornado-style elevation to top','Leg-entry off-balance from inversion'],passes:['Pin the hips and block the rotation before stepping around'],backtakes:['Berimbolo or crab-ride route when the opponent turns'],exits:['Unwind to a seated guard before the neck carries weight','Abort the inversion if spinal alignment is compromised'],reactions:['Opponent follows the hips','Opponent pins a shoulder','Opponent disengages from the rotation']},
+  'Mount':{entries:['Stabilise after a guard pass or sweep'],controls:['Control the head and elbows before climbing higher','Use hip pressure without crossing the feet under the opponent'],transitions:['Knee on Belly','Back Control','Technical mount'],sweeps:[],passes:['High mount','S-mount','Technical mount'],backtakes:['Follow the elbow escape to technical mount and back exposure'],exits:['Mount Escape (Trap & Roll)','Elbow-Knee Escape','Kipping Escape'],reactions:['Opponent bridges','Opponent turns to a side','Opponent frames at the hips']},
+  'Back Control':{entries:['Secure chest-to-back connection before inserting both hooks'],controls:['Win hand fighting before attacking the neck','Keep the head on the choking-hand side','Use hooks or body triangle without crossing the feet'],transitions:['Mount','Technical mount','Crucifix'],sweeps:[],passes:['Re-centre when the opponent reaches the mat'],backtakes:['Maintain the seatbelt while changing sides'],exits:['Back Control Escape: Hook Removal','Back Control Escape: Straight Arm','Body Triangle Escape: Leg Trap Escape'],reactions:['Opponent puts shoulders to the mat','Opponent controls the choking hand','Opponent removes a hook']},
+  'Side Control':{entries:['Stabilise after clearing the legs'],controls:['Control the near hip and far shoulder','Prevent the inside elbow from reconnecting to the knee'],transitions:['Mount','Knee on Belly','North-South'],sweeps:[],passes:['Switch-base side control','North-south transition'],backtakes:['Side Control Escape: Scarf Hold Back Take'],exits:['Side Control Escape: Reguard','Side Control Escape: Bridge and Roll','Side Control Escape: Spin Under'],reactions:['Opponent frames at the neck','Opponent turns in','Opponent turns away']},
+  'Knee on Belly':{entries:['Move from side control after isolating the near elbow'],controls:['Post the outside leg for balance','Control collar, shoulder or hip without leaning too far'],transitions:['Mount','Side Control','Back Control'],sweeps:[],passes:['Switch knee-on-belly sides'],backtakes:['Knee on Belly Back Take: Arm Drag Back Take'],exits:['Knee on Belly Escape: Force Half Guard','Knee on Belly Escape: Belt Grab to Ankle Pick'],reactions:['Opponent turns in','Opponent pushes the knee','Opponent bridges']},
+  'North-South':{entries:['Rotate from side control while controlling the near elbow'],controls:['Keep hips low and block the opponent’s turn','Separate the near arm from the ribs'],transitions:['Side Control','Kimura control','Back Control'],sweeps:[],passes:['Return to side control on the safer side'],backtakes:['Follow the opponent’s turn to expose the back'],exits:['North South Escape: Re-Guard from North South','North South Escape: Two on One and Turn from North South'],reactions:['Opponent swings the legs','Opponent turns toward the near arm']},
+  'Turtle Top':{entries:['Force the opponent to turtle after a pass or takedown'],controls:['Control hips before inserting hooks','Keep chest pressure while protecting against rolls'],transitions:['Back Control','Crucifix','Front Headlock'],sweeps:[],passes:['Break down the near hip','Spiral ride transition'],backtakes:['Rear-Naked Choke from Turtle Position','Rolling Loop Choke from Turtle Position'],exits:['Turtle Escape: Invert and Re-Guard','Turtle Escape: Peterson Roll ("Anthony" Sweep)','Turtle Escape: Straight Leg Sweep'],reactions:['Opponent sits to guard','Opponent rolls','Opponent builds to standing']}
+};
+function mergeProfile(base,extra){const out={};['entries','controls','transitions','sweeps','passes','backtakes','exits','reactions'].forEach(k=>out[k]=Array.from(new Set([...(base[k]||[]),...((extra&&extra[k])||[])])));return out;}
+function profileForPosition(name){if(!name)return null;const id=graphIdByName(name),cat=id&&T[id]?T[id].cat:null;return mergeProfile(cat==='position'?GENERIC_POSITION_PROFILE:GENERIC_GUARD_PROFILE,POSITION_PROFILES[name]||{});}
+function profileChildren(items,note){return (items||[]).map(value=>{const id=graphIdByName(value);return id?{type:'tech',name:T[id].name,note:note||'Position ecosystem'}:conceptChild(value,note||'Position ecosystem',true);});}
+function positionNameForId(id){const item=T[id];if(item.cat==='guard'||item.cat==='position')return item.name;const s=sourceInfoForId(id);return s.nodeName||null;}
+function explicitFromPosition(name){return ids.filter(other=>sourceInfoForId(other).nodeName===name);}
+function addPositionEcosystem(branches,positionName,compact=false){
+  const p=profileForPosition(positionName);if(!p)return;const explicit=explicitFromPosition(positionName);
+  addTreeBranch(branches,'Entries and setups','Position ecosystem',profileChildren(p.entries));
+  addTreeBranch(branches,'Core controls and grips','Position ecosystem',profileChildren(p.controls));
+  if(!compact){
+    addTreeBranch(branches,'Submissions and attacks','Position ecosystem',techChildrenFromIds(explicit.filter(x=>T[x].cat==='submission'),'Catalogued relationship'));
+    addTreeBranch(branches,'Sweeps and reversals','Position ecosystem',techChildrenFromIds(explicit.filter(x=>T[x].cat==='sweep'),'Catalogued relationship').concat(profileChildren(p.sweeps)));
+    addTreeBranch(branches,'Passes and top transitions','Position ecosystem',techChildrenFromIds(explicit.filter(x=>T[x].cat==='pass'),'Catalogued relationship').concat(profileChildren(p.passes)));
+    addTreeBranch(branches,'Back takes','Position ecosystem',techChildrenFromIds(explicit.filter(x=>T[x].cat==='backtake'),'Catalogued relationship').concat(profileChildren(p.backtakes)));
+  }else{
+    const continuations=techChildrenFromIds(explicit.filter(x=>['submission','sweep','backtake','pass'].includes(T[x].cat)),'Catalogued relationship').slice(0,8).concat(profileChildren([...(p.transitions||[]),...(p.sweeps||[]),...(p.backtakes||[])].slice(0,5)));
+    addTreeBranch(branches,'Position continuations','Position ecosystem',continuations);
+  }
+  addTreeBranch(branches,'Defenses and exits','Position ecosystem',techChildrenFromIds(explicit.filter(x=>T[x].cat==='defense'||T[x].cat==='counter'),'Catalogued relationship').concat(profileChildren(p.exits)));
+  addTreeBranch(branches,'Common reactions and counters','Position ecosystem',profileChildren(p.reactions));
+  addTreeBranch(branches,'Transitions to neighbouring positions','Position ecosystem',profileChildren(p.transitions));
+}
 function buildValidatedTree(id){
-  const item=T[id],name=item.name,cat=item.cat,branches=[];
+  const item=T[id],name=item.name,cat=item.cat,branches=[],positionName=positionNameForId(id);
   if(cat==='guard'||cat==='position'){
-    const explicit=ids.filter(other=>other!==id&&sourceInfoForId(other).nodeName===name);
-    addTreeBranch(branches,cat==='guard'?'Submissions from this position':'Attacks from this position','Position-based',techChildrenFromIds(explicit.filter(x=>T[x].cat==='submission'),'Catalogued relationship'));
-    addTreeBranch(branches,cat==='guard'?'Sweeps and back takes from this guard':'Transitions and back takes','Position-based',techChildrenFromIds(explicit.filter(x=>T[x].cat==='sweep'||T[x].cat==='backtake'),'Catalogued relationship'));
-    if(cat==='guard')addTreeBranch(branches,'Passing threats against this guard','Position-based',techChildrenFromIds(explicit.filter(x=>T[x].cat==='pass'),'Catalogued relationship'));
-    addTreeBranch(branches,'Escapes from this position','Position-based',techChildrenFromIds(explicit.filter(x=>T[x].cat==='defense'||T[x].cat==='counter'),'Catalogued relationship'));
-  }else if(cat==='submission'){
-    const family=submissionFamilyName(name)||name,familyId=graphIdByName(family),isBase=familyId===id;
-    if(!isBase)addTreeBranch(branches,'Source position','Position-based',sourceChildrenFor(id));
-    if(!isBase&&familyId)addTreeBranch(branches,'Technique family','Family-based',[{type:'tech',name:T[familyId].name,note:'Same technical family'}]);
-    const variants=submissionFamilyIds(family).filter(x=>x!==id);
-    addTreeBranch(branches,isBase?'Variations from this position':'Related options in the same family','Family-based',techChildrenFromIds(variants,'Same technical family'));
-    addTreeBranch(branches,'Defenses and escapes','Family-based',techChildrenFromIds(relatedDefensesForFamily(family),'Catalogued relationship'));
-    addTreeBranch(branches,'Rule and safety check','Study',[conceptChild('Confirm legality for belt, age, Gi/No-Gi and event rules','No speculative continuation added')]);
-  }else if(cat==='sweep'){
-    addTreeBranch(branches,'Source position','Position-based',sourceChildrenFor(id));
-    addTreeBranch(branches,'Related sweeps from the same guard','Position-based',techChildrenFromIds(sameSourceIds(id,['sweep']),'Catalogued relationship'));
-    addTreeBranch(branches,'Sweep completion','Common study route',[conceptChild('Establish top control after the sweep','No speculative continuation added')]);
-  }else if(cat==='pass'){
-    addTreeBranch(branches,'Source position','Position-based',sourceChildrenFor(id));
-    addTreeBranch(branches,'Related passes against the same guard','Position-based',techChildrenFromIds(sameSourceIds(id,['pass']),'Catalogued relationship'));
-    addTreeBranch(branches,'Pass completion','Common study route',[conceptChild('Clear the legs and stabilise top control','No speculative continuation added')]);
-  }else if(cat==='backtake'){
-    addTreeBranch(branches,'Source position','Position-based',sourceChildrenFor(id));
-    const backId=graphIdByName('Back Control');
-    addTreeBranch(branches,'Back-take completion','Common study route',backId?[{type:'tech',name:T[backId].name,note:'Secure back control before attacking'}]:[conceptChild('Secure back control before attacking')]);
-    addTreeBranch(branches,'Related back takes','Position-based',techChildrenFromIds(sameSourceIds(id,['backtake']),'Catalogued relationship'));
-  }else if(cat==='defense'){
-    const threat=threatInfoForId(id),threatChild=threat.nodeId?[{type:'tech',name:T[threat.nodeId].name,note:'Source or threat'}]:threat.raw?[conceptChild(threat.raw,'Source or threat',true)]:[];
-    addTreeBranch(branches,'Source or threat','Family-based',threatChild.concat(sourceChildrenFor(id)));
-    const related=ids.filter(other=>other!==id&&T[other].cat==='defense'&&defenseGroupForId(other)===defenseGroupForId(id));
-    addTreeBranch(branches,'Defenses and escapes','Family-based',techChildrenFromIds(related,'Same technical family'));
-    addTreeBranch(branches,'Position recovery','Common study route',[conceptChild('Recover guard, stand up or reverse the position','No speculative continuation added')]);
-  }else if(cat==='counter'){
-    const threat=threatInfoForId(id),threatChild=threat.nodeId?[{type:'tech',name:T[threat.nodeId].name,note:'Source or threat'}]:threat.raw?[conceptChild(threat.raw,'Source or threat',true)]:[];
-    addTreeBranch(branches,'Source or threat','Family-based',threatChild);
-    addTreeBranch(branches,'Defensive objective','Common study route',[conceptChild('Stop the attack and establish a stable position','No speculative continuation added')]);
-  }else if(cat==='takedown'){
-    const group=takedownStudyGroup(name),related=ids.filter(other=>other!==id&&T[other].cat==='takedown'&&takedownStudyGroup(T[other].name)===group);
-    addTreeBranch(branches,'Related takedowns in the same family','Family-based',techChildrenFromIds(related,'Same technical family'));
-    addTreeBranch(branches,'Expected outcome','Common study route',[conceptChild(/guard pull/i.test(name)?'Establish a chosen guard with posture and grips':'Finish on top and stabilise control','No speculative continuation added')]);
+    addPositionEcosystem(branches,name,false);
+  }else{
+    if(positionName)addTreeBranch(branches,'Source position','Position-based',sourceChildrenFor(id));
+    if(cat==='submission'){
+      const family=submissionFamilyName(name)||name,familyId=graphIdByName(family),isBase=familyId===id;
+      if(!isBase&&familyId)addTreeBranch(branches,'Technique family','Family-based',[{type:'tech',name:T[familyId].name,note:'Same technical family'}]);
+      addTreeBranch(branches,isBase?'Variations from this position':'Related options in the same family','Family-based',techChildrenFromIds(submissionFamilyIds(family).filter(x=>x!==id),'Same technical family'));
+      addTreeBranch(branches,'Defenses and escapes','Family-based',techChildrenFromIds(relatedDefensesForFamily(family),'Catalogued relationship'));
+      addTreeBranch(branches,'Rule and safety check','Study',[conceptChild('Confirm legality for belt, age, Gi/No-Gi and event rules','No speculative continuation added')]);
+    }else if(cat==='sweep'){
+      addTreeBranch(branches,'Related sweeps from the same guard','Position-based',techChildrenFromIds(sameSourceIds(id,['sweep']),'Catalogued relationship'));
+      addTreeBranch(branches,'Sweep completion','Common study route',[conceptChild('Establish top control after the sweep','No speculative continuation added')]);
+    }else if(cat==='pass'){
+      addTreeBranch(branches,'Related passes against the same guard','Position-based',techChildrenFromIds(sameSourceIds(id,['pass']),'Catalogued relationship'));
+      addTreeBranch(branches,'Pass completion','Common study route',[conceptChild('Clear the legs and stabilise top control','No speculative continuation added')]);
+    }else if(cat==='backtake'){
+      const backId=graphIdByName('Back Control');
+      addTreeBranch(branches,'Back-take completion','Common study route',backId?[{type:'tech',name:T[backId].name,note:'Secure back control before attacking'}]:[conceptChild('Secure back control before attacking')]);
+      addTreeBranch(branches,'Related back takes','Position-based',techChildrenFromIds(sameSourceIds(id,['backtake']),'Catalogued relationship'));
+    }else if(cat==='defense'){
+      const threat=threatInfoForId(id),threatChild=threat.nodeId?[{type:'tech',name:T[threat.nodeId].name,note:'Source or threat'}]:threat.raw?[conceptChild(threat.raw,'Source or threat',true)]:[];
+      addTreeBranch(branches,'Source or threat','Family-based',threatChild);
+      addTreeBranch(branches,'Defenses and escapes','Family-based',techChildrenFromIds(ids.filter(other=>other!==id&&T[other].cat==='defense'&&defenseGroupForId(other)===defenseGroupForId(id)),'Same technical family'));
+      addTreeBranch(branches,'Position recovery','Common study route',[conceptChild('Recover guard, stand up or reverse the position','No speculative continuation added')]);
+    }else if(cat==='counter'){
+      const threat=threatInfoForId(id),threatChild=threat.nodeId?[{type:'tech',name:T[threat.nodeId].name,note:'Source or threat'}]:threat.raw?[conceptChild(threat.raw,'Source or threat',true)]:[];
+      addTreeBranch(branches,'Source or threat','Family-based',threatChild);
+      addTreeBranch(branches,'Defensive objective','Common study route',[conceptChild('Stop the attack and establish a stable position','No speculative continuation added')]);
+    }else if(cat==='takedown'){
+      const group=takedownStudyGroup(name),related=ids.filter(other=>other!==id&&T[other].cat==='takedown'&&takedownStudyGroup(T[other].name)===group);
+      addTreeBranch(branches,'Related takedowns in the same family','Family-based',techChildrenFromIds(related,'Same technical family'));
+      addTreeBranch(branches,'Expected outcome','Common study route',[conceptChild(/guard pull/i.test(name)?'Establish a chosen guard with posture and grips':'Finish on top and stabilise control','No speculative continuation added')]);
+      addTreeBranch(branches,'Common reactions and counters','Position ecosystem',profileChildren(/double leg|single leg|high crotch|ankle pick|knee tap/i.test(name)?['Sprawl','Whizzer','Go-Behind']:['Opponent changes stance','Opponent circles away','Opponent counters the grip direction']));
+    }
+    if(positionName)addPositionEcosystem(branches,positionName,true);
   }
   addTreeBranch(branches,'Technique study','Study',[videoChild('Core mechanics, entries and finishing details')]);
   return {branches};
@@ -1592,6 +1782,8 @@ const K_GAMES='ga_games_v1';
 const K_NOTES='ga_notes_v1';
 const K_PROFILE='ga_profile_v1';
 const K_LESSONS='ga_lessons_v1';
+const K_CYCLES='ga_cycles_v1';
+const K_ROLE='ga_role_v1';
 let notesData=null, notesLoaded=false;
 let profile={belt:'white'}, profileLoaded=false;
 
@@ -1599,20 +1791,26 @@ let profile={belt:'white'}, profileLoaded=false;
 const toastEl=document.getElementById('toast');let toastTimer;
 function toast(msg){toastEl.textContent=msg;toastEl.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>toastEl.classList.remove('show'),1600);}
 
-/* ============ NAV ============ */
+/* ============ NAV / USER FRONTS ============ */
 const views={atlas:'view-atlas',library:'view-library',train:'view-train',game:'view-game',professor:'view-professor'};
-let currentView='atlas';
-document.getElementById('ga-nav').addEventListener('click',e=>{
-  const btn=e.target.closest('.ga-tab'); if(!btn) return;
-  const v=btn.dataset.view;
+let currentView='atlas',userRole='student';
+function switchView(v){
+  const btn=document.querySelector('.ga-tab[data-view="'+v+'"]');if(!btn||btn.hidden)return;
   document.querySelectorAll('.ga-tab').forEach(t=>t.classList.toggle('active',t===btn));
   Object.keys(views).forEach(k=>document.getElementById(views[k]).classList.toggle('active',k===v));
   currentView=v;
-  if(v==='library') renderLibrary();
-  if(v==='train') renderTrain();
-  if(v==='game') renderGame();
-  if(v==='professor') renderProfessor();
-});
+  if(v==='library')renderLibrary();if(v==='train')renderTrain();if(v==='game')renderGame();if(v==='professor')renderProfessor();
+}
+async function setUserRole(role,navigate=true){
+  userRole=role==='teacher'?'teacher':'student';document.getElementById('ga-root').dataset.role=userRole;
+  document.querySelectorAll('[data-role-switch]').forEach(b=>b.classList.toggle('active',b.dataset.roleSwitch===userRole));
+  document.querySelectorAll('.ga-tab').forEach(tab=>{const r=tab.dataset.role;tab.hidden=!(r==='shared'||r===userRole);});
+  await storeSet(K_ROLE,userRole);
+  const currentTab=document.querySelector('.ga-tab[data-view="'+currentView+'"]');
+  if(navigate||!currentTab||currentTab.hidden)switchView(userRole==='teacher'?'professor':'atlas');
+}
+document.getElementById('ga-nav').addEventListener('click',e=>{const btn=e.target.closest('.ga-tab');if(btn&&!btn.hidden)switchView(btn.dataset.view);});
+document.getElementById('role-picker').addEventListener('click',e=>{const btn=e.target.closest('[data-role-switch]');if(btn)setUserRole(btn.dataset.roleSwitch,true);});
 
 /* ============ GLOBE (Atlas) ============ */
 const svg=document.getElementById('globe-svg');
@@ -2001,11 +2199,11 @@ fillTapSelects();
 
 /* ============ PROFESSOR / CLASS PLANNER ============ */
 let lessons=[],lessonsLoaded=false,currentLessonId=null,lessonTechs=[],lessonFormat='Gi',lessonDirty=false;
-const LP_FIELDS=['number','date','professor','title','level','students','space','duration','objectives','materials','warm-min','warm','tech-min','tech','specific-min','specific','cool-min','cool','notes','report'];
+const LP_FIELDS=['number','date','professor','title','cycle','level','students','space','duration','objectives','materials','warm-min','warm','tech-min','tech','specific-min','specific','cool-min','cool','notes','report'];
 function lpEl(key){return document.getElementById('lp-'+key);}
 function lessonBlank(){
   const next=String((lessons.length?Math.max(0,...lessons.map(x=>parseInt(x.number,10)||0)):0)+1).padStart(3,'0');
-  return{id:null,number:next,date:new Date().toISOString().slice(0,10),professor:'',format:'Gi',title:'',level:'Beginner/Intermediate',students:'',space:'',duration:60,objectives:'',materials:'',warmMin:10,warm:'',techMin:25,tech:'',specificMin:15,specific:'',coolMin:10,cool:'',techniques:[],notes:'',report:'',updatedAt:Date.now()};
+  return{id:null,number:next,date:new Date().toISOString().slice(0,10),professor:'',format:'Gi',title:'',cycleId:'',level:'Beginner/Intermediate',students:'',space:'',duration:60,objectives:'',materials:'',warmMin:10,warm:'',techMin:25,tech:'',specificMin:15,specific:'',coolMin:10,cool:'',techniques:[],notes:'',report:'',updatedAt:Date.now()};
 }
 function lessonTemplate(){return{
   ...lessonBlank(),format:'Gi',title:isPortuguese()?'Abertura da guarda fechada':'Opening the closed guard',level:'Beginner/Intermediate',students:8,duration:60,
@@ -2025,10 +2223,10 @@ function collectLesson(){
   const automaticTitle=lessonTechs.length?moveLabel(lessonTechs[0]):tr('newClass');
   const used=['warm-min','tech-min','specific-min','cool-min'].reduce((a,k)=>a+(+lpEl(k).value||0),0);
   return{
-  id:currentLessonId||('lp'+Date.now()),number:lpEl('number').value.trim(),date:lpEl('date').value,professor:lpEl('professor').value.trim(),format:lessonFormat,title:lpEl('title').value.trim()||automaticTitle,level:lpEl('level').value,students:lpEl('students').value,duration:used||(+lpEl('duration').value||0),space:lpEl('space').value.trim(),objectives:lpEl('objectives').value.trim(),materials:lpEl('materials').value.trim(),warmMin:+lpEl('warm-min').value||0,warm:lpEl('warm').value.trim(),techMin:+lpEl('tech-min').value||0,tech:lpEl('tech').value.trim(),specificMin:+lpEl('specific-min').value||0,specific:lpEl('specific').value.trim(),coolMin:+lpEl('cool-min').value||0,cool:lpEl('cool').value.trim(),techniques:lessonTechs.slice(),notes:lpEl('notes').value.trim(),report:lpEl('report').value.trim(),updatedAt:Date.now()
+  id:currentLessonId||('lp'+Date.now()),number:lpEl('number').value.trim(),date:lpEl('date').value,professor:lpEl('professor').value.trim(),format:lessonFormat,title:lpEl('title').value.trim()||automaticTitle,cycleId:lpEl('cycle').value||'',level:lpEl('level').value,students:lpEl('students').value,duration:used||(+lpEl('duration').value||0),space:lpEl('space').value.trim(),objectives:lpEl('objectives').value.trim(),materials:lpEl('materials').value.trim(),warmMin:+lpEl('warm-min').value||0,warm:lpEl('warm').value.trim(),techMin:+lpEl('tech-min').value||0,tech:lpEl('tech').value.trim(),specificMin:+lpEl('specific-min').value||0,specific:lpEl('specific').value.trim(),coolMin:+lpEl('cool-min').value||0,cool:lpEl('cool').value.trim(),techniques:lessonTechs.slice(),notes:lpEl('notes').value.trim(),report:lpEl('report').value.trim(),updatedAt:Date.now()
 };}
 function loadLessonIntoForm(l){
-  currentLessonId=l.id||null;lpEl('number').value=l.number||'';lpEl('date').value=l.date||new Date().toISOString().slice(0,10);lpEl('professor').value=l.professor||'';lpEl('title').value=l.title||'';lpEl('level').value=l.level||'Beginner/Intermediate';lpEl('students').value=l.students??'';lpEl('space').value=l.space||'';lpEl('duration').value=l.duration||60;lpEl('objectives').value=l.objectives||'';lpEl('materials').value=l.materials||'';lpEl('warm-min').value=l.warmMin??10;lpEl('warm').value=l.warm||'';lpEl('tech-min').value=l.techMin??25;lpEl('tech').value=l.tech||'';lpEl('specific-min').value=l.specificMin??15;lpEl('specific').value=l.specific||'';lpEl('cool-min').value=l.coolMin??10;lpEl('cool').value=l.cool||'';lpEl('notes').value=l.notes||'';lpEl('report').value=l.report||'';lessonTechs=(l.techniques||[]).filter(id=>T[id]);setLessonFormat(l.format||'Gi',false);lessonDirty=false;document.getElementById('lesson-save-state').textContent=tr('savedChanges');renderLessonTechs();updateLessonTime();renderSavedLessons();}
+  currentLessonId=l.id||null;lpEl('number').value=l.number||'';lpEl('date').value=l.date||new Date().toISOString().slice(0,10);lpEl('professor').value=l.professor||'';lpEl('title').value=l.title||'';lpEl('cycle').value=l.cycleId||'';lpEl('level').value=l.level||'Beginner/Intermediate';lpEl('students').value=l.students??'';lpEl('space').value=l.space||'';lpEl('duration').value=l.duration||60;lpEl('objectives').value=l.objectives||'';lpEl('materials').value=l.materials||'';lpEl('warm-min').value=l.warmMin??10;lpEl('warm').value=l.warm||'';lpEl('tech-min').value=l.techMin??25;lpEl('tech').value=l.tech||'';lpEl('specific-min').value=l.specificMin??15;lpEl('specific').value=l.specific||'';lpEl('cool-min').value=l.coolMin??10;lpEl('cool').value=l.cool||'';lpEl('notes').value=l.notes||'';lpEl('report').value=l.report||'';lessonTechs=(l.techniques||[]).filter(id=>T[id]);setLessonFormat(l.format||'Gi',false);lessonDirty=false;document.getElementById('lesson-save-state').textContent=tr('savedChanges');renderLessonTechs();updateLessonTime();renderSavedLessons();}
 function updateLessonTime(){
   const planned=+lpEl('duration').value||0,used=['warm-min','tech-min','specific-min','cool-min'].reduce((a,k)=>a+(+lpEl(k).value||0),0),pct=planned?Math.min(100,used/planned*100):0,fill=document.getElementById('lp-time-fill'),copy=document.getElementById('lp-time-copy');fill.style.width=pct+'%';fill.classList.toggle('over',used>planned);copy.classList.toggle('warn',used!==planned);copy.textContent=used===planned?tr('timeBalanced',{used,planned}):(used<planned?tr('timeUnder',{used,planned,remaining:planned-used}):tr('timeOver',{used,planned,over:used-planned}));
 }
@@ -2045,15 +2243,17 @@ function renderLessonTechs(){
 function renderSavedLessons(){
   const box=document.getElementById('lp-saved-list');document.getElementById('lp-saved-count').textContent=lessons.length;box.innerHTML='';
   if(!lessons.length){box.innerHTML='<div class="lesson-status">'+tr('noSavedClasses')+'</div>';return;}
-  lessons.slice().sort((a,b)=>(b.updatedAt||0)-(a.updatedAt||0)).forEach(l=>{const d=document.createElement('div');d.className='lesson-saved'+(l.id===currentLessonId?' active':'');d.innerHTML='<div class="lesson-saved-title no-i18n">'+escapeHtml(l.title||('#'+(l.number||'')))+'</div><div class="lesson-saved-meta">'+fmtDate(l.date)+' · '+escapeHtml(l.format)+' · '+escapeHtml(levelLabel(l.level))+'<br>'+((l.duration||0)+' min')+'</div><div class="lesson-saved-actions"><span class="lesson-link" data-act="edit">'+tr('edit')+'</span><span class="lesson-link" data-act="copy">'+tr('copy')+'</span><span class="lesson-link danger" data-act="remove">'+tr('remove')+'</span></div>';
+  lessons.slice().sort((a,b)=>(b.updatedAt||0)-(a.updatedAt||0)).forEach(l=>{const d=document.createElement('div');d.className='lesson-saved'+(l.id===currentLessonId?' active':'');d.innerHTML='<div class="lesson-saved-title no-i18n">'+escapeHtml(l.title||('#'+(l.number||'')))+'</div><div class="lesson-saved-meta">'+fmtDate(l.date)+' · '+escapeHtml(l.format)+' · '+escapeHtml(levelLabel(l.level))+(l.cycleId?'<br>'+escapeHtml(cycleNameById(l.cycleId)):'')+'<br>'+((l.duration||0)+' min')+'</div><div class="lesson-saved-actions"><span class="lesson-link" data-act="edit">'+tr('edit')+'</span><span class="lesson-link" data-act="copy">'+tr('copy')+'</span><span class="lesson-link danger" data-act="remove">'+tr('remove')+'</span></div>';
     const open=()=>{loadLessonIntoForm(l);toast(tr('classLoaded'));};d.querySelector('.lesson-saved-title').onclick=open;d.querySelector('[data-act="edit"]').onclick=open;d.querySelector('[data-act="copy"]').onclick=()=>{const cp={...l,id:null,number:String((parseInt(l.number,10)||0)+1).padStart(3,'0'),title:(l.title||'')+' '+(isPortuguese()?'(cópia)':'(copy)')};loadLessonIntoForm(cp);markLessonDirty();toast(tr('classDuplicated'));};d.querySelector('[data-act="remove"]').onclick=async()=>{lessons=lessons.filter(x=>x.id!==l.id);if(currentLessonId===l.id)loadLessonIntoForm(lessonBlank());await storeSet(K_LESSONS,lessons);renderSavedLessons();};box.appendChild(d);});
 }
 async function saveLesson(){
   const l=collectLesson();currentLessonId=l.id;lpEl('title').value=l.title;lessons=lessons.filter(x=>x.id!==l.id);lessons.push(l);await storeSet(K_LESSONS,lessons);lessonDirty=false;document.getElementById('lesson-save-state').textContent=tr('savedChanges');renderSavedLessons();toast(tr('classSaved'));
 }
 async function renderProfessor(){
-  if(!lessonsLoaded){lessons=(await storeGet(K_LESSONS))||[];lessonsLoaded=true;if(!currentLessonId&&!lpEl('date').value)loadLessonIntoForm(lessonBlank());}
-  applyStaticLanguage();setLessonFormat(lessonFormat,false);renderLessonPicker();renderLessonTechs();updateLessonTime();renderSavedLessons();
+  if(!lessonsLoaded){lessons=(await storeGet(K_LESSONS))||[];lessonsLoaded=true;}
+  await ensureCyclesLoaded();refreshLessonCycleOptions();
+  if(!currentLessonId&&!lpEl('date').value)loadLessonIntoForm(lessonBlank());
+  applyStaticLanguage();setLessonFormat(lessonFormat,false);renderLessonPicker();renderLessonTechs();updateLessonTime();renderSavedLessons();renderCycles();
 }
 LP_FIELDS.forEach(k=>{const el=lpEl(k);if(el){el.addEventListener('input',()=>{markLessonDirty();if(k.endsWith('-min')||k==='duration')updateLessonTime();});el.addEventListener('change',()=>{markLessonDirty();if(k.endsWith('-min')||k==='duration')updateLessonTime();});}});
 document.querySelectorAll('.lesson-type button').forEach(b=>b.onclick=()=>setLessonFormat(b.dataset.format));
@@ -2064,6 +2264,60 @@ document.getElementById('lesson-duplicate').onclick=()=>{const l=collectLesson()
 document.getElementById('lesson-save').onclick=saveLesson;
 document.getElementById('lesson-print').onclick=()=>{document.title=(lpEl('title').value||tr('printTitle'))+' · Grappling Atlas';window.print();};
 
+
+
+/* ============ PROFESSOR FRONTS / TRAINING CYCLES ============ */
+let professorPanel='lessons',cycles=[],cyclesLoaded=false,currentCycleId=null,cycleModules=[],cycleDirty=false;
+const CY_FIELDS=['name','format','level','start','sessions','notes'];
+function cyEl(key){return document.getElementById('cy-'+key);}
+function setProfessorPanel(panel){professorPanel=panel==='cycles'?'cycles':'lessons';document.querySelectorAll('[data-prof-tab]').forEach(b=>b.classList.toggle('active',b.dataset.profTab===professorPanel));document.getElementById('teacher-panel-lessons').hidden=professorPanel!=='lessons';document.getElementById('teacher-panel-cycles').hidden=professorPanel!=='cycles';if(professorPanel==='cycles')renderCycles();}
+document.querySelectorAll('[data-prof-tab]').forEach(b=>b.onclick=()=>setProfessorPanel(b.dataset.profTab));
+function cycleBlank(){return{id:null,name:'',format:'Gi',level:'Mixed',start:new Date().toISOString().slice(0,10),sessionsPerWeek:2,notes:'',modules:[],updatedAt:Date.now()};}
+function guardTemplateRows(){
+  const pt=isPortuguese();
+  const rows=[
+    ['Closed Guard','Basic',pt?'Base para aprendizagem de quebras de postura, raspagens elementares e transições simples.':'Foundation for posture breaks, elementary sweeps and simple transitions.'],
+    ['Half Guard','Basic',pt?'Knee shield: controlo de distância, primeiras saídas e raspagem elevador; base para meia-guarda profunda.':'Knee shield: distance control, first escapes and elevator sweeps; foundation for deep half guard.'],
+    ['Butterfly Guard','Basic',pt?'Introdução ao uso de ganchos, raspagens com elevação e mobilidade.':'Introduction to hooks, elevation sweeps and mobility.'],
+    ['Open Guard','Basic',pt?'Conceito de pernas livres e pré-requisito para spider, DLR e guarda X.':'Open-leg concepts and prerequisite for spider, DLR and X guard.'],
+    ['Spider Guard','Intermediate',pt?'Coordenação de pegas em manga, controlo de distância e raspagens diagonais.':'Sleeve-grip coordination, distance control and diagonal sweeps.'],
+    ['De La Riva Guard','Intermediate',pt?'Gancho exterior no quadril, raspagens laterais e transições para guarda X ou 50/50.':'Outside hip hook, lateral sweeps and transitions to X guard or 50/50.'],
+    ['Collar-Lapel Guard','Intermediate',pt?'Uso da lapela como alavanca para controlar o tronco e iniciar raspagens.':'Use the lapel as a lever to control the torso and initiate sweeps.'],
+    ['Z Guard','Intermediate',pt?'Meia-guarda alta para criar espaço e transitar para guarda X ou guarda fechada.':'High half guard for creating space and moving to X guard or closed guard.'],
+    ['X Guard','Intermediate',pt?'Ganchos por dentro das pernas para raspagens de alavanca; exige leitura de postura e timing.':'Inside hooks for leverage sweeps; requires posture reading and timing.'],
+    ['Butterfly Lapel Guard','Intermediate',pt?'Combinação do gancho borboleta com pega de lapela para maior controlo do tronco.':'Butterfly hook combined with lapel control for stronger torso connection.'],
+    ['50/50 Guard','Advanced',pt?'Posição simétrica para raspagens, passagens, pegadas das costas, leg locks e defesas da linha do joelho.':'Symmetrical position for sweeps, passes, back takes, leg locks and knee-line defense.'],
+    ['Lasso Guard','Advanced',pt?'Controlo com laço de manga para raspagens e transições para costas ou guarda X.':'Sleeve-lasso control for sweeps and transitions to the back or X guard.'],
+    ['Reverse De La Riva','Advanced',pt?'Gancho invertido para transições à guarda X, berimbolo e pegadas das costas.':'Reverse hook for X-guard, berimbolo and back-take transitions.'],
+    ['Single Leg X Guard','Advanced',pt?'Controlo de uma perna para raspagens direcionadas e transições a entrelaçamentos.':'Single-leg control for directed sweeps and leg-entanglement transitions.'],
+    ['K Guard','Advanced',pt?'Enquadramento em K para controlar a perna, desequilibrar e entrar em 50/50 ou backside.':'K-shaped leg frame for control, off-balancing and entries to 50/50 or backside.'],
+    ['Inverted Guard','Advanced',pt?'Rotação invertida para recuperar guarda, raspar ou expor as costas, com atenção à segurança cervical.':'Inverted rotation to recover guard, sweep or expose the back, with cervical safety priority.'],
+    ['Worm Guard','Advanced',pt?'Lapela enrolada na perna para controlar o adversário; exige mobilidade e compreensão profunda do Gi.':'Lapel wrapped around the leg for control; requires mobility and deep Gi understanding.'],
+    ['Rubber Guard','Advanced',pt?'Controlo de postura com perna alta; exige flexibilidade, ângulo e coordenação segura.':'High-leg posture control requiring flexibility, angle and safe coordination.']
+  ];
+  return rows.map((r,i)=>({id:'cm'+Date.now()+i,focus:r[0],level:r[1],lessonId:'',notes:r[2]}));
+}
+function cycleTemplate(){return{...cycleBlank(),name:isPtPt()?'Progressão de guardas · Básico a avançado':currentLang==='pt-BR'?'Progressão de guardas · Básico ao avançado':'Guard progression · Basic to advanced',level:'Mixed',modules:guardTemplateRows()};}
+async function ensureCyclesLoaded(){if(!cyclesLoaded){cycles=(await storeGet(K_CYCLES))||[];cyclesLoaded=true;}}
+function cycleNameById(id){const c=cycles.find(x=>x.id===id);return c?c.name:tr('noCycle');}
+function markCycleDirty(){cycleDirty=true;const st=document.getElementById('cycle-save-state');if(st)st.textContent=tr('unsavedChanges');}
+function refreshLessonCycleOptions(){const sel=lpEl('cycle');if(!sel)return;const keep=sel.value;sel.innerHTML='<option value="">'+tr('noCycle')+'</option>'+cycles.slice().sort((a,b)=>(a.name||'').localeCompare(b.name||'')).map(c=>'<option value="'+escapeHtml(c.id)+'">'+escapeHtml(c.name||tr('newCycle'))+'</option>').join('');sel.value=cycles.some(c=>c.id===keep)?keep:'';}
+function collectCycle(){return{id:currentCycleId||('cy'+Date.now()),name:cyEl('name').value.trim()||(isPortuguese()?'Novo ciclo':'New cycle'),format:cyEl('format').value,level:cyEl('level').value,start:cyEl('start').value,sessionsPerWeek:+cyEl('sessions').value||1,notes:cyEl('notes').value.trim(),modules:cycleModules.map(m=>({...m})),updatedAt:Date.now()};}
+function loadCycle(c){currentCycleId=c.id||null;cyEl('name').value=c.name||'';cyEl('format').value=c.format||'Gi';cyEl('level').value=c.level||'Mixed';cyEl('start').value=c.start||new Date().toISOString().slice(0,10);cyEl('sessions').value=c.sessionsPerWeek||2;cyEl('notes').value=c.notes||'';cycleModules=(c.modules||[]).map((m,i)=>({id:m.id||('cm'+Date.now()+i),focus:m.focus||'',level:m.level||'Intermediate',lessonId:m.lessonId||'',notes:m.notes||''}));cycleDirty=false;document.getElementById('cycle-save-state').textContent=tr('savedChanges');renderCycleModules();renderSavedCycles();}
+function guardOptions(value){return CATALOG.guard.map(n=>'<option value="'+escapeHtml(n)+'"'+(n===value?' selected':'')+'>'+moveLabel(n)+'</option>').join('');}
+function lessonOptions(value){return '<option value="">'+tr('selectClass')+'</option>'+lessons.slice().sort((a,b)=>(a.title||'').localeCompare(b.title||'')).map(l=>'<option value="'+escapeHtml(l.id)+'"'+(l.id===value?' selected':'')+'>'+escapeHtml(l.title||tr('newClass'))+'</option>').join('');}
+function renderCycleModules(){const box=document.getElementById('cycle-modules');document.getElementById('cy-module-count').textContent=cycleModules.length;box.innerHTML='';if(!cycleModules.length){box.innerHTML='<div class="cycle-empty">'+tr('noModules')+'</div>';return;}cycleModules.forEach((m,i)=>{const row=document.createElement('div');row.className='cycle-module';row.innerHTML='<div class="cycle-module-index">'+(i+1)+'</div><div><label class="sr-only">'+tr('focusGuard')+'</label><select data-k="focus">'+guardOptions(m.focus)+'</select></div><div><label class="sr-only">'+tr('level')+'</label><select data-k="level"><option value="Basic"'+(m.level==='Basic'?' selected':'')+'>'+tr('basic')+'</option><option value="Intermediate"'+(m.level==='Intermediate'?' selected':'')+'>'+tr('intermediate')+'</option><option value="Advanced"'+(m.level==='Advanced'?' selected':'')+'>'+tr('advanced')+'</option></select><select data-k="lessonId" style="margin-top:6px">'+lessonOptions(m.lessonId)+'</select></div><div><label class="sr-only">'+tr('moduleNotes')+'</label><textarea data-k="notes" placeholder="'+tr('moduleNotes')+'">'+escapeHtml(m.notes)+'</textarea></div><div class="cycle-module-actions"><button class="cycle-icon-btn" data-act="up" title="Up">↑</button><button class="cycle-icon-btn" data-act="down" title="Down">↓</button><button class="cycle-icon-btn danger" data-act="remove" title="Remove">×</button></div>';
+    row.querySelectorAll('[data-k]').forEach(el=>{el.oninput=()=>{m[el.dataset.k]=el.value;markCycleDirty();};el.onchange=el.oninput;});row.querySelector('[data-act="up"]').onclick=()=>{if(i){[cycleModules[i-1],cycleModules[i]]=[cycleModules[i],cycleModules[i-1]];markCycleDirty();renderCycleModules();}};row.querySelector('[data-act="down"]').onclick=()=>{if(i<cycleModules.length-1){[cycleModules[i+1],cycleModules[i]]=[cycleModules[i],cycleModules[i+1]];markCycleDirty();renderCycleModules();}};row.querySelector('[data-act="remove"]').onclick=()=>{cycleModules.splice(i,1);markCycleDirty();renderCycleModules();};box.appendChild(row);});}
+function renderSavedCycles(){const box=document.getElementById('cy-saved-list');document.getElementById('cy-saved-count').textContent=cycles.length;box.innerHTML='';if(!cycles.length){box.innerHTML='<div class="lesson-status">'+tr('noSavedCycles')+'</div>';return;}cycles.slice().sort((a,b)=>(b.updatedAt||0)-(a.updatedAt||0)).forEach(c=>{const linked=(c.modules||[]).filter(m=>m.lessonId).length,total=(c.modules||[]).length,pct=total?linked/total*100:0,d=document.createElement('div');d.className='cycle-saved'+(c.id===currentCycleId?' active':'');d.innerHTML='<div class="cycle-saved-title">'+escapeHtml(c.name||tr('newCycle'))+'</div><div class="cycle-saved-meta">'+escapeHtml(c.format)+' · '+escapeHtml(levelLabel(c.level))+' · '+total+' '+tr('modules')+'<br>'+tr('cycleProgress',{done:linked,total})+'</div><div class="cycle-progress"><span style="width:'+pct+'%"></span></div><div class="lesson-saved-actions"><span class="lesson-link" data-act="edit">'+tr('edit')+'</span><span class="lesson-link" data-act="copy">'+tr('copy')+'</span><span class="lesson-link danger" data-act="remove">'+tr('remove')+'</span></div>';const open=()=>{loadCycle(c);toast(tr('cycleLoaded'));};d.querySelector('.cycle-saved-title').onclick=open;d.querySelector('[data-act="edit"]').onclick=open;d.querySelector('[data-act="copy"]').onclick=()=>{const cp={...c,id:null,name:(c.name||'')+' '+(isPortuguese()?'(cópia)':'(copy)'),modules:(c.modules||[]).map((m,i)=>({...m,id:'cm'+Date.now()+i}))};loadCycle(cp);markCycleDirty();toast(tr('cycleDuplicated'));};d.querySelector('[data-act="remove"]').onclick=async()=>{cycles=cycles.filter(x=>x.id!==c.id);if(currentCycleId===c.id)loadCycle(cycleBlank());await storeSet(K_CYCLES,cycles);refreshLessonCycleOptions();renderSavedCycles();renderSavedLessons();};box.appendChild(d);});}
+function renderCycleGuide(){const guide=document.getElementById('cycle-guide-list');if(!guide)return;const groups=[['Basic',isPortuguese()?'Guarda fechada, meia-guarda, borboleta e guarda aberta.':'Closed, half, butterfly and open guard.'],['Intermediate',isPortuguese()?'Spider, De La Riva, lapela, Z, X e borboleta com lapela.':'Spider, De La Riva, lapel, Z, X and butterfly-lapel.'],['Advanced',isPortuguese()?'50/50, lasso, RDLR, single-leg X, K, invertida, worm e rubber.':'50/50, lasso, RDLR, single-leg X, K, inverted, worm and rubber.']];guide.innerHTML=groups.map(g=>'<div class="cycle-guide-item"><div class="cycle-level">'+escapeHtml(g[0]==='Basic'?tr('basic'):levelLabel(g[0]))+'</div><div>'+escapeHtml(g[1])+'</div></div>').join('');}
+function renderCycles(){if(!cyEl('name'))return;if(!currentCycleId&&!cyEl('start').value)loadCycle(cycleBlank());renderCycleModules();renderSavedCycles();renderCycleGuide();}
+async function saveCycle(){const c=collectCycle();currentCycleId=c.id;cycles=cycles.filter(x=>x.id!==c.id);cycles.push(c);await storeSet(K_CYCLES,cycles);cycleDirty=false;document.getElementById('cycle-save-state').textContent=tr('savedChanges');refreshLessonCycleOptions();renderSavedCycles();renderSavedLessons();toast(tr('cycleSaved'));}
+CY_FIELDS.forEach(k=>{const el=cyEl(k);if(el){el.addEventListener('input',markCycleDirty);el.addEventListener('change',markCycleDirty);}});
+document.getElementById('cycle-new').onclick=()=>{loadCycle(cycleBlank());markCycleDirty();};
+document.getElementById('cycle-template').onclick=()=>{loadCycle(cycleTemplate());markCycleDirty();toast(tr('guardTemplateLoaded'));};
+document.getElementById('cycle-duplicate').onclick=()=>{const c=collectCycle();c.id=null;c.name=(c.name||'')+' '+(isPortuguese()?'(cópia)':'(copy)');c.modules=c.modules.map((m,i)=>({...m,id:'cm'+Date.now()+i}));loadCycle(c);markCycleDirty();toast(tr('cycleDuplicated'));};
+document.getElementById('cycle-save').onclick=saveCycle;
+document.getElementById('cycle-add-module').onclick=()=>{cycleModules.push({id:'cm'+Date.now(),focus:'Closed Guard',level:'Basic',lessonId:'',notes:''});markCycleDirty();renderCycleModules();};
 
 /* ============ GAME BUILDER ============ */
 let gameNodes=[];         // array of {id, x, y}
@@ -2186,6 +2440,8 @@ document.querySelectorAll('.ga-lang[data-lang]').forEach(btn=>btn.addEventListen
 applyStaticLanguage();
 setLanguage(currentLang,false);
 window.addEventListener('resize',()=>{if(currentView==='game')drawGame();});
+
+(async function initUserFront(){const savedRole=await storeGet(K_ROLE);await setUserRole(savedRole==='teacher'?'teacher':'student',false);if(savedRole==='teacher')switchView('professor');})();
 })();
 </script>
 
