@@ -264,6 +264,33 @@ window.GRAPPLING_ATLAS_CLOUD = window.GRAPPLING_ATLAS_CLOUD || {
   .tap-item .arr{ color:var(--text-dim2); }
   .tap-item .x{ margin-left:auto; cursor:pointer; color:var(--text-dim2); }
   .tap-item .x:hover{ color:var(--submission); }
+  /* competition log */
+  .competition-fields{margin:12px 0 14px;padding:13px;border:1px solid #475569;border-radius:6px;background:rgba(15,23,42,.45)}
+  .competition-fields[hidden]{display:none!important}
+  .competition-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:11px;font-family:var(--disp);font-weight:900;text-transform:uppercase;letter-spacing:.045em;font-size:12px}
+  .competition-head small{font-family:var(--mono);font-size:9.5px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--text-dim)}
+  .competition-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+  .competition-grid .span-2{grid-column:1/-1}
+  .competition-fields label{display:block;font-size:9.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--text-dim);margin-bottom:5px}
+  .competition-fields input,.competition-fields select,.competition-fields textarea{width:100%;background:var(--surface2);border:1px solid var(--line);color:var(--text);font-family:var(--mono);font-size:11px;padding:8px 9px;border-radius:4px;outline:none;min-width:0}
+  .competition-fields input:focus,.competition-fields select:focus,.competition-fields textarea:focus{border-color:var(--guard)}
+  .competition-matches{margin-top:12px;border-top:1px solid var(--line);padding-top:11px}
+  .competition-match-builder{display:grid;grid-template-columns:1.3fr .8fr 1fr .55fr .55fr auto;gap:6px;align-items:end}
+  .competition-match-builder .comp-submission,.competition-match-builder .comp-notes{grid-column:span 3}
+  .competition-match-builder .tap-add{height:34px;display:grid;place-items:center}
+  .competition-match-list{display:flex;flex-direction:column;gap:6px;margin-top:9px}
+  .competition-match-item{display:grid;grid-template-columns:auto 1fr auto;gap:8px;align-items:start;border:1px solid var(--line);background:var(--surface);border-radius:5px;padding:8px 9px;font-size:10.5px;line-height:1.5}
+  .competition-match-item .result{font-family:var(--disp);font-weight:900;font-size:12px;color:#10B981}
+  .competition-match-item.loss .result{color:#EF4444}.competition-match-item.draw .result{color:var(--counter)}
+  .competition-match-item .match-meta{color:var(--text-dim);font-size:9.5px}.competition-match-item .x{cursor:pointer;color:var(--text-dim2);font-size:13px}.competition-match-item .x:hover{color:var(--submission)}
+  .competition-summary{margin-top:8px;padding:8px 10px;border-left:3px solid var(--counter);background:var(--surface2);border-radius:4px;font-size:10.5px;line-height:1.6}
+  .competition-session{margin-top:9px;border-top:1px solid var(--line);padding-top:9px}
+  .competition-session-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(135px,1fr));gap:6px;margin-bottom:8px}
+  .competition-session-cell{background:var(--surface2);border:1px solid var(--line);border-radius:4px;padding:7px 8px}
+  .competition-session-cell .cap{font-size:8.5px;text-transform:uppercase;letter-spacing:.055em;color:var(--text-dim);margin-bottom:3px}.competition-session-cell .val{font-size:10.5px;overflow-wrap:anywhere}
+  .competition-history-row{padding:8px 0;border-bottom:1px solid var(--line);font-size:10.5px}.competition-history-row:last-child{border-bottom:0}.competition-history-row strong{display:block;font-size:11px;margin-bottom:2px}.competition-history-row span{color:var(--text-dim)}
+  @media(max-width:760px){.competition-grid{grid-template-columns:1fr}.competition-grid .span-2{grid-column:auto}.competition-match-builder{grid-template-columns:1fr 1fr}.competition-match-builder .comp-opponent,.competition-match-builder .comp-submission,.competition-match-builder .comp-notes{grid-column:1/-1}.competition-match-builder .tap-add{grid-column:1/-1}.competition-session-grid{grid-template-columns:1fr 1fr}}
+  @media(max-width:430px){.competition-match-builder,.competition-session-grid{grid-template-columns:1fr}.competition-match-builder>*{grid-column:1!important}}
   /* leak / rust / partner cards */
   .insight{ background:var(--surface); border:1px solid var(--line); border-radius:6px; padding:14px; margin-bottom:12px; }
   .insight h3{ margin:0 0 10px; font-family:var(--disp); font-weight:900; text-transform:uppercase; letter-spacing:0.04em; font-size:13px; display:flex; align-items:center; gap:8px; }
@@ -680,6 +707,38 @@ window.GRAPPLING_ATLAS_CLOUD = window.GRAPPLING_ATLAS_CLOUD || {
             <div class="field"><label data-i18n="minutes">Minutes</label><input type="number" id="s-dur" min="0" step="5" value="60"></div>
           </div>
           <div class="field"><label data-i18n="roundsRolled">Rounds rolled</label><input type="number" id="s-rounds" min="0" value="5"></div>
+          <div class="competition-fields" id="competition-fields" hidden>
+            <div class="competition-head"><span data-i18n="competitionDetails">Competition details</span><small data-i18n="competitionDetailsHelp">saved with your profile and synced to the cloud</small></div>
+            <div class="competition-grid">
+              <div class="span-2"><label data-i18n="competitionName">Competition name</label><input id="c-name" type="text" data-i18n-placeholder="competitionNamePlaceholder" placeholder="e.g. FPJJB National Championship"></div>
+              <div><label data-i18n="organization">Organization</label><select id="c-org"><option value="FPJJB">FPJJB</option><option value="IBJJF">IBJJF</option><option value="AJP">AJP</option><option value="ADCC">ADCC</option><option value="Other" data-i18n="other">Other</option></select></div>
+              <div><label data-i18n="competitionLocation">Location</label><input id="c-location" type="text" data-i18n-placeholder="competitionLocationPlaceholder" placeholder="city / venue"></div>
+              <div><label data-i18n="competitionFormat">Competition format</label><select id="c-format"><option value="Gi">Gi</option><option value="No-Gi">No-Gi</option></select></div>
+              <div><label data-i18n="beltAtCompetition">Belt / grade</label><select id="c-belt"><option value="White" data-i18n="beltWhite">White</option><option value="Blue" data-i18n="beltBlue">Blue</option><option value="Purple" data-i18n="beltPurple">Purple</option><option value="Brown" data-i18n="beltBrown">Brown</option><option value="Black" data-i18n="beltBlack">Black</option><option value="Grey">Grey</option><option value="Grey-White">Grey-White</option><option value="Grey-Black">Grey-Black</option><option value="Yellow">Yellow</option><option value="Yellow-White">Yellow-White</option><option value="Yellow-Black">Yellow-Black</option><option value="Orange">Orange</option><option value="Orange-White">Orange-White</option><option value="Orange-Black">Orange-Black</option><option value="Green">Green</option><option value="Green-White">Green-White</option><option value="Green-Black">Green-Black</option></select></div>
+              <div><label data-i18n="stripesAtCompetition">Stripes / degree</label><select id="c-stripes"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option></select></div>
+              <div><label data-i18n="ageDivision">Age division</label><select id="c-age"><option value="Juvenile">Juvenile</option><option value="Adult">Adult</option><option value="Master 1">Master 1</option><option value="Master 2">Master 2</option><option value="Master 3">Master 3</option><option value="Master 4">Master 4</option><option value="Master 5">Master 5</option><option value="Master 6">Master 6</option><option value="Master 7">Master 7</option><option value="Kids" data-i18n="kidsDivision">Kids / youth</option><option value="Other" data-i18n="other">Other</option></select></div>
+              <div><label data-i18n="divisionEntered">Division entered</label><select id="c-division"><option value="Weight" data-i18n="weightDivision">Weight division</option><option value="Absolute" data-i18n="absoluteDivision">Absolute / open weight</option><option value="Both" data-i18n="bothDivisions">Weight + absolute</option></select></div>
+              <div><label data-i18n="weightCategory">Weight category</label><select id="c-weight"><option value="" data-i18n="selectWeightCategory">Select category</option><option value="Rooster">Rooster</option><option value="Light Feather">Light Feather</option><option value="Feather">Feather</option><option value="Light">Light</option><option value="Middle">Middle</option><option value="Medium Heavy">Medium Heavy</option><option value="Heavy">Heavy</option><option value="Super Heavy">Super Heavy</option><option value="Ultra Heavy">Ultra Heavy</option><option value="Custom" data-i18n="customCategory">Custom / federation-specific</option></select></div>
+              <div><label data-i18n="exactWeightLimit">Exact category / limit</label><input id="c-weight-detail" type="text" data-i18n-placeholder="exactWeightLimitPlaceholder" placeholder="e.g. -76 kg / Médio"></div>
+              <div><label data-i18n="registeredWeight">Registered weight (kg)</label><input id="c-registered-weight" type="number" min="0" step="0.1" inputmode="decimal" placeholder="0.0"></div>
+              <div><label data-i18n="placement">Placement</label><select id="c-placement"><option value="" data-i18n="noPlacement">No placement</option><option value="1st" data-i18n="firstPlace">1st</option><option value="2nd" data-i18n="secondPlace">2nd</option><option value="3rd" data-i18n="thirdPlace">3rd</option><option value="4th" data-i18n="fourthPlace">4th</option><option value="5th" data-i18n="fifthPlace">5th</option><option value="DQ">DQ</option><option value="DNP">DNP</option></select></div>
+            </div>
+            <div class="competition-matches">
+              <div class="competition-head"><span data-i18n="matches">Matches</span><small data-i18n="matchesHelp">record every opponent, result, score and finish</small></div>
+              <div class="competition-match-builder">
+                <div class="comp-opponent"><label data-i18n="opponent">Opponent</label><input id="cm-opponent" type="text" data-i18n-placeholder="opponentName" placeholder="opponent name"></div>
+                <div><label data-i18n="matchResult">Result</label><select id="cm-result"><option value="Win" data-i18n="win">Win</option><option value="Loss" data-i18n="loss">Loss</option><option value="Draw" data-i18n="draw">Draw</option><option value="DQ">DQ</option><option value="WO">WO</option></select></div>
+                <div><label data-i18n="resultMethod">Method</label><select id="cm-method"><option value="Points" data-i18n="points">Points</option><option value="Advantages" data-i18n="advantages">Advantages</option><option value="Submission" data-i18n="submissionMethod">Submission</option><option value="Referee decision" data-i18n="refereeDecision">Referee decision</option><option value="Penalty" data-i18n="penalty">Penalty</option><option value="DQ">DQ</option><option value="WO">WO</option><option value="Other" data-i18n="other">Other</option></select></div>
+                <div><label data-i18n="pointsFor">Pts for</label><input id="cm-points-for" type="number" min="0" value="0"></div>
+                <div><label data-i18n="pointsAgainst">Pts against</label><input id="cm-points-against" type="number" min="0" value="0"></div>
+                <div class="tap-add" id="cm-add" title="Add match">+</div>
+                <div class="comp-submission"><label data-i18n="submissionUsed">Submission / decisive technique</label><input id="cm-submission" type="text" data-i18n-placeholder="submissionUsedPlaceholder" placeholder="e.g. triangle, armbar, takedown"></div>
+                <div class="comp-notes"><label data-i18n="matchNotes">Match notes</label><input id="cm-notes" type="text" data-i18n-placeholder="matchNotesPlaceholder" placeholder="time, advantages, penalties, tactical notes..."></div>
+              </div>
+              <div class="competition-match-list" id="competition-match-list"></div>
+              <div class="competition-summary" id="competition-summary"></div>
+            </div>
+          </div>
           <div class="field">
             <label data-i18n="techniquesWorked">Techniques worked</label>
             <div class="tech-picker">
@@ -716,6 +775,7 @@ window.GRAPPLING_ATLAS_CLOUD = window.GRAPPLING_ATLAS_CLOUD || {
           <button class="btn primary" id="s-save" style="width:100%" data-i18n="saveSession">Save session</button>
         </div>
         <div>
+          <div class="insight" id="ins-competitions"></div>
           <div class="insight" id="ins-leaks"></div>
           <div class="insight" id="ins-partners"></div>
           <div class="insight" id="ins-rust"></div>
@@ -1099,6 +1159,16 @@ Object.assign(I18N['pt-PT'],{
   microcycleDefinition:'Bloco curto, normalmente de uma semana, dentro do macrociclo. Define o objetivo da tarefa, complexidade, sobrecarga coordenativa, contexto, técnicas e aulas associadas.',
   macrocycleSetup:'Configuração do macrociclo',macrocycleName:'Nome do macrociclo',macrocycleNamePlaceholder:'ex.: Programa técnico e tático anual',endDate:'Data final',trainingTarget:'Destinatário do treino',group:'Grupo',individual:'Individual',programmeDna:'ADN do programa / divisão tática',programmeDnaPlaceholder:'Por cima, por baixo, mistos, em pé, passagem, controlos, costas...',performanceMoments:'Momentos de desempenho / calendário competitivo',performanceMomentsPlaceholder:'Competições, avaliações, graduações, semanas de teste e datas de pico...',macrocycleNotes:'Observações gerais e critérios de progressão',macrocycleNotesPlaceholder:'Prioridades técnicas, avaliações, adaptações e critérios de segurança...',microcycles:'Microciclos',microcycleBlocks:'blocos',atlasVideoRule:'Regra de vídeo do Atlas:',atlasVideoRuleText:'apenas técnicas do catálogo com ligação de vídeo disponível podem ser selecionadas. Conceitos genéricos não entram como movimentos.',addMicrocycle:'+ Adicionar microciclo',macrocycleCalendar:'Calendário do macrociclo',calendarUpdates:'atualizado pelos microciclos',topWork:'Trabalho por cima',bottomWork:'Trabalho por baixo',mixedWork:'Mistos / sequências',standingWork:'Em pé',savedMacrocycles:'Macrociclos guardados',cyclePlanningGuide:'Lógica de planeamento',cyclePlanningGuideText:'<b>Macrociclo:</b> defina o período, ADN, situações táticas, técnicas, nível e momentos de desempenho.<br><br><b>Microciclo:</b> classifique a complexidade, progrida ou regrida a sobrecarga coordenativa e adapte o contexto ao objetivo.<br><br><b>Aula:</b> selecione um microciclo ao preparar a sessão.',
   microcycleName:'Nome do microciclo',microcycleNamePlaceholder:'ex.: Passagem de guarda · posição exterior',tacticalSituation:'Situação tática',topSituation:'Por cima',bottomSituation:'Por baixo',mixedSituation:'Mistos / sequências',standingSituation:'Em pé',complexity:'Complexidade',basic:'Básico',coordinativeLoad:'Sobrecarga coordenativa',regression:'Regressão',standardLoad:'Padrão',progression:'Progressão',taskContext:'Contexto da tarefa',technicalDrilling:'Drill técnico',positionalTraining:'Treino posicional',scenarioTraining:'Treino por cenário',competitionContext:'Contexto competitivo',taskObjective:'Objetivo da tarefa',taskObjectivePlaceholder:'O que deve o praticante resolver ou executar?',mainTechnique:'Técnica principal com vídeo',linkedClass:'Aula associada',selectTechnique:'Selecione uma técnica com vídeo',selectClass:'Selecione uma aula',microcycleNotes:'Observações do microciclo',week:'Semana',macrocycleSaved:'Macrociclo guardado',macrocycleLoaded:'Macrociclo carregado',macrocycleDuplicated:'Macrociclo duplicado',macrocycleTemplateLoaded:'Macrociclo anual carregado com todas as posições semanais',noMicrocycles:'Ainda não existem microciclos. Adicione um ou carregue o macrociclo anual.',noSavedMacrocycles:'Ainda não existem macrociclos guardados.',microcycleProgress:'{done} de {total} microciclos associados a uma aula'
+});
+
+Object.assign(I18N.en,{
+  competitionDetails:'Competition details',competitionDetailsHelp:'saved with your profile and synced to the cloud',competitionName:'Competition name',competitionNamePlaceholder:'e.g. FPJJB National Championship',organization:'Organization',other:'Other',competitionLocation:'Location',competitionLocationPlaceholder:'city / venue',competitionFormat:'Competition format',beltAtCompetition:'Belt / grade',kidsBelts:'Kids belt',ageDivision:'Age division',kidsDivision:'Kids / youth',divisionEntered:'Division entered',weightDivision:'Weight division',absoluteDivision:'Absolute / open weight',bothDivisions:'Weight + absolute',weightCategory:'Weight category',selectWeightCategory:'Select category',customCategory:'Custom / federation-specific',registeredWeight:'Registered weight (kg)',placement:'Placement',noPlacement:'No placement',firstPlace:'1st',secondPlace:'2nd',thirdPlace:'3rd',fourthPlace:'4th',fifthPlace:'5th',matches:'Matches',matchesHelp:'record every opponent, result, score and finish',opponent:'Opponent',opponentName:'opponent name',matchResult:'Result',win:'Win',loss:'Loss',draw:'Draw',resultMethod:'Method',points:'Points',advantages:'Advantages',submissionMethod:'Submission',refereeDecision:'Referee decision',penalty:'Penalty',pointsFor:'Pts for',pointsAgainst:'Pts against',submissionUsed:'Submission / decisive technique',submissionUsedPlaceholder:'e.g. triangle, armbar, takedown',matchNotes:'Match notes',matchNotesPlaceholder:'time, advantages, penalties, tactical notes...',competitionNameRequired:'Add the competition name first',competitionRecord:'Competition record',competitionRecordSub:'events, medals and match results',noCompetitions:'No competitions logged yet. Choose Competition when logging a session to record the event, division, weight category, placement and every match.',events:'events',medals:'medals',record:'record',competition:'Competition',division:'Division',category:'Category',beltGrade:'Belt / grade',result:'Result',match:'match',matchesLower:'matches',legacyCompetition:'Imported competition record',stripesAtCompetition:'Stripes / degree',exactWeightLimit:'Exact category / limit',exactWeightLimitPlaceholder:'e.g. -76 kg / Middle'
+});
+Object.assign(I18N['pt-BR'],{
+  competitionDetails:'Detalhes da competição',competitionDetailsHelp:'salvos no seu perfil e sincronizados na nuvem',competitionName:'Nome da competição',competitionNamePlaceholder:'ex.: Campeonato Nacional FPJJB',organization:'Organização',other:'Outra',competitionLocation:'Local',competitionLocationPlaceholder:'cidade / local do evento',competitionFormat:'Formato da competição',beltAtCompetition:'Faixa / grau',kidsBelts:'Faixa infantil',ageDivision:'Categoria etária',kidsDivision:'Infantil / juvenil',divisionEntered:'Divisão disputada',weightDivision:'Categoria de peso',absoluteDivision:'Absoluto / peso aberto',bothDivisions:'Peso + absoluto',weightCategory:'Categoria de peso',selectWeightCategory:'Selecione a categoria',customCategory:'Personalizada / específica da federação',registeredWeight:'Peso inscrito (kg)',placement:'Classificação',noPlacement:'Sem classificação',firstPlace:'1º',secondPlace:'2º',thirdPlace:'3º',fourthPlace:'4º',fifthPlace:'5º',matches:'Lutas',matchesHelp:'registre cada adversário, resultado, pontuação e finalização',opponent:'Adversário',opponentName:'nome do adversário',matchResult:'Resultado',win:'Vitória',loss:'Derrota',draw:'Empate',resultMethod:'Método',points:'Pontos',advantages:'Vantagens',submissionMethod:'Finalização',refereeDecision:'Decisão do árbitro',penalty:'Punição',pointsFor:'Pts a favor',pointsAgainst:'Pts contra',submissionUsed:'Finalização / técnica decisiva',submissionUsedPlaceholder:'ex.: triângulo, armlock, queda',matchNotes:'Observações da luta',matchNotesPlaceholder:'tempo, vantagens, punições, notas táticas...',competitionNameRequired:'Adicione primeiro o nome da competição',competitionRecord:'Histórico competitivo',competitionRecordSub:'eventos, medalhas e resultados',noCompetitions:'Ainda não existem competições registradas. Escolha Competição ao registrar um treino para guardar o evento, divisão, categoria de peso, classificação e cada luta.',events:'eventos',medals:'medalhas',record:'cartel',division:'Divisão',category:'Categoria',beltGrade:'Faixa / grau',result:'Resultado',match:'luta',matchesLower:'lutas',legacyCompetition:'Registro de competição importado',stripesAtCompetition:'Graus',exactWeightLimit:'Categoria / limite exato',exactWeightLimitPlaceholder:'ex.: -76 kg / Médio'
+});
+Object.assign(I18N['pt-PT'],{
+  competitionDetails:'Detalhes da competição',competitionDetailsHelp:'guardados no perfil e sincronizados na nuvem',competitionName:'Nome da competição',competitionNamePlaceholder:'ex.: Campeonato Nacional FPJJB',organization:'Organização',other:'Outra',competitionLocation:'Local',competitionLocationPlaceholder:'cidade / local do evento',competitionFormat:'Formato da competição',beltAtCompetition:'Faixa / grau',kidsBelts:'Faixa infantil',ageDivision:'Categoria etária',kidsDivision:'Infantil / juvenil',divisionEntered:'Divisão disputada',weightDivision:'Categoria de peso',absoluteDivision:'Absoluto / peso aberto',bothDivisions:'Peso + absoluto',weightCategory:'Categoria de peso',selectWeightCategory:'Selecione a categoria',customCategory:'Personalizada / específica da federação',registeredWeight:'Peso de inscrição (kg)',placement:'Classificação',noPlacement:'Sem classificação',firstPlace:'1.º',secondPlace:'2.º',thirdPlace:'3.º',fourthPlace:'4.º',fifthPlace:'5.º',matches:'Combates',matchesHelp:'registe cada adversário, resultado, pontuação e finalização',opponent:'Adversário',opponentName:'nome do adversário',matchResult:'Resultado',win:'Vitória',loss:'Derrota',draw:'Empate',resultMethod:'Método',points:'Pontos',advantages:'Vantagens',submissionMethod:'Finalização',refereeDecision:'Decisão do árbitro',penalty:'Penalização',pointsFor:'Pts a favor',pointsAgainst:'Pts contra',submissionUsed:'Finalização / técnica decisiva',submissionUsedPlaceholder:'ex.: triângulo, chave de braço, queda',matchNotes:'Observações do combate',matchNotesPlaceholder:'tempo, vantagens, penalizações, notas táticas...',competitionNameRequired:'Adicione primeiro o nome da competição',competitionRecord:'Histórico competitivo',competitionRecordSub:'eventos, medalhas e resultados',noCompetitions:'Ainda não existem competições registadas. Escolha Competição ao registar um treino para guardar o evento, divisão, categoria de peso, classificação e cada combate.',events:'eventos',medals:'medalhas',record:'registo',division:'Divisão',category:'Categoria',beltGrade:'Faixa / grau',result:'Resultado',match:'combate',matchesLower:'combates',legacyCompetition:'Registo de competição importado',stripesAtCompetition:'Graus',exactWeightLimit:'Categoria / limite exato',exactWeightLimitPlaceholder:'ex.: -76 kg / Médio'
 });
 
 function tr(key,vars){let out=(I18N[currentLang]&&I18N[currentLang][key])||I18N.en[key]||key;if(vars)Object.keys(vars).forEach(k=>out=out.replaceAll('{'+k+'}',vars[k]));return out;}
@@ -2668,8 +2738,35 @@ window.addEventListener('resize',()=>{if(!overlay.classList.contains('open')||!t
 
 
 /* ============ TRAIN ============ */
-let sessions=[];let sTechSel=[];let hitEntries=[],leakEntries=[];
+let sessions=[];let sTechSel=[];let hitEntries=[],leakEntries=[],competitionMatches=[];
 const sTechSearch=document.getElementById('s-tech-search');
+const competitionFields=document.getElementById('competition-fields');
+function competitionSelected(){return document.getElementById('s-type').value==='Competition';}
+function toggleCompetitionFields(){competitionFields.hidden=!competitionSelected();if(competitionSelected()&&!document.getElementById('c-belt').dataset.touched){const b=(profile&&profile.belt)||'white';document.getElementById('c-belt').value=b.charAt(0).toUpperCase()+b.slice(1);}}
+document.getElementById('s-type').addEventListener('change',toggleCompetitionFields);
+document.getElementById('c-belt').addEventListener('change',e=>e.target.dataset.touched='1');
+function normalizedMatch(m){
+  const rawResult=m.result||m.outcome||(m.won===true?'Win':m.won===false?'Loss':'');
+  return{opponent:m.opponent||m.opponentName||m.partner||'',result:rawResult||'Win',method:m.method||m.winMethod||m.lossMethod||m.resultMethod||'',pointsFor:Number(m.pointsFor??m.scoreFor??m.myPoints??0)||0,pointsAgainst:Number(m.pointsAgainst??m.scoreAgainst??m.opponentPoints??0)||0,submission:m.submission||m.technique||m.finish||'',notes:m.notes||m.time||''};
+}
+function getCompetition(s){
+  const c=s.competition&&typeof s.competition==='object'?s.competition:{};
+  const matches=(c.matches||s.matches||s.fights||s.bouts||[]).map(normalizedMatch);
+  const absoluteRaw=c.division||s.divisionType||s.division||(s.absolute===true?'Absolute':'');
+  return{name:c.name||s.competitionName||s.eventName||s.event||s.tournament||'',organization:c.organization||s.organization||s.federation||'',location:c.location||s.location||s.venue||'',format:c.format||s.competitionFormat||s.giNoGi||'',belt:c.belt||s.beltAtCompetition||s.competitionBelt||'',stripes:c.stripes??s.stripesAtCompetition??s.competitionStripes??0,ageDivision:c.ageDivision||s.ageDivision||s.ageCategory||'',division:absoluteRaw||'',weightClass:c.weightClass||s.weightClass||s.weightCategory||s.competitionCategory||'',weightDetail:c.weightDetail||s.weightDetail||s.weightLimit||'',registeredWeight:c.registeredWeight??s.registeredWeight??s.weight??'',placement:c.placement||s.placement||s.podium||'',matches};
+}
+function matchResultLabel(v){return tr(v==='Win'?'win':v==='Loss'?'loss':v==='Draw'?'draw':v);}
+function renderCompetitionMatches(){
+  const box=document.getElementById('competition-match-list');
+  box.innerHTML=competitionMatches.map((m,i)=>{const cls=m.result==='Loss'?' loss':m.result==='Draw'?' draw':'';const score=(m.method==='Points'||m.pointsFor||m.pointsAgainst)?m.pointsFor+'–'+m.pointsAgainst:'';const details=[m.method,score,m.submission,m.notes].filter(Boolean).join(' · ');return '<div class="competition-match-item'+cls+'"><span class="result">'+escapeHtml(matchResultLabel(m.result))+'</span><div><b>'+escapeHtml(m.opponent||'—')+'</b>'+(details?'<div class="match-meta">'+escapeHtml(details)+'</div>':'')+'</div><span class="x" data-i="'+i+'">×</span></div>';}).join('');
+  box.querySelectorAll('.x').forEach(x=>x.onclick=()=>{competitionMatches.splice(+x.dataset.i,1);renderCompetitionMatches();});
+  const w=competitionMatches.filter(m=>m.result==='Win').length,l=competitionMatches.filter(m=>m.result==='Loss').length,d=competitionMatches.filter(m=>m.result==='Draw').length;
+  document.getElementById('competition-summary').textContent=(competitionMatches.length?competitionMatches.length+' '+tr('matchesLower')+' · '+tr('record')+': '+w+'–'+l+(d?'–'+d:''):tr('matchesHelp'));
+  if(competitionSelected())document.getElementById('s-rounds').value=competitionMatches.length||document.getElementById('s-rounds').value;
+}
+document.getElementById('cm-add').onclick=()=>{const m={opponent:document.getElementById('cm-opponent').value.trim(),result:document.getElementById('cm-result').value,method:document.getElementById('cm-method').value,pointsFor:+document.getElementById('cm-points-for').value||0,pointsAgainst:+document.getElementById('cm-points-against').value||0,submission:document.getElementById('cm-submission').value.trim(),notes:document.getElementById('cm-notes').value.trim()};competitionMatches.push(m);['cm-opponent','cm-submission','cm-notes'].forEach(id=>document.getElementById(id).value='');document.getElementById('cm-points-for').value=0;document.getElementById('cm-points-against').value=0;renderCompetitionMatches();};
+function resetCompetitionForm(){competitionMatches=[];['c-name','c-location','c-weight-detail','c-registered-weight','cm-opponent','cm-submission','cm-notes'].forEach(id=>document.getElementById(id).value='');['c-placement'].forEach(id=>document.getElementById(id).value='');document.getElementById('c-org').value='FPJJB';document.getElementById('c-format').value='Gi';document.getElementById('c-stripes').value='0';document.getElementById('c-age').value='Adult';document.getElementById('c-division').value='Weight';document.getElementById('c-weight').value='';document.getElementById('c-belt').dataset.touched='';renderCompetitionMatches();}
+function readCompetitionForm(){return{name:document.getElementById('c-name').value.trim(),organization:document.getElementById('c-org').value,location:document.getElementById('c-location').value.trim(),format:document.getElementById('c-format').value,belt:document.getElementById('c-belt').value,stripes:+document.getElementById('c-stripes').value||0,ageDivision:document.getElementById('c-age').value,division:document.getElementById('c-division').value,weightClass:document.getElementById('c-weight').value,weightDetail:document.getElementById('c-weight-detail').value.trim(),registeredWeight:document.getElementById('c-registered-weight').value?+document.getElementById('c-registered-weight').value:'',placement:document.getElementById('c-placement').value,matches:competitionMatches.slice()};}
 const BELT_COLORS={white:'#E7EAEE',blue:'#3B82F6',purple:'#A855F7',brown:'#8a4b1f',black:'#0d0d0d'};
 function escapeHtml(s){return (s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
 function fmtDate(iso){const d=new Date(iso+'T00:00:00');if(isNaN(d))return iso;return d.toLocaleDateString(isPortuguese()?currentLang:undefined,{weekday:'short',month:'short',day:'numeric',year:'numeric'});}
@@ -2703,9 +2800,13 @@ document.getElementById('leak-add').onclick=()=>{const sub=document.getElementBy
 document.getElementById('s-save').onclick=async()=>{
   const date=document.getElementById('s-date').value;
   if(!date){toast(tr('pickDate'));return;}
-  const s={id:'s'+Date.now(),date,type:document.getElementById('s-type').value,dur:+document.getElementById('s-dur').value||0,rounds:+document.getElementById('s-rounds').value||0,techs:sTechSel.slice(),hits:hitEntries.slice(),leaks:leakEntries.slice(),notes:document.getElementById('s-notes').value.trim()};
+  const type=document.getElementById('s-type').value;
+  const competition=type==='Competition'?readCompetitionForm():null;
+  if(type==='Competition'&&!competition.name){toast(tr('competitionNameRequired'));return;}
+  const s={id:'s'+Date.now(),date,type,dur:+document.getElementById('s-dur').value||0,rounds:type==='Competition'&&competition.matches.length?competition.matches.length:(+document.getElementById('s-rounds').value||0),techs:sTechSel.slice(),hits:hitEntries.slice(),leaks:leakEntries.slice(),notes:document.getElementById('s-notes').value.trim()};
+  if(competition)s.competition=competition;
   sessions.push(s);sessions.__loaded=true;await storeSet(K_SESSIONS,sessions);
-  sTechSel=[];hitEntries=[];leakEntries=[];document.getElementById('s-notes').value='';renderTechChips();renderTapLists();
+  sTechSel=[];hitEntries=[];leakEntries=[];document.getElementById('s-notes').value='';resetCompetitionForm();renderTechChips();renderTapLists();
   toast(tr('sessionLogged'));renderTrain();
 };
 // belt
@@ -2751,6 +2852,13 @@ function renderPartners(){
   const inner=names.length?names.map(nm=>{const p=P[nm],on=fmt(p.onYou),by=fmt(p.byYou);return '<div class="partner-row"><div class="partner-name">'+escapeHtml(nm)+'</div><div class="partner-line">'+(on?tr('tapsYouWith')+' <b>'+escapeHtml(on)+'</b>':'')+(on&&by?'<br>':'')+(by?tr('youTapWith')+' <i>'+escapeHtml(by)+'</i>':'')+(!on&&!by?tr('noSubsLogged'):'')+'</div></div>';}).join(''):'<div class="empty-sm">'+tr('noPartners')+'</div>';
   document.getElementById('ins-partners').innerHTML='<h3>'+tr('partners')+' <span class="tagn">'+tr('partnersSub')+'</span></h3>'+inner;
 }
+function renderCompetitions(){
+  const comps=sessions.filter(s=>s.type==='Competition'||getCompetition(s).name).map(s=>({s,c:getCompetition(s)}));
+  let wins=0,losses=0,draws=0,medals=0;comps.forEach(({c})=>{c.matches.forEach(m=>{if(m.result==='Win')wins++;else if(m.result==='Loss')losses++;else if(m.result==='Draw')draws++;});if(['1st','2nd','3rd'].includes(c.placement))medals++;});
+  const recent=comps.slice().sort((a,b)=>b.s.date.localeCompare(a.s.date)).slice(0,5);
+  const rows=recent.map(({s,c})=>'<div class="competition-history-row"><strong>'+escapeHtml(c.name||tr('legacyCompetition'))+'</strong><span>'+fmtDate(s.date)+(c.organization?' · '+escapeHtml(c.organization):'')+(c.weightClass?' · '+escapeHtml(c.weightClass):'')+(c.division?' · '+escapeHtml(c.division):'')+(c.placement?' · '+escapeHtml(c.placement):'')+'</span></div>').join('');
+  document.getElementById('ins-competitions').innerHTML='<h3>'+tr('competitionRecord')+' <span class="tagn">'+tr('competitionRecordSub')+'</span></h3>'+(comps.length?'<div class="competition-summary">'+comps.length+' '+tr('events')+' · '+medals+' '+tr('medals')+' · '+tr('record')+': '+wins+'–'+losses+(draws?'–'+draws:'')+'</div>'+rows:'<div class="empty-sm">'+tr('noCompetitions')+'</div>');
+}
 async function renderTrain(){
   if(!sessions.__loaded){sessions=(await storeGet(K_SESSIONS))||[];sessions.__loaded=true;}
   if(!profileLoaded){profile=(await storeGet(K_PROFILE))||{belt:'white'};profileLoaded=true;}
@@ -2762,7 +2870,7 @@ async function renderTrain(){
     stat(hrs%1?hrs.toFixed(1):hrs,tr('matHours'),st.totalMin+' '+tr('minTotal'))+
     stat(st.thisWeek,tr('thisWeek'),tr('last7Days'))+
     stat((diff>0?'+':'')+diff,tr('subDifferential'),st.subFor+' '+tr('forWord')+' / '+st.subAg+' '+tr('against'));
-  renderLeaks();renderPartners();renderRust();
+  renderCompetitions();renderLeaks();renderPartners();renderRust();toggleCompetitionFields();renderCompetitionMatches();
   const maxN=st.top.length?st.top[0].n:1;
   let tb='';
   if(st.top.length){tb='<div class="panel" style="margin-top:2px;margin-bottom:12px"><h3>'+tr('mostDrilled')+'</h3><div class="topbar-list">'+st.top.map(t=>'<div class="tb-row"><span class="tb-name">'+moveLabel(t.id)+'</span><span class="tb-bar" style="width:'+Math.max(14,(t.n/maxN)*120)+'px;background:'+CATS[T[t.id].cat].color+'"></span><span class="tb-count">'+t.n+'</span></div>').join('')+'</div></div>';}
@@ -2775,18 +2883,26 @@ async function renderTrain(){
   renderTechPicker();renderTapLists();
 }
 function renderSession(s){
-  const techs=(s.techs||[]).map(id=>'<span class="t" style="border-color:'+CATS[T[id].cat].color+'55">'+moveLabel(id)+'</span>').join('');
+  const techs=(s.techs||[]).filter(id=>T[id]).map(id=>'<span class="t" style="border-color:'+CATS[T[id].cat].color+'55">'+moveLabel(id)+'</span>').join('');
   const hits=sHits(s),leaks=sLeaks(s);
   const fmtE=e=>e.sub?(moveLabel(e.sub)+(e.pos?' ('+moveLabel(e.pos)+')':'')+(e.partner?(isPortuguese()?' vs. ':' vs ')+e.partner:'')):null;
   const hitTxt=hits.map(fmtE).filter(Boolean).join(', '),leakTxt=leaks.map(fmtE).filter(Boolean).join(', ');
-  return '<div class="session"><div class="top"><div><span class="date">'+fmtDate(s.date)+'</span> <span class="badge">'+escapeHtml(sessionTypeLabel(s.type))+'</span></div><span class="del" data-del="'+s.id+'">'+tr('delete')+'</span></div>'+
-    '<div class="meta">'+s.dur+' min &middot; '+s.rounds+' '+tr('rounds')+' &middot; '+hits.length+' '+tr('forWord')+' / '+leaks.length+' '+tr('against')+'</div>'+
+  const c=getCompetition(s);let compHtml='';
+  if(s.type==='Competition'||c.name){
+    const cells=[[tr('competition'),c.name],[tr('organization'),c.organization],[tr('competitionLocation'),c.location],[tr('competitionFormat'),c.format],[tr('beltGrade'),c.belt+(c.stripes?' · '+c.stripes:'')],[tr('ageDivision'),c.ageDivision],[tr('division'),c.division],[tr('category'),[c.weightClass,c.weightDetail,c.registeredWeight?c.registeredWeight+' kg':''].filter(Boolean).join(' · ')],[tr('result'),c.placement]].filter(x=>x[1]);
+    const matches=c.matches.map((m,i)=>{const score=(m.pointsFor||m.pointsAgainst||m.method==='Points')?' '+m.pointsFor+'–'+m.pointsAgainst:'';const detail=[m.method+score,m.submission,m.notes].filter(Boolean).join(' · ');return '<div class="competition-match-item '+(m.result==='Loss'?'loss':m.result==='Draw'?'draw':'')+'"><span class="result">'+escapeHtml(matchResultLabel(m.result))+'</span><div><b>'+(i+1)+'. '+escapeHtml(m.opponent||'—')+'</b>'+(detail?'<div class="match-meta">'+escapeHtml(detail)+'</div>':'')+'</div><span></span></div>';}).join('');
+    compHtml='<div class="competition-session"><div class="competition-session-grid">'+cells.map(x=>'<div class="competition-session-cell"><div class="cap">'+x[0]+'</div><div class="val">'+escapeHtml(String(x[1]))+'</div></div>').join('')+'</div>'+(matches?'<div class="competition-match-list">'+matches+'</div>':'')+'</div>';
+  }
+  return '<div class="session"><div class="top"><div><span class="date">'+fmtDate(s.date)+'</span> <span class="badge">'+escapeHtml(sessionTypeLabel(s.type))+'</span></div><span class="del" data-del="'+s.id+'">'+tr('delete')+'</span></div>'+ 
+    '<div class="meta">'+s.dur+' min &middot; '+s.rounds+' '+tr('rounds')+' &middot; '+hits.length+' '+tr('forWord')+' / '+leaks.length+' '+tr('against')+'</div>'+compHtml+
     (techs?'<div class="techs">'+techs+'</div>':'')+
-    (hitTxt?'<div class="notes" style="color:#10B981">\u2713 '+escapeHtml(hitTxt)+'</div>':'')+
-    (leakTxt?'<div class="notes" style="color:#DC6666">\u2717 '+escapeHtml(leakTxt)+'</div>':'')+
+    (hitTxt?'<div class="notes" style="color:#10B981">✓ '+escapeHtml(hitTxt)+'</div>':'')+
+    (leakTxt?'<div class="notes" style="color:#DC6666">✗ '+escapeHtml(leakTxt)+'</div>':'')+
     (s.notes?'<div class="notes">'+escapeHtml(s.notes)+'</div>':'')+'</div>';
 }
 fillTapSelects();
+resetCompetitionForm();
+toggleCompetitionFields();
 
 
 
