@@ -3350,7 +3350,7 @@ function annualTopicDefinitions(){
   };
 }
 function macroTemplate(){
-  const year=annualCycleYear(),defs=annualTopicDefinitions(),pt=isPortuguese();
+  const year=2026,defs=annualTopicDefinitions(),pt=isPortuguese();
   const topics=['guard_bottom','half_bottom','mount','turtle_top','sequences','guard_bottom','pass','side_top','back','side_bottom','turtle_bottom','standing','guard_bottom','side_top','mount','back','pass','half_top','guard_bottom','turtle_top','side_bottom','pass','half_top','standing','sequences','guard_bottom','turtle_bottom','mount','side_top','back','side_bottom','guard_bottom','sequences','standing','half_bottom','pass','mount','half_top','back','guard_bottom','turtle_top','turtle_bottom','side_top','pass','half_bottom','guard_bottom','standing','pass','side_top','guard_bottom','pass','back','top_integration'];
   const slots=annualWorkweekSlots(year,topics.length);
   const base=cycleBlank();
@@ -3364,6 +3364,53 @@ function macroTemplate(){
   base.microcycles=topics.map((key,i)=>{const d=defs[key],slot=slots[i];return{id:'mc-annual-'+year+'-'+String(i+1).padStart(2,'0'),name:d.name,start:slot.start,end:slot.end,situation:d.situation,complexity:d.complexity,load:'standard',context:key==='sequences'||key==='top_integration'?'scenario':'positional',objective:d.objective,techniqueId:d.techniqueId||'',lessonId:'',notes:'',topicKey:key,color:d.color};});
   return base;
 }
+
+function restoreAnnualPresetCycles(c){
+  const template=macroTemplate();
+  template.id='preset-annual-2026';
+  template.start='2026-01-01';
+  const source=c&&Array.isArray(c.microcycles)?c.microcycles.map(m=>({...m})):[];
+  if(!c)return template;
+  const expected=template.microcycles;
+  const usedIds=new Set();
+  const restored=[];
+  for(let i=0;i<expected.length;i++){
+    const slot=expected[i];
+    let existing=source[i];
+    if(!existing||usedIds.has(existing.id))existing=source.find(m=>m&&m.id===slot.id&&!usedIds.has(m.id));
+    if(existing){
+      usedIds.add(existing.id);
+      restored.push({
+        ...slot,
+        ...existing,
+        id:existing.id||slot.id,
+        start:slot.start,
+        end:slot.end,
+        topicKey:existing.topicKey||slot.topicKey,
+        color:existing.color||slot.color,
+        techniqueId:existing.techniqueId||slot.techniqueId,
+        situation:existing.situation||slot.situation,
+        complexity:existing.complexity||slot.complexity,
+        objective:existing.objective||slot.objective
+      });
+    }else{
+      restored.push({...slot});
+      usedIds.add(slot.id);
+    }
+  }
+  const extras=source.filter(m=>m&&!usedIds.has(m.id));
+  return{
+    ...template,
+    ...c,
+    id:c.id||template.id,
+    presetAnnual:true,
+    calendarVersion:'2026-workweeks-v3',
+    start:template.start,
+    end:template.end,
+    microcycles:restored.concat(extras)
+  };
+}
+
 function normalizeAnnualPresetCalendar(c,targetYear=2026){
   if(!c||!(c.presetAnnual||String(c.id||'').startsWith('preset-annual-')))return c;
   const modules=c.microcycles||[];if(!modules.length)return c;
@@ -3385,7 +3432,19 @@ function localizeAnnualPresetData(){
   cycles.forEach(applyCycle);cycleModules.forEach(applyMicro);
   if(currentCycleId&&String(currentCycleId).startsWith('preset-annual-')&&cyEl('name')){const c=cycles.find(x=>x.id===currentCycleId);if(c)cyEl('name').value=c.name;}
 }
-async function ensureCyclesLoaded(){if(!cyclesLoaded){cycles=((await storeGet(K_CYCLES))||[]).map(migrateCycle).map(c=>normalizeAnnualPresetCalendar(c,2026));if(!cycles.length){const preset=macroTemplate();preset.id='preset-annual-2026';preset.updatedAt=Date.now();cycles=[preset];}await storeSet(K_CYCLES,cycles);cyclesLoaded=true;}}
+async function ensureCyclesLoaded(){
+  if(cyclesLoaded)return;
+  const stored=((await storeGet(K_CYCLES))||[]).map(migrateCycle);
+  let foundPreset=false;
+  cycles=stored.map(c=>{
+    const isPreset=c&&(c.presetAnnual||String(c.id||'').startsWith('preset-annual-'));
+    if(isPreset&&!foundPreset){foundPreset=true;return restoreAnnualPresetCycles(c);}
+    return c;
+  });
+  if(!foundPreset)cycles.unshift(restoreAnnualPresetCycles(null));
+  await storeSet(K_CYCLES,cycles);
+  cyclesLoaded=true;
+}
 function cycleRefParts(ref){const parts=String(ref||'').split('::');return{macroId:parts[0]||'',microId:parts[1]||''};}
 function microcycleDisplayName(m){
   if(!m)return tr('week');
@@ -3406,7 +3465,10 @@ function syncLessonTechniqueFromCycle(ref,mark=true){const next=resolveCycleTech
 function markCycleDirty(){cycleDirty=true;const st=document.getElementById('cycle-save-state');if(st)st.textContent=tr('unsavedChanges');}
 function refreshLessonCycleOptions(){const sel=lpEl('cycle');if(!sel)return;const keep=sel.value;let html='<option value="">'+tr('noCycle')+'</option>';cycles.slice().sort((a,b)=>macrocycleDisplayName(a).localeCompare(macrocycleDisplayName(b))).forEach(c=>{const micros=c.microcycles||[],macroName=macrocycleDisplayName(c);if(micros.length){html+='<optgroup label="'+escapeHtml(macroName)+'">'+micros.map((m,i)=>'<option value="'+escapeHtml(c.id+'::'+m.id)+'">'+escapeHtml((i+1)+'. '+microcycleDisplayName(m))+'</option>').join('')+'</optgroup>';}else html+='<option value="'+escapeHtml(c.id)+'">'+escapeHtml(macroName)+'</option>';});sel.innerHTML=html;sel.value=Array.from(sel.options).some(o=>o.value===keep)?keep:'';if(sel.value){const id=resolveCycleTechniqueId(sel.value);if(id&&lessonCycleTechId!==id)syncLessonTechniqueFromCycle(sel.value,false);}}
 function collectCycle(){return{id:currentCycleId||('cy'+Date.now()),presetAnnual:currentCycleId&&String(currentCycleId).startsWith('preset-annual-'),name:cyEl('name').value.trim()||(isPortuguese()?'Novo macrociclo':'New macrocycle'),format:cyEl('format').value,level:cyEl('level').value,start:cyEl('start').value,end:cyEl('end').value,audience:cyEl('audience').value,dna:cyEl('dna').value.trim(),performance:cyEl('performance').value.trim(),notes:cyEl('notes').value.trim(),microcycles:cycleModules.map(m=>({...m})),updatedAt:Date.now()};}
-function loadCycle(c){c=normalizeAnnualPresetCalendar(migrateCycle(c),2026);openMicrocycleIds.clear();macroCalendarAnchor=c.start||'2026-01-01';macroTopicFilter='all';if(c.presetAnnual||String(c.id||'').startsWith('preset-annual-')){const defs=annualTopicDefinitions();if(!c.name)c.name=(isPtPt()?'Macrociclo anual técnico e tático ':currentLang==='pt-BR'?'Macrociclo anual técnico e tático ':'Annual technical-tactical macrocycle ')+String(c.start||'').slice(0,4);(c.microcycles||[]).forEach(m=>{if(m.topicKey&&defs[m.topicKey]){const d=defs[m.topicKey];m.name=d.name;if(d.techniqueId&&T[d.techniqueId])m.techniqueId=d.techniqueId;m.color=m.color||d.color;m.situation=m.situation||d.situation;m.complexity=m.complexity||d.complexity;m.objective=m.objective||d.objective;}});}currentCycleId=c.id||null;cyEl('name').value=c.name||'';cyEl('format').value=c.format||'Mixed';cyEl('level').value=c.level||'Mixed';cyEl('start').value=c.start||new Date().toISOString().slice(0,10);cyEl('end').value=c.end||isoAddDays(c.start||new Date().toISOString().slice(0,10),83);cyEl('audience').value=c.audience||'Group';cyEl('dna').value=c.dna||'';cyEl('performance').value=c.performance||'';cyEl('notes').value=c.notes||'';cycleModules=(c.microcycles||[]).map((m,i)=>({...microBlank(i,c.start),...m,id:m.id||('mc'+Date.now()+i)}));cycleDirty=false;document.getElementById('cycle-save-state').textContent=tr('savedChanges');renderCycleModules();renderSavedCycles();renderMacroCalendar();}
+function loadCycle(c){
+  c=migrateCycle(c);
+  if(c&&(c.presetAnnual||String(c.id||'').startsWith('preset-annual-')))c=restoreAnnualPresetCycles(c);
+  else c=normalizeAnnualPresetCalendar(c,2026);openMicrocycleIds.clear();macroCalendarAnchor=c.start||'2026-01-01';macroTopicFilter='all';if(c.presetAnnual||String(c.id||'').startsWith('preset-annual-')){const defs=annualTopicDefinitions();if(!c.name)c.name=(isPtPt()?'Macrociclo anual técnico e tático ':currentLang==='pt-BR'?'Macrociclo anual técnico e tático ':'Annual technical-tactical macrocycle ')+String(c.start||'').slice(0,4);(c.microcycles||[]).forEach(m=>{if(m.topicKey&&defs[m.topicKey]){const d=defs[m.topicKey];m.name=d.name;if(d.techniqueId&&T[d.techniqueId])m.techniqueId=d.techniqueId;m.color=m.color||d.color;m.situation=m.situation||d.situation;m.complexity=m.complexity||d.complexity;m.objective=m.objective||d.objective;}});}currentCycleId=c.id||null;cyEl('name').value=c.name||'';cyEl('format').value=c.format||'Mixed';cyEl('level').value=c.level||'Mixed';cyEl('start').value=c.start||new Date().toISOString().slice(0,10);cyEl('end').value=c.end||isoAddDays(c.start||new Date().toISOString().slice(0,10),83);cyEl('audience').value=c.audience||'Group';cyEl('dna').value=c.dna||'';cyEl('performance').value=c.performance||'';cyEl('notes').value=c.notes||'';cycleModules=(c.microcycles||[]).map((m,i)=>({...microBlank(i,c.start),...m,id:m.id||('mc'+Date.now()+i)}));cycleDirty=false;document.getElementById('cycle-save-state').textContent=tr('savedChanges');renderCycleModules();renderSavedCycles();renderMacroCalendar();}
 function techniqueOptions(value){return '<option value="">'+tr('selectTechnique')+'</option>'+ids.slice().sort((a,b)=>moveLabel(a).localeCompare(moveLabel(b))).map(id=>'<option value="'+id+'"'+(id===value?' selected':'')+'>'+escapeHtml(moveLabel(id))+'</option>').join('');}
 function lessonOptions(value){return '<option value="">'+tr('selectClass')+'</option>'+lessons.slice().sort((a,b)=>(a.title||'').localeCompare(b.title||'')).map(l=>'<option value="'+escapeHtml(l.id)+'"'+(l.id===value?' selected':'')+'>'+escapeHtml(l.title||tr('newClass'))+'</option>').join('');}
 function situationLabel(v){return tr(v==='top'?'topSituation':v==='bottom'?'bottomSituation':v==='standing'?'standingSituation':'mixedSituation');}
@@ -3488,6 +3550,65 @@ function renderMacroCalendar(){
     box.appendChild(d);
   });
 }
+
+function renderSavedCycles(){
+  const box=document.getElementById('cy-saved-list');
+  if(!box)return;
+  document.getElementById('cy-saved-count').textContent=cycles.length;
+  box.innerHTML='';
+  if(!cycles.length){box.innerHTML='<div class="lesson-status">'+tr('noSavedMacrocycles')+'</div>';return;}
+  cycles.slice().sort((a,b)=>(b.updatedAt||0)-(a.updatedAt||0)).forEach(c=>{
+    const micros=c.microcycles||[],linked=micros.filter(m=>m.lessonId).length,total=micros.length,pct=total?linked/total*100:0,d=document.createElement('div');
+    d.className='cycle-saved'+(c.id===currentCycleId?' active':'');
+    d.innerHTML='<div class="cycle-saved-title">'+escapeHtml(macrocycleDisplayName(c))+'</div><div class="cycle-saved-meta">'+escapeHtml(c.format)+' · '+escapeHtml(levelLabel(c.level))+' · '+escapeHtml(fmtDate(c.start))+' — '+escapeHtml(fmtDate(c.end))+'<br>'+tr('microcycleProgress',{done:linked,total})+'</div><div class="cycle-progress"><span style="width:'+pct+'%"></span></div><div class="lesson-saved-actions"><span class="lesson-link" data-act="edit">'+tr('edit')+'</span><span class="lesson-link" data-act="copy">'+tr('copy')+'</span><span class="lesson-link danger" data-act="remove">'+tr('remove')+'</span></div>';
+    const open=()=>{loadCycle(c);toast(tr('macrocycleLoaded'));};
+    d.querySelector('.cycle-saved-title').onclick=open;
+    d.querySelector('[data-act="edit"]').onclick=open;
+    d.querySelector('[data-act="copy"]').onclick=()=>{const cp={...c,id:null,presetAnnual:false,name:(c.name||'')+' '+(isPortuguese()?'(cópia)':'(copy)'),microcycles:micros.map((m,i)=>({...m,id:'mc'+Date.now()+i}))};loadCycle(cp);markCycleDirty();toast(tr('macrocycleDuplicated'));};
+    d.querySelector('[data-act="remove"]').onclick=async()=>{cycles=cycles.filter(x=>x.id!==c.id);if(currentCycleId===c.id){const next=cycles.find(x=>x.presetAnnual||String(x.id||'').startsWith('preset-annual-'))||cycles[0]||restoreAnnualPresetCycles(null);loadCycle(next);}await storeSet(K_CYCLES,cycles);refreshLessonCycleOptions();renderSavedCycles();renderSavedLessons();renderLessonPlanner();};
+    box.appendChild(d);
+  });
+}
+function renderCycles(){
+  if(!cyEl('name'))return;
+  if(!currentCycleId&&!cyEl('start').value){
+    const preset=cycles.find(c=>c.presetAnnual||String(c.id||'').startsWith('preset-annual-'));
+    loadCycle(preset||cycles[0]||restoreAnnualPresetCycles(null));
+    return;
+  }
+  renderCycleModules();renderSavedCycles();renderMacroCalendar();
+}
+async function saveCycle(){
+  let c=collectCycle();
+  if(c.presetAnnual||String(c.id||'').startsWith('preset-annual-'))c=restoreAnnualPresetCycles(c);
+  currentCycleId=c.id;
+  cycles=cycles.filter(x=>x.id!==c.id);cycles.push(c);
+  await storeSet(K_CYCLES,cycles);
+  cycleDirty=false;document.getElementById('cycle-save-state').textContent=tr('savedChanges');
+  refreshLessonCycleOptions();renderSavedCycles();renderSavedLessons();renderMacroCalendar();toast(tr('macrocycleSaved'));
+}
+function shiftMacroCalendar(step){
+  const d=isoToDate(macroCalendarAnchor||cyEl('start').value||'2026-01-01');
+  if(macroCalendarView==='day')d.setDate(d.getDate()+step);
+  else if(macroCalendarView==='week')d.setDate(d.getDate()+7*step);
+  else if(macroCalendarView==='month')d.setMonth(d.getMonth()+step);
+  else d.setFullYear(d.getFullYear()+step);
+  macroCalendarAnchor=dateToIso(d);renderMacroCalendar();
+}
+CY_FIELDS.forEach(k=>{const el=cyEl(k);if(el){
+  const update=()=>{markCycleDirty();if(k==='name')renderMacroCalendar();};
+  el.addEventListener('input',update);el.addEventListener('change',update);
+}});
+document.getElementById('cycle-new').onclick=()=>{loadCycle(cycleBlank());markCycleDirty();};
+document.getElementById('cycle-template').onclick=()=>{loadCycle(restoreAnnualPresetCycles(null));markCycleDirty();toast(tr('macrocycleTemplateLoaded'));};
+document.getElementById('cycle-duplicate').onclick=()=>{const c=collectCycle();c.id=null;c.presetAnnual=false;c.name=(c.name||'')+' '+(isPortuguese()?'(cópia)':'(copy)');c.microcycles=c.microcycles.map((m,i)=>({...m,id:'mc'+Date.now()+i}));loadCycle(c);markCycleDirty();toast(tr('macrocycleDuplicated'));};
+document.getElementById('cycle-save').onclick=saveCycle;
+document.getElementById('cycle-add-module').onclick=()=>{const previous=cycleModules[cycleModules.length-1],start=previous?isoAddDays(previous.start,7):cyEl('start').value;cycleModules.push(microBlank(cycleModules.length,start));markCycleDirty();renderCycleModules();};
+document.querySelectorAll('.macro-view-btn').forEach(b=>b.onclick=()=>{macroCalendarView=b.dataset.macroView||'year';renderMacroCalendar();});
+document.getElementById('cy-cal-prev').onclick=()=>shiftMacroCalendar(-1);
+document.getElementById('cy-cal-next').onclick=()=>shiftMacroCalendar(1);
+document.getElementById('cy-cal-today').onclick=()=>{macroCalendarAnchor='2026-01-01';renderMacroCalendar();};
+
 function removeFromGame(id){gameNodes=gameNodes.filter(n=>n.id!==id);drawGame();renderAnalysis();renderPicker();}
 function gameLinks(){
   const set=new Set(gameNodes.map(n=>n.id));const out=[];
