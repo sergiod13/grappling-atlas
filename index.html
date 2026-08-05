@@ -446,6 +446,25 @@ window.GRAPPLING_ATLAS_CLOUD = window.GRAPPLING_ATLAS_CLOUD || {
   .cycle-level{color:var(--counter);font-weight:700;}
 
 
+
+  .planner-col[data-plan-date]{cursor:pointer;}
+  .planner-col[data-plan-date]:hover{border-color:var(--line2);}
+  .planner-col.is-drag-over{border-color:var(--counter);box-shadow:0 0 0 2px rgba(245,158,11,.22) inset;background:color-mix(in srgb,var(--counter) 5%,var(--surface2));}
+  .planner-col.is-targetable{border-style:dashed;border-color:var(--guard);}
+  .planner-col.is-targetable .planner-col-head{background:color-mix(in srgb,var(--guard) 8%,var(--surface2));}
+  .planner-drop-copy{font-size:9px;color:var(--text-dim2);margin-top:4px;line-height:1.4;}
+  .teacher-tech[draggable="true"],.teacher-selected-card[draggable="true"],.planner-item[draggable="true"]{cursor:grab;}
+  .teacher-tech[draggable="true"]:active,.teacher-selected-card[draggable="true"]:active,.planner-item[draggable="true"]:active{cursor:grabbing;}
+  .teacher-plan-tech{border:1px solid var(--line);background:var(--surface3);color:var(--text-dim);border-radius:4px;min-width:27px;height:26px;display:grid;place-items:center;font-family:var(--mono);font-size:11px;cursor:pointer;flex:0 0 auto;}
+  .teacher-plan-tech:hover,.teacher-plan-tech.active{border-color:var(--counter);color:var(--counter);}
+  .planner-touch-status{display:none;margin:0 0 10px;padding:8px 10px;border:1px dashed var(--counter);border-radius:6px;color:var(--counter);font-size:10px;line-height:1.45;background:color-mix(in srgb,var(--counter) 7%,var(--surface2));}
+  .planner-touch-status.active{display:flex;align-items:center;justify-content:space-between;gap:8px;}
+  .planner-touch-status button{border:0;background:transparent;color:var(--text);font-family:var(--mono);font-size:10px;cursor:pointer;padding:3px 5px;}
+  .planner-item-techs{display:flex;gap:4px;flex-wrap:wrap;margin-top:7px;}
+  .planner-tech-chip{display:inline-flex;align-items:center;gap:4px;max-width:100%;padding:3px 6px;border:1px solid var(--line);border-radius:999px;background:var(--surface2);font-size:8.8px;color:var(--text-dim);}
+  .planner-tech-chip span:last-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:150px;}
+  @media(max-width:700px){.teacher-plan-tech{min-width:34px;height:32px}.planner-col[data-plan-date]{touch-action:manipulation;}}
+
   .teacher-layout--stacked{grid-template-columns:minmax(0,1fr)!important;}
   .lesson-secondary-panels{display:grid;grid-template-columns:1.1fr .9fr;gap:12px;margin-top:12px;}
   .planner-board-card .planner-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:10px;}
@@ -592,6 +611,30 @@ window.GRAPPLING_ATLAS_CLOUD = window.GRAPPLING_ATLAS_CLOUD || {
   .microcycle-card input,.microcycle-card select,.microcycle-card textarea,.macro-summary input,.macro-summary select,.macro-summary textarea{width:100%;background:var(--surface);border:1px solid var(--line);color:var(--text);font-family:var(--mono);font-size:10.5px;padding:7px 8px;border-radius:4px;outline:none;min-height:36px;}
   .microcycle-card textarea,.macro-summary textarea{resize:vertical;min-height:64px;line-height:1.45;}
   .microcycle-card input:focus,.microcycle-card select:focus,.microcycle-card textarea:focus,.macro-summary input:focus,.macro-summary select:focus,.macro-summary textarea:focus{border-color:var(--guard);}
+
+  .macro-calendar-toolbar{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:0 0 10px;}
+  .macro-view-switch{display:flex;gap:4px;padding:3px;border:1px solid var(--line);border-radius:6px;background:var(--surface2);}
+  .macro-view-btn{border:0;background:transparent;color:var(--text-dim);font-family:var(--disp);font-size:9.5px;letter-spacing:.05em;text-transform:uppercase;padding:7px 10px;border-radius:4px;cursor:pointer;}
+  .macro-view-btn.active{background:var(--surface3);color:var(--text);}
+  .macro-calendar-nav{display:flex;align-items:center;gap:5px;flex-wrap:wrap;}
+  .macro-calendar-nav .btn{min-height:32px;padding:6px 9px;}
+  .macro-calendar-period{font-size:9.5px;color:var(--text-dim);line-height:1.45;min-width:180px;text-align:right;}
+  .cycle-topic-chip{cursor:pointer;user-select:none;transition:border-color .15s,background .15s,color .15s,opacity .15s;}
+  .cycle-topic-chip:hover{border-color:var(--guard);color:var(--text);}
+  .cycle-topic-chip.active{border-color:var(--counter);background:var(--surface3);color:var(--text);}
+  .cycle-topic-chip.dimmed{opacity:.5;}
+  .macro-week{cursor:pointer;transition:transform .15s,border-color .15s,opacity .15s;position:relative;}
+  .macro-week:hover{transform:translateY(-2px);border-color:var(--counter);}
+  .macro-week.dragging{opacity:.35;}
+  .macro-week.drag-over{outline:2px dashed var(--counter);outline-offset:2px;}
+  .macro-week.selected{box-shadow:0 0 0 2px color-mix(in srgb,var(--counter) 55%,transparent);}
+  .macro-week .drag-handle{position:absolute;right:7px;top:7px;color:var(--text-dim2);font-size:12px;line-height:1;cursor:grab;}
+  .macro-week .drag-handle:active{cursor:grabbing;}
+  .macro-calendar[data-view="day"],.macro-calendar[data-view="week"]{grid-template-columns:minmax(240px,520px);justify-content:start;}
+  .macro-calendar[data-view="month"]{grid-template-columns:repeat(auto-fit,minmax(180px,1fr));}
+  .macro-calendar-empty{padding:22px;border:1px dashed var(--line2);border-radius:6px;color:var(--text-dim);font-size:10.5px;text-align:center;}
+  @media(max-width:700px){.macro-calendar-toolbar{align-items:flex-start}.macro-calendar-period{width:100%;text-align:left;order:3}.macro-view-switch{width:100%;overflow-x:auto}.macro-view-btn{flex:1;min-width:70px}.macro-calendar-nav{width:100%}.macro-calendar[data-view="day"],.macro-calendar[data-view="week"],.macro-calendar[data-view="month"],.macro-calendar[data-view="year"]{grid-template-columns:1fr;}}
+
   .macro-calendar{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;}
   .macro-week{min-height:96px;background:var(--surface2);border:1px solid var(--line);border-top:3px solid var(--guard);border-radius:6px;padding:9px;}
   .macro-week[data-situation="top"]{border-top-color:var(--guard)}.macro-week[data-situation="bottom"]{border-top-color:var(--submission)}.macro-week[data-situation="mixed"]{border-top-color:var(--counter)}.macro-week[data-situation="standing"]{border-top-color:#10B981}
@@ -949,6 +992,7 @@ window.GRAPPLING_ATLAS_CLOUD = window.GRAPPLING_ATLAS_CLOUD || {
                 </div>
               </div>
             </div>
+            <div class="planner-touch-status" id="lp-plan-touch-status"><span id="lp-plan-touch-copy"></span><button type="button" id="lp-plan-touch-cancel" data-i18n="cancel">Cancel</button></div>
             <div class="planner-period" id="lp-plan-period"></div>
             <div class="planner-board week" id="lp-plan-board"></div>
           </section>
@@ -1026,9 +1070,23 @@ window.GRAPPLING_ATLAS_CLOUD = window.GRAPPLING_ATLAS_CLOUD || {
             </section>
 
             <section class="lesson-card">
-              <h3><span data-i18n="macrocycleCalendar">Macrocycle calendar</span><small data-i18n="calendarUpdates">updates from the microcycles</small></h3>
+              <h3><span id="cy-calendar-title" data-i18n="macrocycleCalendar">Macrocycle calendar</span><small data-i18n="calendarUpdates">updates from the microcycles</small></h3>
+              <div class="macro-calendar-toolbar teacher-no-print">
+                <div class="macro-view-switch" role="tablist" aria-label="Macrocycle calendar view">
+                  <button type="button" class="macro-view-btn" data-macro-view="day" data-i18n="viewDay">Day</button>
+                  <button type="button" class="macro-view-btn" data-macro-view="week" data-i18n="viewWeek">Week</button>
+                  <button type="button" class="macro-view-btn" data-macro-view="month" data-i18n="viewMonth">Month</button>
+                  <button type="button" class="macro-view-btn active" data-macro-view="year" data-i18n="viewYear">Year</button>
+                </div>
+                <div class="macro-calendar-nav">
+                  <button type="button" class="btn ghost sm" id="cy-cal-prev" aria-label="Previous period">←</button>
+                  <button type="button" class="btn ghost sm" id="cy-cal-today" data-i18n="today">Today</button>
+                  <button type="button" class="btn ghost sm" id="cy-cal-next" aria-label="Next period">→</button>
+                </div>
+                <div class="macro-calendar-period" id="cy-calendar-period"></div>
+              </div>
               <div class="cycle-topic-legend" id="cy-topic-legend"></div>
-              <div class="macro-calendar" id="cy-calendar"></div>
+              <div class="macro-calendar" id="cy-calendar" data-view="year"></div>
               <div class="cycle-legend"><span><i style="background:var(--guard)"></i><span data-i18n="topWork">Top work</span></span><span><i style="background:var(--submission)"></i><span data-i18n="bottomWork">Bottom work</span></span><span><i style="background:var(--counter)"></i><span data-i18n="mixedWork">Mixed / sequences</span></span><span><i style="background:#10B981"></i><span data-i18n="standingWork">Standing</span></span></div>
             </section>
           </div>
@@ -1210,14 +1268,23 @@ Object.assign(I18N['pt-PT'],{
 });
 
 Object.assign(I18N.en,{
-  classPlanningBoard:'Weekly planning board',plannerBoardHelp:'plan saved classes from Monday to Friday and switch to month or year overviews',viewWeek:'Week',viewMonth:'Month',viewYear:'Year',today:'Today',addCurrentClass:'Place current class',openLesson:'Open lesson',noClassesPlanned:'No classes planned',weekViewRange:'Monday to Friday planning board',monthOverviewLabel:'Month overview',yearOverviewLabel:'Year overview',plannerScheduled:'Class placed in the planner',plannerRemoved:'Class removed',monday:'Monday',tuesday:'Tuesday',wednesday:'Wednesday',thursday:'Thursday',friday:'Friday',weekLabel:'Week',monthLabel:'Month',yearLabel:'Year',classesCount:'{count} class{plural}'
+  classPlanningBoard:'Weekly planning board',plannerBoardHelp:'plan classes from Monday to Friday, drag techniques into a day and switch to month or year overviews',viewWeek:'Week',viewMonth:'Month',viewYear:'Year',today:'Today',addCurrentClass:'Place current class',openLesson:'Open lesson',noClassesPlanned:'No classes planned',weekViewRange:'Monday to Friday planning board',monthOverviewLabel:'Month overview',yearOverviewLabel:'Year overview',plannerScheduled:'Class placed in the planner',plannerRemoved:'Class removed',monday:'Monday',tuesday:'Tuesday',wednesday:'Wednesday',thursday:'Thursday',friday:'Friday',weekLabel:'Week',monthLabel:'Month',yearLabel:'Year',classesCount:'{count} class{plural}'
 });
 Object.assign(I18N['pt-BR'],{
-  classPlanningBoard:'Board semanal de aulas',plannerBoardHelp:'planeje as aulas salvas de segunda a sexta e alterne entre visão semanal, mensal e anual',viewWeek:'Semana',viewMonth:'Mês',viewYear:'Ano',today:'Hoje',addCurrentClass:'Colocar aula atual',openLesson:'Abrir aula',noClassesPlanned:'Nenhuma aula planejada',weekViewRange:'board de segunda a sexta',monthOverviewLabel:'Visão mensal',yearOverviewLabel:'Visão anual',plannerScheduled:'Aula colocada no planejamento',plannerRemoved:'Aula removida',monday:'Segunda',tuesday:'Terça',wednesday:'Quarta',thursday:'Quinta',friday:'Sexta',weekLabel:'Semana',monthLabel:'Mês',yearLabel:'Ano',classesCount:'{count} aula{plural}'
+  classPlanningBoard:'Board semanal de aulas',plannerBoardHelp:'planeje as aulas de segunda a sexta, arraste técnicas para os dias e alterne entre visão semanal, mensal e anual',viewWeek:'Semana',viewMonth:'Mês',viewYear:'Ano',today:'Hoje',addCurrentClass:'Colocar aula atual',openLesson:'Abrir aula',noClassesPlanned:'Nenhuma aula planejada',weekViewRange:'board de segunda a sexta',monthOverviewLabel:'Visão mensal',yearOverviewLabel:'Visão anual',plannerScheduled:'Aula colocada no planejamento',plannerRemoved:'Aula removida',monday:'Segunda',tuesday:'Terça',wednesday:'Quarta',thursday:'Quinta',friday:'Sexta',weekLabel:'Semana',monthLabel:'Mês',yearLabel:'Ano',classesCount:'{count} aula{plural}'
 });
 Object.assign(I18N['pt-PT'],{
-  classPlanningBoard:'Quadro semanal de aulas',plannerBoardHelp:'planeie as aulas guardadas de segunda a sexta e alterne entre vista semanal, mensal e anual',viewWeek:'Semana',viewMonth:'Mês',viewYear:'Ano',today:'Hoje',addCurrentClass:'Colocar aula atual',openLesson:'Abrir aula',noClassesPlanned:'Nenhuma aula planeada',weekViewRange:'quadro de segunda a sexta',monthOverviewLabel:'Vista mensal',yearOverviewLabel:'Vista anual',plannerScheduled:'Aula colocada no planeamento',plannerRemoved:'Aula removida',monday:'Segunda',tuesday:'Terça',wednesday:'Quarta',thursday:'Quinta',friday:'Sexta',weekLabel:'Semana',monthLabel:'Mês',yearLabel:'Ano',classesCount:'{count} aula{plural}'
+  classPlanningBoard:'Quadro semanal de aulas',plannerBoardHelp:'planeie as aulas de segunda a sexta, arraste técnicas para os dias e alterne entre vista semanal, mensal e anual',viewWeek:'Semana',viewMonth:'Mês',viewYear:'Ano',today:'Hoje',addCurrentClass:'Colocar aula atual',openLesson:'Abrir aula',noClassesPlanned:'Nenhuma aula planeada',weekViewRange:'quadro de segunda a sexta',monthOverviewLabel:'Vista mensal',yearOverviewLabel:'Vista anual',plannerScheduled:'Aula colocada no planeamento',plannerRemoved:'Aula removida',monday:'Segunda',tuesday:'Terça',wednesday:'Quarta',thursday:'Quinta',friday:'Sexta',weekLabel:'Semana',monthLabel:'Mês',yearLabel:'Ano',classesCount:'{count} aula{plural}'
 });
+
+
+Object.assign(I18N.en,{dragTechniqueHelp:'Drag a technique onto a weekday. On touch screens, tap the arrow beside the technique and then tap the day.',dropTechniqueHere:'Drop technique here',choosePlannerDay:'Technique selected. Tap a weekday to add it to that class.',cancel:'Cancel',techniqueAddedToDay:'Technique added to the class for this day',classMovedToDay:'Class moved to this day',dayClassCreated:'A new class was created for this day',editDayClass:'Edit this day',dragToPlanner:'Plan this technique',moreTechniques:'and {count} more'});
+Object.assign(I18N['pt-BR'],{dragTechniqueHelp:'Arraste uma técnica para um dia da semana. No celular, toque na seta ao lado da técnica e depois no dia.',dropTechniqueHere:'Solte a técnica aqui',choosePlannerDay:'Técnica selecionada. Toque em um dia da semana para adicioná-la à aula.',cancel:'Cancelar',techniqueAddedToDay:'Técnica adicionada à aula deste dia',classMovedToDay:'Aula movida para este dia',dayClassCreated:'Foi criada uma nova aula para este dia',editDayClass:'Editar este dia',dragToPlanner:'Planejar esta técnica',moreTechniques:'e mais {count}'});
+Object.assign(I18N['pt-PT'],{dragTechniqueHelp:'Arraste uma técnica para um dia da semana. No telemóvel, toque na seta junto à técnica e depois no dia.',dropTechniqueHere:'Largue a técnica aqui',choosePlannerDay:'Técnica selecionada. Toque num dia da semana para a adicionar à aula.',cancel:'Cancelar',techniqueAddedToDay:'Técnica adicionada à aula deste dia',classMovedToDay:'Aula movida para este dia',dayClassCreated:'Foi criada uma nova aula para este dia',editDayClass:'Editar este dia',dragToPlanner:'Planear esta técnica',moreTechniques:'e mais {count}'});
+
+Object.assign(I18N.en,{viewDay:'Day',macroCalendarAll:'All',macroCalendarFor:'Calendar · {name}',macroCalendarEmpty:'No microcycles in this period or filter.',macroMoved:'Microcycle moved',macroFilterActive:'Filter: {name}',openMicrocycle:'Open microcycle'});
+Object.assign(I18N['pt-BR'],{viewDay:'Dia',macroCalendarAll:'Todos',macroCalendarFor:'Calendário · {name}',macroCalendarEmpty:'Não existem microciclos neste período ou filtro.',macroMoved:'Microciclo movido',macroFilterActive:'Filtro: {name}',openMicrocycle:'Abrir microciclo'});
+Object.assign(I18N['pt-PT'],{viewDay:'Dia',macroCalendarAll:'Todos',macroCalendarFor:'Calendário · {name}',macroCalendarEmpty:'Não existem microciclos neste período ou filtro.',macroMoved:'Microciclo movido',macroFilterActive:'Filtro: {name}',openMicrocycle:'Abrir microciclo'});
 
 Object.assign(I18N.en,{
   trainingCycles:'Macro & microcycles',linkedCycle:'Macrocycle / microcycle',noCycle:'No macrocycle or microcycle',
@@ -3028,14 +3095,16 @@ function renderLessonPicker(){
   const q=lpEl('tech-search').value.trim().toLowerCase(),box=document.getElementById('lp-tech-results');box.innerHTML='';
   ids.filter(id=>hasCatalogueVideo(id)&&searchMatches(id,q)&&!lessonTechs.includes(id)).slice(0,70).forEach(id=>{
     const d=document.createElement('div');
-    d.className='teacher-tech';d.setAttribute('role','button');d.setAttribute('tabindex','0');
-    d.innerHTML='<span class="dot" style="width:7px;height:7px;background:'+CATS[T[id].cat].color+'"></span><span>'+escapeHtml(moveLabel(id))+'</span><span class="teacher-open-tree" aria-hidden="true">+</span>';
+    d.className='teacher-tech';d.setAttribute('role','button');d.setAttribute('tabindex','0');d.draggable=true;d.dataset.dragTech=id;
+    d.innerHTML='<span class="dot" style="width:7px;height:7px;background:'+CATS[T[id].cat].color+'"></span><span>'+escapeHtml(moveLabel(id))+'</span><button type="button" class="teacher-plan-tech" data-act="plan" title="'+escapeHtml(tr('dragToPlanner'))+'" aria-label="'+escapeHtml(tr('dragToPlanner'))+'">↗</button><span class="teacher-open-tree" aria-hidden="true">+</span>';
     const choose=()=>{
       if(lessonTechs.includes(id))return;
       lessonTechs.push(id);markLessonDirty();renderLessonTechs();renderLessonPicker();updateTreeActionLabel();
       const added=document.querySelector('#lp-tech-selected [data-tech-id="'+CSS.escape(id)+'"]');
       if(added)added.scrollIntoView({block:'nearest',behavior:'smooth'});
     };
+    d.addEventListener('dragstart',e=>startTechniqueDrag(id,e));
+    const planBtn=d.querySelector('[data-act="plan"]');if(planBtn)planBtn.onclick=e=>{e.stopPropagation();selectTechniqueForPlanner(id);};
     d.onclick=choose;d.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();choose();}};box.appendChild(d);
   });
 }
@@ -3045,8 +3114,10 @@ function renderLessonTechs(){
   if(!lessonTechs.length){box.textContent=tr('noTechSelected');}
   else lessonTechs.forEach(id=>{
     const isCycleMain=id===lessonCycleTechId,c=document.createElement('div');
-    c.className='teacher-selected-card teacher-tech-chip'+(isCycleMain?' cycle-main-tech':'');c.dataset.techId=id;
-    c.innerHTML='<div class="teacher-selected-main"><span class="dot" style="width:7px;height:7px;background:'+CATS[T[id].cat].color+'"></span><span class="teacher-selected-name">'+escapeHtml(moveLabel(id))+'</span>'+(isCycleMain?' <span class="teacher-primary-badge">'+cyclePrimaryLabel()+'</span>':'')+'</div><div class="teacher-selected-actions"><button type="button" class="teacher-selected-btn" data-act="connections">'+lessonConnectionsLabel()+'</button>'+(isCycleMain?'':'<button type="button" class="teacher-selected-btn teacher-selected-remove" data-act="remove" aria-label="'+lessonRemoveLabel()+'">×</button>')+'</div>';
+    c.className='teacher-selected-card teacher-tech-chip'+(isCycleMain?' cycle-main-tech':'');c.dataset.techId=id;c.draggable=true;c.dataset.dragTech=id;
+    c.innerHTML='<div class="teacher-selected-main"><span class="dot" style="width:7px;height:7px;background:'+CATS[T[id].cat].color+'"></span><span class="teacher-selected-name">'+escapeHtml(moveLabel(id))+'</span>'+(isCycleMain?' <span class="teacher-primary-badge">'+cyclePrimaryLabel()+'</span>':'')+'</div><div class="teacher-selected-actions"><button type="button" class="teacher-plan-tech" data-act="plan" title="'+escapeHtml(tr('dragToPlanner'))+'" aria-label="'+escapeHtml(tr('dragToPlanner'))+'">↗</button><button type="button" class="teacher-selected-btn" data-act="connections">'+lessonConnectionsLabel()+'</button>'+(isCycleMain?'':'<button type="button" class="teacher-selected-btn teacher-selected-remove" data-act="remove" aria-label="'+lessonRemoveLabel()+'">×</button>')+'</div>';
+    c.addEventListener('dragstart',e=>startTechniqueDrag(id,e));
+    c.querySelector('[data-act="plan"]').onclick=e=>{e.stopPropagation();selectTechniqueForPlanner(id);};
     c.querySelector('[data-act="connections"]').onclick=()=>openTree(id,[],'lesson');
     const remove=c.querySelector('[data-act="remove"]');
     if(remove)remove.onclick=()=>{lessonTechs=lessonTechs.filter(x=>x!==id);markLessonDirty();renderLessonTechs();renderLessonPicker();updateTreeActionLabel();};
@@ -3062,6 +3133,44 @@ function renderSavedLessons(){
     const open=()=>{loadLessonIntoForm(l);toast(tr('classLoaded'));};d.querySelector('.lesson-saved-title').onclick=open;d.querySelector('[data-act="edit"]').onclick=open;d.querySelector('[data-act="copy"]').onclick=()=>{const cp={...l,id:null,number:String((parseInt(l.number,10)||0)+1).padStart(3,'0'),title:(l.title||'')+' '+(isPortuguese()?'(cópia)':'(copy)')};loadLessonIntoForm(cp);markLessonDirty();toast(tr('classDuplicated'));};d.querySelector('[data-act="remove"]').onclick=async()=>{lessons=lessons.filter(x=>x.id!==l.id);if(currentLessonId===l.id)loadLessonIntoForm(lessonBlank());await storeSet(K_LESSONS,lessons);renderSavedLessons();};box.appendChild(d);});
 }
 
+
+let plannerTouchTechniqueId='';
+function setPlannerTouchStatus(){
+  const box=document.getElementById('lp-plan-touch-status'),copy=document.getElementById('lp-plan-touch-copy');if(!box||!copy)return;
+  box.classList.toggle('active',!!plannerTouchTechniqueId);
+  copy.textContent=plannerTouchTechniqueId?(tr('choosePlannerDay')+' '+moveLabel(plannerTouchTechniqueId)):'';
+  document.querySelectorAll('.planner-col[data-plan-date]').forEach(col=>col.classList.toggle('is-targetable',!!plannerTouchTechniqueId));
+  document.querySelectorAll('.teacher-plan-tech').forEach(btn=>btn.classList.toggle('active',btn.closest('[data-drag-tech]')?.dataset.dragTech===plannerTouchTechniqueId));
+}
+function selectTechniqueForPlanner(id){plannerTouchTechniqueId=id;setPlannerTouchStatus();const board=document.getElementById('lp-plan-board');if(board)board.scrollIntoView({behavior:'smooth',block:'nearest'});toast(tr('choosePlannerDay'));}
+function clearPlannerTechniqueSelection(){plannerTouchTechniqueId='';setPlannerTouchStatus();}
+function startTechniqueDrag(id,e){if(!e.dataTransfer)return;e.dataTransfer.effectAllowed='copy';e.dataTransfer.setData('application/x-ga-technique',id);e.dataTransfer.setData('text/plain','technique:'+id);}
+function startLessonDrag(id,e){if(!e.dataTransfer)return;e.dataTransfer.effectAllowed='move';e.dataTransfer.setData('application/x-ga-lesson',id);e.dataTransfer.setData('text/plain','lesson:'+id);}
+function lessonForPlannerDate(date){
+  const same=lessons.filter(l=>l.date===date).sort((a,b)=>(b.updatedAt||0)-(a.updatedAt||0));
+  const current=same.find(l=>l.id===currentLessonId);return current||same[0]||null;
+}
+async function addTechniqueToPlannerDay(id,date){
+  if(!T[id]||!hasCatalogueVideo(id))return;
+  let l=lessonForPlannerDate(date);
+  if(!l){l=lessonBlank();l.id='lp'+Date.now();l.date=date;l.title=moveLabel(id);l.techniques=[id];l.updatedAt=Date.now();toast(tr('dayClassCreated'));}
+  else{l={...l,techniques:Array.from(new Set([...(l.techniques||[]),id])),updatedAt:Date.now()};}
+  lessons=lessons.filter(x=>x.id!==l.id);lessons.push(l);await storeSet(K_LESSONS,lessons);
+  currentLessonId=l.id;plannerAnchor=date;loadLessonIntoForm(l);clearPlannerTechniqueSelection();renderSavedLessons();renderLessonPlanner();toast(tr('techniqueAddedToDay'));
+}
+async function movePlannerLesson(lessonId,date){
+  const l=lessons.find(x=>x.id===lessonId);if(!l)return;
+  const moved={...l,date,updatedAt:Date.now()};lessons=lessons.filter(x=>x.id!==lessonId);lessons.push(moved);await storeSet(K_LESSONS,lessons);
+  if(currentLessonId===lessonId)loadLessonIntoForm(moved);plannerAnchor=date;renderSavedLessons();renderLessonPlanner();toast(tr('classMovedToDay'));
+}
+function openOrCreatePlannerDay(date){
+  if(plannerTouchTechniqueId){addTechniqueToPlannerDay(plannerTouchTechniqueId,date);return;}
+  const l=lessonForPlannerDate(date);
+  if(l){loadLessonIntoForm(l);toast(tr('classLoaded'));}
+  else{const draft=lessonBlank();draft.date=date;draft.title='';loadLessonIntoForm(draft);markLessonDirty();toast(tr('dayClassCreated'));}
+  plannerAnchor=date;const editor=document.getElementById('lesson-editor');if(editor)editor.scrollIntoView({behavior:'smooth',block:'start'});setTimeout(()=>lpEl('title')?.focus(),250);
+}
+
 let plannerView='week',plannerAnchor=new Date().toISOString().slice(0,10);
 function plannerLocale(){return currentLang==='pt-BR'?'pt-BR':(currentLang==='pt-PT'?'pt-PT':'en-GB');}
 function isoToDate(iso){return new Date((iso||new Date().toISOString().slice(0,10))+'T00:00:00');}
@@ -3073,7 +3182,7 @@ function plannerWeekdays(){return [tr('monday'),tr('tuesday'),tr('wednesday'),tr
 function sameMonth(a,b){const da=isoToDate(a),db=isoToDate(b);return da.getFullYear()===db.getFullYear()&&da.getMonth()===db.getMonth();}
 function sameYear(a,b){return isoToDate(a).getFullYear()===isoToDate(b).getFullYear();}
 function plannerCountLabel(count){if(currentLang==='en')return count+' class'+(count===1?'':'es');return count+' aula'+(count===1?'':'s');}
-function plannerCardHtml(l){const meta=[fmtDate(l.date),escapeHtml(l.format||'Gi'),((l.duration||0)+' min')];if(l.cycleId)meta.push(escapeHtml(cycleNameById(l.cycleId)));return '<div class="planner-item'+(l.id===currentLessonId?' active':'')+'" data-lesson-id="'+escapeHtml(l.id)+'"><div class="planner-item-title no-i18n">'+escapeHtml(l.title||('#'+(l.number||'')))+'</div><div class="planner-item-meta">'+meta.join(' · ')+'</div><div class="planner-item-actions"><button type="button" class="planner-item-link" data-act="open">'+tr('openLesson')+'</button><button type="button" class="planner-item-link" data-act="copy">'+tr('copy')+'</button><button type="button" class="planner-item-link danger" data-act="remove">'+tr('remove')+'</button></div></div>';}
+function plannerCardHtml(l){const meta=[fmtDate(l.date),escapeHtml(l.format||'Gi'),((l.duration||0)+' min')];if(l.cycleId)meta.push(escapeHtml(cycleNameById(l.cycleId)));const techs=(l.techniques||[]).filter(id=>T[id]).slice(0,3);const more=Math.max(0,(l.techniques||[]).filter(id=>T[id]).length-techs.length);const techHtml=techs.length?'<div class="planner-item-techs">'+techs.map(id=>'<span class="planner-tech-chip"><i class="dot" style="width:6px;height:6px;background:'+CATS[T[id].cat].color+'"></i><span>'+escapeHtml(moveLabel(id))+'</span></span>').join('')+(more?'<span class="planner-tech-chip">'+escapeHtml(tr('moreTechniques',{count:more}))+'</span>':'')+'</div>':'';return '<div class="planner-item'+(l.id===currentLessonId?' active':'')+'" draggable="true" data-lesson-id="'+escapeHtml(l.id)+'"><div class="planner-item-title no-i18n">'+escapeHtml(l.title||('#'+(l.number||'')))+'</div><div class="planner-item-meta">'+meta.join(' · ')+'</div>'+techHtml+'<div class="planner-item-actions"><button type="button" class="planner-item-link" data-act="open">'+tr('openLesson')+'</button><button type="button" class="planner-item-link" data-act="copy">'+tr('copy')+'</button><button type="button" class="planner-item-link danger" data-act="remove">'+tr('remove')+'</button></div></div>'; }
 async function scheduleCurrentLesson(targetDate){
   const l=collectLesson();
   l.date=targetDate;
@@ -3096,17 +3205,27 @@ async function plannerCardAction(lessonId,act){
 }
 function attachPlannerBoardActions(){
   const board=document.getElementById('lp-plan-board'); if(!board)return;
-  board.querySelectorAll('[data-plan-date]').forEach(btn=>btn.onclick=()=>scheduleCurrentLesson(btn.dataset.planDate));
+  board.querySelectorAll('[data-plan-date]').forEach(col=>{
+    const date=col.dataset.planDate;
+    const addBtn=col.querySelector('[data-plan-date]');
+    if(addBtn)addBtn.onclick=e=>{e.stopPropagation();scheduleCurrentLesson(date);};
+    col.addEventListener('click',e=>{if(e.target.closest('button,.planner-item'))return;openOrCreatePlannerDay(date);});
+    col.addEventListener('dragover',e=>{e.preventDefault();if(e.dataTransfer)e.dataTransfer.dropEffect=Array.from(e.dataTransfer.types||[]).includes('application/x-ga-lesson')?'move':'copy';col.classList.add('is-drag-over');});
+    col.addEventListener('dragleave',e=>{if(!col.contains(e.relatedTarget))col.classList.remove('is-drag-over');});
+    col.addEventListener('drop',e=>{e.preventDefault();col.classList.remove('is-drag-over');const lessonId=e.dataTransfer?.getData('application/x-ga-lesson');const techId=e.dataTransfer?.getData('application/x-ga-technique');if(lessonId)movePlannerLesson(lessonId,date);else if(techId)addTechniqueToPlannerDay(techId,date);});
+  });
   board.querySelectorAll('.planner-item').forEach(card=>{
     const lessonId=card.dataset.lessonId;
+    card.addEventListener('dragstart',e=>startLessonDrag(lessonId,e));
     card.onclick=e=>{if(e.target.closest('button'))return; const l=lessons.find(x=>x.id===lessonId); if(l){loadLessonIntoForm(l);toast(tr('classLoaded'));}};
     card.querySelectorAll('[data-act]').forEach(b=>b.onclick=e=>{e.stopPropagation();plannerCardAction(lessonId,b.dataset.act);});
   });
+  setPlannerTouchStatus();
 }
 function buildPlannerColumn(title,subtitle,items,options={}){
   const addBtn=options.date?'<button type="button" class="btn ghost sm mini-btn" data-plan-date="'+options.date+'">'+tr('addCurrentClass')+'</button>':'';
   const body=items.length?items.map(plannerCardHtml).join(''):'<div class="planner-empty">'+tr('noClassesPlanned')+'</div>';
-  return '<div class="planner-col"><div class="planner-col-head"><div class="planner-col-title"><strong>'+escapeHtml(title)+'</strong><small>'+escapeHtml(subtitle||'')+'</small></div>'+addBtn+'</div><div class="planner-col-body">'+body+'</div></div>';
+  return '<div class="planner-col"'+(options.date?' data-plan-date="'+options.date+'"':'')+'><div class="planner-col-head"><div class="planner-col-title"><strong>'+escapeHtml(title)+'</strong><small>'+escapeHtml(subtitle||'')+'</small>'+(options.date?'<div class="planner-drop-copy">'+escapeHtml(tr('dropTechniqueHere'))+'</div>':'')+'</div>'+addBtn+'</div><div class="planner-col-body">'+body+'</div></div>';
 }
 function renderLessonPlanner(){
   const board=document.getElementById('lp-plan-board'),period=document.getElementById('lp-plan-period'); if(!board||!period) return;
@@ -3173,6 +3292,7 @@ document.querySelectorAll('.planner-view-btn').forEach(b=>b.onclick=()=>{planner
 document.getElementById('lp-plan-prev').onclick=()=>{const d=isoToDate(plannerAnchor);if(plannerView==='week')d.setDate(d.getDate()-7);else if(plannerView==='month')d.setMonth(d.getMonth()-1);else d.setFullYear(d.getFullYear()-1);plannerAnchor=dateToIso(d);renderLessonPlanner();};
 document.getElementById('lp-plan-next').onclick=()=>{const d=isoToDate(plannerAnchor);if(plannerView==='week')d.setDate(d.getDate()+7);else if(plannerView==='month')d.setMonth(d.getMonth()+1);else d.setFullYear(d.getFullYear()+1);plannerAnchor=dateToIso(d);renderLessonPlanner();};
 document.getElementById('lp-plan-today').onclick=()=>{plannerAnchor=new Date().toISOString().slice(0,10);renderLessonPlanner();};
+document.getElementById('lp-plan-touch-cancel').onclick=clearPlannerTechniqueSelection;
 
 
 
@@ -3189,7 +3309,27 @@ function cycleBlank(){const start=new Date().toISOString().slice(0,10);return{id
 function microBlank(index=0,start){const s=start||isoAddDays(cyEl('start')&&cyEl('start').value||new Date().toISOString().slice(0,10),index*7);return{id:'mc'+Date.now()+index,name:'',start:s,end:isoAddDays(s,4),situation:'mixed',complexity:'Intermediate',load:'standard',context:'positional',objective:'',techniqueId:'',lessonId:'',notes:'',topicKey:'',color:''};}
 function findMoveId(patterns){for(const p of patterns){const id=ids.find(x=>p.test(T[x].name));if(id)return id;}return'';}
 function annualIso(year,month,day){return year+'-'+String(month).padStart(2,'0')+'-'+String(day).padStart(2,'0');}
-function annualCycleYear(){const n=new Date();return(n.getMonth()>0||n.getDate()>5)?n.getFullYear()+1:n.getFullYear();}
+function annualCycleYear(){return 2026;}
+function annualWorkweekSlots(year,count=53){
+  const slots=[];
+  const jan1=new Date(year,0,1);
+  const jan1Day=jan1.getDay();
+  if(jan1Day!==1){
+    const firstEnd=new Date(jan1);
+    const daysToFriday=(5-jan1Day+7)%7;
+    firstEnd.setDate(firstEnd.getDate()+daysToFriday);
+    if(firstEnd.getFullYear()===year)slots.push({start:dateToIso(jan1),end:dateToIso(firstEnd)});
+  }
+  const firstMonday=new Date(year,0,1);
+  firstMonday.setDate(firstMonday.getDate()+((8-firstMonday.getDay())%7));
+  let d=new Date(firstMonday);
+  while(slots.length<count){
+    const e=new Date(d);e.setDate(e.getDate()+4);
+    slots.push({start:dateToIso(d),end:dateToIso(e)});
+    d.setDate(d.getDate()+7);
+  }
+  return slots.slice(0,count);
+}
 function annualTopicDefinitions(){
   const pt=isPortuguese(),ptpt=isPtPt();
   const L=(en,br,ptText)=>pt?(ptpt?ptText:br):en;
@@ -3211,32 +3351,27 @@ function annualTopicDefinitions(){
 }
 function macroTemplate(){
   const year=annualCycleYear(),defs=annualTopicDefinitions(),pt=isPortuguese();
-  const schedule=[
-    [1,1,1,5,'guard_bottom'],[1,8,1,12,'half_bottom'],[1,15,1,19,'mount'],[1,22,1,26,'turtle_top'],[1,29,2,2,'sequences'],
-    [2,5,2,9,'guard_bottom'],[2,12,2,16,'pass'],[2,19,2,23,'side_top'],[2,26,3,1,'back'],[3,4,3,8,'side_bottom'],
-    [3,11,3,15,'turtle_bottom'],[3,18,3,22,'standing'],[3,25,3,29,'guard_bottom'],[4,1,4,5,'side_top'],[4,8,4,12,'mount'],
-    [4,15,4,19,'back'],[4,22,4,26,'pass'],[4,29,5,3,'half_top'],[5,6,5,10,'guard_bottom'],[5,13,5,17,'turtle_top'],
-    [5,20,5,24,'side_bottom'],[5,27,5,31,'pass'],[6,3,6,7,'half_top'],[6,10,6,14,'standing'],[6,17,6,21,'sequences'],
-    [6,24,6,28,'guard_bottom'],[7,1,7,5,'turtle_bottom'],[7,8,7,12,'mount'],[7,15,7,19,'side_top'],[7,22,7,26,'back'],
-    [7,29,8,2,'side_bottom'],[8,5,8,9,'guard_bottom'],[8,12,8,16,'sequences'],[8,19,8,23,'standing'],[8,26,8,30,'half_bottom'],
-    [9,2,9,6,'pass'],[9,9,9,13,'mount'],[9,16,9,20,'half_top'],[9,23,9,27,'back'],[9,30,10,4,'guard_bottom'],
-    [10,7,10,11,'turtle_top'],[10,14,10,18,'turtle_bottom'],[10,21,10,25,'side_top'],[10,28,11,1,'pass'],[11,4,11,8,'half_bottom'],
-    [11,11,11,15,'guard_bottom'],[11,18,11,22,'standing'],[11,25,11,29,'pass'],[12,2,12,6,'side_top'],[12,9,12,13,'guard_bottom'],
-    [12,16,12,20,'pass'],[12,23,12,27,'back'],[12,30,1,3,'top_integration']
-  ];
+  const topics=['guard_bottom','half_bottom','mount','turtle_top','sequences','guard_bottom','pass','side_top','back','side_bottom','turtle_bottom','standing','guard_bottom','side_top','mount','back','pass','half_top','guard_bottom','turtle_top','side_bottom','pass','half_top','standing','sequences','guard_bottom','turtle_bottom','mount','side_top','back','side_bottom','guard_bottom','sequences','standing','half_bottom','pass','mount','half_top','back','guard_bottom','turtle_top','turtle_bottom','side_top','pass','half_bottom','guard_bottom','standing','pass','side_top','guard_bottom','pass','back','top_integration'];
+  const slots=annualWorkweekSlots(year,topics.length);
   const base=cycleBlank();
-  base.presetAnnual=true;
-  base.start=annualIso(year,1,1);base.end=annualIso(year+1,1,3);
+  base.presetAnnual=true;base.calendarVersion='2026-workweeks-v2';
+  base.start=slots[0].start;base.end=slots[slots.length-1].end;
   base.name=(isPtPt()?'Macrociclo anual técnico e tático ':currentLang==='pt-BR'?'Macrociclo anual técnico e tático ':'Annual technical-tactical macrocycle ')+year;
   base.format='Mixed';base.level='Mixed';base.audience='Group';
-  base.dna=pt?'Planeamento anual baseado no calendário por cores: guarda fechada, meia-guarda, passagem, montada, 100 quilos, quatro apoios, costas, em pé, sequências e integração por cima.':'Annual colour-coded plan covering closed guard, half guard, passing, mount, side control, turtle, back control, standing, sequences and top-game integration.';
+  base.dna=pt?'Planeamento anual baseado no calendário real de 2026 e organizado por blocos de treino: guarda fechada, meia-guarda, passagem, montada, 100 quilos, quatro apoios, costas, em pé, sequências e integração por cima.':'Annual plan based on the real 2026 calendar, covering closed guard, half guard, passing, mount, side control, turtle, back control, standing, sequences and top-game integration.';
   base.performance=pt?'Usar as semanas de sequências e a última semana de integração para avaliação, consolidação e ligação entre temas.':'Use sequence weeks and the final integration week for assessment, consolidation and connection between themes.';
-  base.notes=pt?'As posições e datas seguem o calendário fornecido. A complexidade, a sobrecarga coordenativa, o contexto e as aulas associadas continuam editáveis pelo professor.':'Positions and dates follow the supplied calendar. Complexity, coordinative load, context and linked classes remain editable by the professor.';
-  base.microcycles=schedule.map((r,i)=>{
-    const [sm,sd,em,ed,key]=r,d=defs[key],endYear=(sm===12&&em===1)?year+1:year;
-    return{id:'mc-annual-'+year+'-'+String(i+1).padStart(2,'0'),name:d.name,start:annualIso(year,sm,sd),end:annualIso(endYear,em,ed),situation:d.situation,complexity:d.complexity,load:'standard',context:key==='sequences'||key==='top_integration'?'scenario':'positional',objective:d.objective,techniqueId:d.techniqueId||'',lessonId:'',notes:'',topicKey:key,color:d.color};
-  });
+  base.notes=pt?'As datas seguem os dias reais de 2026. O primeiro bloco cobre 1–2 de janeiro e os seguintes decorrem de segunda a sexta-feira.':'Dates follow the real 2026 weekdays. The first block covers 1–2 January and subsequent blocks run Monday to Friday.';
+  base.microcycles=topics.map((key,i)=>{const d=defs[key],slot=slots[i];return{id:'mc-annual-'+year+'-'+String(i+1).padStart(2,'0'),name:d.name,start:slot.start,end:slot.end,situation:d.situation,complexity:d.complexity,load:'standard',context:key==='sequences'||key==='top_integration'?'scenario':'positional',objective:d.objective,techniqueId:d.techniqueId||'',lessonId:'',notes:'',topicKey:key,color:d.color};});
   return base;
+}
+function normalizeAnnualPresetCalendar(c,targetYear=2026){
+  if(!c||!(c.presetAnnual||String(c.id||'').startsWith('preset-annual-')))return c;
+  const modules=c.microcycles||[];if(!modules.length)return c;
+  const slots=annualWorkweekSlots(targetYear,modules.length);
+  modules.forEach((m,i)=>{m.start=slots[i].start;m.end=slots[i].end;});
+  c.start=slots[0].start;c.end=slots[slots.length-1].end;c.calendarVersion='2026-workweeks-v2';
+  if(!c.name||/^Macrociclo anual técnico e tático d{4}$|^Annual technical-tactical macrocycle d{4}$/i.test(c.name))c.name=(isPtPt()?'Macrociclo anual técnico e tático ':currentLang==='pt-BR'?'Macrociclo anual técnico e tático ':'Annual technical-tactical macrocycle ')+targetYear;
+  return c;
 }
 function migrateCycle(c){
   if(c.microcycles)return{...cycleBlank(),...c,microcycles:(c.microcycles||[]).map((m,i)=>({...microBlank(i,c.start),...m,id:m.id||('mc'+Date.now()+i)}))};
@@ -3246,11 +3381,11 @@ function migrateCycle(c){
 function localizeAnnualPresetData(){
   const defs=annualTopicDefinitions();
   const applyMicro=m=>{if(m&&m.topicKey&&defs[m.topicKey]){const d=defs[m.topicKey];m.name=d.name;if(d.techniqueId&&T[d.techniqueId])m.techniqueId=d.techniqueId;m.color=m.color||d.color;m.situation=m.situation||d.situation;m.complexity=m.complexity||d.complexity;m.objective=m.objective||d.objective;}};
-  const applyCycle=c=>{if(!c)return;const preset=c.presetAnnual||String(c.id||'').startsWith('preset-annual-');if(!preset)return;const year=String(c.start||'').slice(0,4);c.name=(isPtPt()?'Macrociclo anual técnico e tático ':currentLang==='pt-BR'?'Macrociclo anual técnico e tático ':'Annual technical-tactical macrocycle ')+year;(c.microcycles||[]).forEach(applyMicro);};
+  const applyCycle=c=>{if(!c)return;const preset=c.presetAnnual||String(c.id||'').startsWith('preset-annual-');if(!preset)return;normalizeAnnualPresetCalendar(c,2026);(c.microcycles||[]).forEach(applyMicro);};
   cycles.forEach(applyCycle);cycleModules.forEach(applyMicro);
   if(currentCycleId&&String(currentCycleId).startsWith('preset-annual-')&&cyEl('name')){const c=cycles.find(x=>x.id===currentCycleId);if(c)cyEl('name').value=c.name;}
 }
-async function ensureCyclesLoaded(){if(!cyclesLoaded){cycles=((await storeGet(K_CYCLES))||[]).map(migrateCycle);if(!cycles.length){const preset=macroTemplate();preset.id='preset-annual-'+preset.start.slice(0,4);preset.updatedAt=Date.now();cycles=[preset];await storeSet(K_CYCLES,cycles);}cyclesLoaded=true;}}
+async function ensureCyclesLoaded(){if(!cyclesLoaded){cycles=((await storeGet(K_CYCLES))||[]).map(migrateCycle).map(c=>normalizeAnnualPresetCalendar(c,2026));if(!cycles.length){const preset=macroTemplate();preset.id='preset-annual-2026';preset.updatedAt=Date.now();cycles=[preset];}await storeSet(K_CYCLES,cycles);cyclesLoaded=true;}}
 function cycleRefParts(ref){const parts=String(ref||'').split('::');return{macroId:parts[0]||'',microId:parts[1]||''};}
 function microcycleDisplayName(m){
   if(!m)return tr('week');
@@ -3259,8 +3394,9 @@ function microcycleDisplayName(m){
 }
 function macrocycleDisplayName(c){
   if(!c)return tr('newMacrocycle');
+  if(c.name&&String(c.name).trim())return String(c.name).trim();
   if(c.presetAnnual||String(c.id||'').startsWith('preset-annual-')){const year=String(c.start||'').slice(0,4);return(isPtPt()?'Macrociclo anual técnico e tático ':currentLang==='pt-BR'?'Macrociclo anual técnico e tático ':'Annual technical-tactical macrocycle ')+year;}
-  return c.name||tr('newMacrocycle');
+  return tr('newMacrocycle');
 }
 function cycleNameById(ref){const p=cycleRefParts(ref),c=cycles.find(x=>x.id===p.macroId);if(!c)return tr('noCycle');const m=(c.microcycles||[]).find(x=>x.id===p.microId);return m?(macrocycleDisplayName(c)+' › '+microcycleDisplayName(m)):macrocycleDisplayName(c);}
 function cycleMicrocycleByRef(ref){const p=cycleRefParts(ref),c=cycles.find(x=>x.id===p.macroId);if(!c||!p.microId)return null;return(c.microcycles||[]).find(x=>x.id===p.microId)||null;}
@@ -3270,7 +3406,7 @@ function syncLessonTechniqueFromCycle(ref,mark=true){const next=resolveCycleTech
 function markCycleDirty(){cycleDirty=true;const st=document.getElementById('cycle-save-state');if(st)st.textContent=tr('unsavedChanges');}
 function refreshLessonCycleOptions(){const sel=lpEl('cycle');if(!sel)return;const keep=sel.value;let html='<option value="">'+tr('noCycle')+'</option>';cycles.slice().sort((a,b)=>macrocycleDisplayName(a).localeCompare(macrocycleDisplayName(b))).forEach(c=>{const micros=c.microcycles||[],macroName=macrocycleDisplayName(c);if(micros.length){html+='<optgroup label="'+escapeHtml(macroName)+'">'+micros.map((m,i)=>'<option value="'+escapeHtml(c.id+'::'+m.id)+'">'+escapeHtml((i+1)+'. '+microcycleDisplayName(m))+'</option>').join('')+'</optgroup>';}else html+='<option value="'+escapeHtml(c.id)+'">'+escapeHtml(macroName)+'</option>';});sel.innerHTML=html;sel.value=Array.from(sel.options).some(o=>o.value===keep)?keep:'';if(sel.value){const id=resolveCycleTechniqueId(sel.value);if(id&&lessonCycleTechId!==id)syncLessonTechniqueFromCycle(sel.value,false);}}
 function collectCycle(){return{id:currentCycleId||('cy'+Date.now()),presetAnnual:currentCycleId&&String(currentCycleId).startsWith('preset-annual-'),name:cyEl('name').value.trim()||(isPortuguese()?'Novo macrociclo':'New macrocycle'),format:cyEl('format').value,level:cyEl('level').value,start:cyEl('start').value,end:cyEl('end').value,audience:cyEl('audience').value,dna:cyEl('dna').value.trim(),performance:cyEl('performance').value.trim(),notes:cyEl('notes').value.trim(),microcycles:cycleModules.map(m=>({...m})),updatedAt:Date.now()};}
-function loadCycle(c){c=migrateCycle(c);openMicrocycleIds.clear();if(c.presetAnnual||String(c.id||'').startsWith('preset-annual-')){const defs=annualTopicDefinitions();c.name=(isPtPt()?'Macrociclo anual técnico e tático ':currentLang==='pt-BR'?'Macrociclo anual técnico e tático ':'Annual technical-tactical macrocycle ')+String(c.start||'').slice(0,4);(c.microcycles||[]).forEach(m=>{if(m.topicKey&&defs[m.topicKey]){const d=defs[m.topicKey];m.name=d.name;if(d.techniqueId&&T[d.techniqueId])m.techniqueId=d.techniqueId;m.color=m.color||d.color;m.situation=m.situation||d.situation;m.complexity=m.complexity||d.complexity;m.objective=m.objective||d.objective;}});}currentCycleId=c.id||null;cyEl('name').value=c.name||'';cyEl('format').value=c.format||'Mixed';cyEl('level').value=c.level||'Mixed';cyEl('start').value=c.start||new Date().toISOString().slice(0,10);cyEl('end').value=c.end||isoAddDays(c.start||new Date().toISOString().slice(0,10),83);cyEl('audience').value=c.audience||'Group';cyEl('dna').value=c.dna||'';cyEl('performance').value=c.performance||'';cyEl('notes').value=c.notes||'';cycleModules=(c.microcycles||[]).map((m,i)=>({...microBlank(i,c.start),...m,id:m.id||('mc'+Date.now()+i)}));cycleDirty=false;document.getElementById('cycle-save-state').textContent=tr('savedChanges');renderCycleModules();renderSavedCycles();renderMacroCalendar();}
+function loadCycle(c){c=normalizeAnnualPresetCalendar(migrateCycle(c),2026);openMicrocycleIds.clear();macroCalendarAnchor=c.start||'2026-01-01';macroTopicFilter='all';if(c.presetAnnual||String(c.id||'').startsWith('preset-annual-')){const defs=annualTopicDefinitions();if(!c.name)c.name=(isPtPt()?'Macrociclo anual técnico e tático ':currentLang==='pt-BR'?'Macrociclo anual técnico e tático ':'Annual technical-tactical macrocycle ')+String(c.start||'').slice(0,4);(c.microcycles||[]).forEach(m=>{if(m.topicKey&&defs[m.topicKey]){const d=defs[m.topicKey];m.name=d.name;if(d.techniqueId&&T[d.techniqueId])m.techniqueId=d.techniqueId;m.color=m.color||d.color;m.situation=m.situation||d.situation;m.complexity=m.complexity||d.complexity;m.objective=m.objective||d.objective;}});}currentCycleId=c.id||null;cyEl('name').value=c.name||'';cyEl('format').value=c.format||'Mixed';cyEl('level').value=c.level||'Mixed';cyEl('start').value=c.start||new Date().toISOString().slice(0,10);cyEl('end').value=c.end||isoAddDays(c.start||new Date().toISOString().slice(0,10),83);cyEl('audience').value=c.audience||'Group';cyEl('dna').value=c.dna||'';cyEl('performance').value=c.performance||'';cyEl('notes').value=c.notes||'';cycleModules=(c.microcycles||[]).map((m,i)=>({...microBlank(i,c.start),...m,id:m.id||('mc'+Date.now()+i)}));cycleDirty=false;document.getElementById('cycle-save-state').textContent=tr('savedChanges');renderCycleModules();renderSavedCycles();renderMacroCalendar();}
 function techniqueOptions(value){return '<option value="">'+tr('selectTechnique')+'</option>'+ids.slice().sort((a,b)=>moveLabel(a).localeCompare(moveLabel(b))).map(id=>'<option value="'+id+'"'+(id===value?' selected':'')+'>'+escapeHtml(moveLabel(id))+'</option>').join('');}
 function lessonOptions(value){return '<option value="">'+tr('selectClass')+'</option>'+lessons.slice().sort((a,b)=>(a.title||'').localeCompare(b.title||'')).map(l=>'<option value="'+escapeHtml(l.id)+'"'+(l.id===value?' selected':'')+'>'+escapeHtml(l.title||tr('newClass'))+'</option>').join('');}
 function situationLabel(v){return tr(v==='top'?'topSituation':v==='bottom'?'bottomSituation':v==='standing'?'standingSituation':'mixedSituation');}
@@ -3282,7 +3418,7 @@ function renderCycleModules(){
   if(!openMicrocycleIds.size&&cycleModules[0])openMicrocycleIds.add(cycleModules[0].id);
   cycleModules.forEach((m,i)=>{
     const expanded=openMicrocycleIds.has(m.id),displayName=microcycleDisplayName(m),row=document.createElement('article');
-    row.className='microcycle-card'+(expanded?'':' collapsed');row.dataset.situation=m.situation||'mixed';row.style.setProperty('--cycle-color',m.color||'var(--guard)');
+    row.className='microcycle-card'+(expanded?'':' collapsed');row.dataset.microId=m.id;row.dataset.situation=m.situation||'mixed';row.style.setProperty('--cycle-color',m.color||'var(--guard)');
     const tech=m.techniqueId&&T[m.techniqueId]?moveLabel(m.techniqueId):'';
     const grid=expanded?'<div class="microcycle-grid">'+
       '<div class="span-6"><label>'+tr('microcycleName')+'</label><input data-k="name" value="'+escapeHtml(displayName)+'" placeholder="'+tr('microcycleNamePlaceholder')+'"></div>'+
@@ -3307,33 +3443,50 @@ function renderCycleModules(){
   });
   renderMacroCalendar();
 }
+let macroCalendarView='year',macroCalendarAnchor='2026-01-01',macroTopicFilter='all',macroDragIndex=null,macroSelectedId='';
+function macroTopicIdentity(m){return m.topicKey||('name:'+String(m.name||''))||('color:'+String(m.color||''));}
+function macroCalendarTitle(){const name=cyEl('name')&&cyEl('name').value.trim();return name?tr('macroCalendarFor',{name}):tr('macrocycleCalendar');}
 function renderCycleTopicLegend(){
   const box=document.getElementById('cy-topic-legend');if(!box)return;box.innerHTML='';
-  const seen=new Set();cycleModules.forEach(m=>{const key=m.topicKey||m.name||m.color;if(!key||seen.has(key))return;seen.add(key);const chip=document.createElement('span');chip.className='cycle-topic-chip';chip.innerHTML='<i style="background:'+escapeHtml(m.color||'#3B82F6')+'"></i><span>'+escapeHtml(microcycleDisplayName(m)||tr('week'))+'</span>';box.appendChild(chip);});
+  const all=document.createElement('button');all.type='button';all.className='cycle-topic-chip'+(macroTopicFilter==='all'?' active':'');all.dataset.topic='all';all.innerHTML='<i style="background:linear-gradient(135deg,var(--guard),var(--counter),var(--submission))"></i><span>'+escapeHtml(tr('macroCalendarAll'))+'</span>';box.appendChild(all);
+  const seen=new Set();cycleModules.forEach(m=>{const key=macroTopicIdentity(m);if(!key||seen.has(key))return;seen.add(key);const chip=document.createElement('button');chip.type='button';chip.className='cycle-topic-chip'+(macroTopicFilter===key?' active':'');chip.dataset.topic=key;chip.innerHTML='<i style="background:'+escapeHtml(m.color||'#3B82F6')+'"></i><span>'+escapeHtml(microcycleDisplayName(m)||tr('week'))+'</span>';box.appendChild(chip);});
+  box.querySelectorAll('[data-topic]').forEach(chip=>chip.onclick=()=>{macroTopicFilter=chip.dataset.topic;renderMacroCalendar();});
 }
-function renderMacroCalendar(){const box=document.getElementById('cy-calendar');if(!box)return;box.innerHTML='';renderCycleTopicLegend();if(!cycleModules.length){box.innerHTML='<div class="cycle-empty">'+tr('noMicrocycles')+'</div>';return;}cycleModules.forEach((m,i)=>{const d=document.createElement('div');d.className='macro-week';d.dataset.situation=m.situation||'mixed';d.style.setProperty('--cycle-color',m.color||'var(--guard)');const tech=m.techniqueId&&T[m.techniqueId]?moveLabel(m.techniqueId):'';d.innerHTML='<div class="dates">'+escapeHtml((i+1)+'. '+fmtDate(m.start)+' — '+fmtDate(m.end))+'</div><div class="focus"><span class="topic-dot"></span>'+escapeHtml(microcycleDisplayName(m)||tr('week')+' '+(i+1))+'</div><div class="meta">'+escapeHtml(situationLabel(m.situation))+(tech?'<br>'+escapeHtml(tech):'')+'</div>';box.appendChild(d);});}
-function renderSavedCycles(){const box=document.getElementById('cy-saved-list');document.getElementById('cy-saved-count').textContent=cycles.length;box.innerHTML='';if(!cycles.length){box.innerHTML='<div class="lesson-status">'+tr('noSavedMacrocycles')+'</div>';return;}cycles.slice().sort((a,b)=>(b.updatedAt||0)-(a.updatedAt||0)).forEach(c=>{const micros=c.microcycles||[],linked=micros.filter(m=>m.lessonId).length,total=micros.length,pct=total?linked/total*100:0,d=document.createElement('div');d.className='cycle-saved'+(c.id===currentCycleId?' active':'');d.innerHTML='<div class="cycle-saved-title">'+escapeHtml(macrocycleDisplayName(c))+'</div><div class="cycle-saved-meta">'+escapeHtml(c.format)+' · '+escapeHtml(levelLabel(c.level))+' · '+escapeHtml(fmtDate(c.start))+' — '+escapeHtml(fmtDate(c.end))+'<br>'+tr('microcycleProgress',{done:linked,total})+'</div><div class="cycle-progress"><span style="width:'+pct+'%"></span></div><div class="lesson-saved-actions"><span class="lesson-link" data-act="edit">'+tr('edit')+'</span><span class="lesson-link" data-act="copy">'+tr('copy')+'</span><span class="lesson-link danger" data-act="remove">'+tr('remove')+'</span></div>';const open=()=>{loadCycle(c);toast(tr('macrocycleLoaded'));};d.querySelector('.cycle-saved-title').onclick=open;d.querySelector('[data-act="edit"]').onclick=open;d.querySelector('[data-act="copy"]').onclick=()=>{const cp={...c,id:null,name:(c.name||'')+' '+(isPortuguese()?'(cópia)':'(copy)'),microcycles:micros.map((m,i)=>({...m,id:'mc'+Date.now()+i}))};loadCycle(cp);markCycleDirty();toast(tr('macrocycleDuplicated'));};d.querySelector('[data-act="remove"]').onclick=async()=>{cycles=cycles.filter(x=>x.id!==c.id);if(currentCycleId===c.id)loadCycle(cycleBlank());await storeSet(K_CYCLES,cycles);refreshLessonCycleOptions();renderSavedCycles();renderSavedLessons();renderLessonPlanner();};box.appendChild(d);});}
-function renderCycles(){if(!cyEl('name'))return;if(!currentCycleId&&!cyEl('start').value)loadCycle(cycles.length?cycles[0]:macroTemplate());renderCycleModules();renderSavedCycles();renderMacroCalendar();}
-async function saveCycle(){const c=collectCycle();currentCycleId=c.id;cycles=cycles.filter(x=>x.id!==c.id);cycles.push(c);await storeSet(K_CYCLES,cycles);cycleDirty=false;document.getElementById('cycle-save-state').textContent=tr('savedChanges');refreshLessonCycleOptions();renderSavedCycles();renderSavedLessons();toast(tr('macrocycleSaved'));}
-CY_FIELDS.forEach(k=>{const el=cyEl(k);if(el){el.addEventListener('input',markCycleDirty);el.addEventListener('change',markCycleDirty);}});
-document.getElementById('cycle-new').onclick=()=>{loadCycle(cycleBlank());markCycleDirty();};
-document.getElementById('cycle-template').onclick=()=>{loadCycle(macroTemplate());markCycleDirty();toast(tr('macrocycleTemplateLoaded'));};
-document.getElementById('cycle-duplicate').onclick=()=>{const c=collectCycle();c.id=null;c.name=(c.name||'')+' '+(isPortuguese()?'(cópia)':'(copy)');c.microcycles=c.microcycles.map((m,i)=>({...m,id:'mc'+Date.now()+i}));loadCycle(c);markCycleDirty();toast(tr('macrocycleDuplicated'));};
-document.getElementById('cycle-save').onclick=saveCycle;
-document.getElementById('cycle-add-module').onclick=()=>{const previous=cycleModules[cycleModules.length-1],start=previous?isoAddDays(previous.start,7):cyEl('start').value;cycleModules.push(microBlank(cycleModules.length,start));markCycleDirty();renderCycleModules();};
-
-/* ============ GAME BUILDER ============ */
-let gameNodes=[];         // array of {id, x, y}
-let gameLoaded=false;
-let savedGames=[];
-let gDrag=null,suppressClick=false;
-const gameSvg=document.getElementById('game-svg');
-function addToGame(id){
-  if(gameNodes.find(n=>n.id===id))return;
-  const wrapEl=gameSvg.parentElement;const w=wrapEl.clientWidth||500,h=wrapEl.clientHeight||420;
-  const ang=Math.random()*Math.PI*2,rad=60+Math.random()*Math.min(w,h)*0.28;
-  gameNodes.push({id,x:w/2+Math.cos(ang)*rad,y:h/2+Math.sin(ang)*rad});
-  drawGame();renderAnalysis();renderPicker();
+function macroCalendarRange(){
+  const anchor=isoToDate(macroCalendarAnchor||cyEl('start').value||'2026-01-01');
+  if(macroCalendarView==='day'){const iso=dateToIso(anchor);return{start:iso,end:iso,label:plannerFmt(iso,{weekday:'long',day:'numeric',month:'long',year:'numeric'})};}
+  if(macroCalendarView==='week'){const start=startOfWeekIso(dateToIso(anchor)),end=isoAddDays(start,6);return{start,end,label:plannerFmt(start,{day:'numeric',month:'short'})+' — '+plannerFmt(end,{day:'numeric',month:'short',year:'numeric'})};}
+  if(macroCalendarView==='month'){const start=dateToIso(new Date(anchor.getFullYear(),anchor.getMonth(),1)),end=dateToIso(new Date(anchor.getFullYear(),anchor.getMonth()+1,0));return{start,end,label:plannerFmt(start,{month:'long',year:'numeric'})};}
+  const year=anchor.getFullYear(),start=year+'-01-01',end=year+'-12-31';return{start,end,label:String(year)};
+}
+function macroModuleVisible(m,range){const dateMatch=m.end>=range.start&&m.start<=range.end;const topicMatch=macroTopicFilter==='all'||macroTopicIdentity(m)===macroTopicFilter;return dateMatch&&topicMatch;}
+function moveMacroModule(from,to){
+  if(from===to||from<0||to<0||from>=cycleModules.length||to>=cycleModules.length)return;
+  const slots=cycleModules.map(m=>({start:m.start,end:m.end}));const [moved]=cycleModules.splice(from,1);cycleModules.splice(to,0,moved);cycleModules.forEach((m,i)=>{m.start=slots[i].start;m.end=slots[i].end;});
+  markCycleDirty();renderCycleModules();toast(tr('macroMoved'));
+}
+function openOnlyMicrocycle(m){
+  macroSelectedId=m.id;openMicrocycleIds.clear();openMicrocycleIds.add(m.id);renderCycleModules();
+  setTimeout(()=>{const card=document.querySelector('.microcycle-card[data-micro-id="'+CSS.escape(m.id)+'"]');if(card)card.scrollIntoView({behavior:'smooth',block:'start'});},50);
+}
+function renderMacroCalendar(){
+  const box=document.getElementById('cy-calendar');if(!box)return;box.innerHTML='';box.dataset.view=macroCalendarView;
+  const title=document.getElementById('cy-calendar-title');if(title)title.textContent=macroCalendarTitle();
+  document.querySelectorAll('.macro-view-btn').forEach(b=>b.classList.toggle('active',b.dataset.macroView===macroCalendarView));
+  const range=macroCalendarRange(),period=document.getElementById('cy-calendar-period');if(period)period.textContent=range.label+(macroTopicFilter!=='all'?' · '+tr('macroFilterActive',{name:(cycleModules.find(m=>macroTopicIdentity(m)===macroTopicFilter)||{}).name||''}):'');
+  renderCycleTopicLegend();
+  if(!cycleModules.length){box.innerHTML='<div class="cycle-empty">'+tr('noMicrocycles')+'</div>';return;}
+  const visible=cycleModules.map((m,i)=>({m,i})).filter(x=>macroModuleVisible(x.m,range));
+  if(!visible.length){box.innerHTML='<div class="macro-calendar-empty">'+tr('macroCalendarEmpty')+'</div>';return;}
+  visible.forEach(({m,i})=>{const d=document.createElement('div');d.className='macro-week'+(m.id===macroSelectedId?' selected':'');d.dataset.situation=m.situation||'mixed';d.dataset.index=i;d.draggable=true;d.style.setProperty('--cycle-color',m.color||'var(--guard)');const tech=m.techniqueId&&T[m.techniqueId]?moveLabel(m.techniqueId):'';d.innerHTML='<span class="drag-handle" title="Drag">⠿</span><div class="dates">'+escapeHtml((i+1)+'. '+fmtDate(m.start)+' — '+fmtDate(m.end))+'</div><div class="focus"><span class="topic-dot"></span>'+escapeHtml(microcycleDisplayName(m)||tr('week')+' '+(i+1))+'</div><div class="meta">'+escapeHtml(situationLabel(m.situation))+(tech?'<br>'+escapeHtml(tech):'')+'</div>';
+    d.onclick=e=>{if(e.defaultPrevented)return;openOnlyMicrocycle(m);};
+    d.ondragstart=e=>{macroDragIndex=i;d.classList.add('dragging');e.dataTransfer.effectAllowed='move';e.dataTransfer.setData('text/plain',String(i));};
+    d.ondragend=()=>{macroDragIndex=null;d.classList.remove('dragging');box.querySelectorAll('.drag-over').forEach(x=>x.classList.remove('drag-over'));};
+    d.ondragover=e=>{e.preventDefault();d.classList.add('drag-over');e.dataTransfer.dropEffect='move';};
+    d.ondragleave=()=>d.classList.remove('drag-over');
+    d.ondrop=e=>{e.preventDefault();e.stopPropagation();d.classList.remove('drag-over');const from=Number(e.dataTransfer.getData('text/plain'));moveMacroModule(Number.isFinite(from)?from:macroDragIndex,i);};
+    box.appendChild(d);
+  });
 }
 function removeFromGame(id){gameNodes=gameNodes.filter(n=>n.id!==id);drawGame();renderAnalysis();renderPicker();}
 function gameLinks(){
